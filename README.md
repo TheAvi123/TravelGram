@@ -1,23 +1,26 @@
-# Project Description 
+# Project Description
 
 Our application is a trip planning and sharing web application for people who want to plan and organize trips collaboratively in real-time with other users, and share their trip plans with others. Our application allows users to create trips by adding certain information such as the timeframe of the trip, and several trip elements such as places to visit, activities, reservations, and more, through an intuitive drag and drop interface.
-The application will be using data such as user information (username, email, password), trip information (trip name, description, trip dates, trip destinations, other users as collaborators), and trip elements (activity name, description, image, date of visit, location). Using this data, a user will be able to register and login, and create and edit trips. They will also able to add and edit destinations for each trip, and add collaborators to their trips. They should be able to see all their destinations on their respective trips. 
+The application will be using data such as user information (username, email, password), trip information (trip name, description, trip dates, trip destinations, other users as collaborators), and trip elements (activity name, description, image, date of visit, location). Using this data, a user will be able to register and login, and create and edit trips. They will also able to add and edit destinations for each trip, and add collaborators to their trips. They should be able to see all their destinations on their respective trips.
 Some additional functionality that we could include is a popularity system that allows users to rate and comment on other trips, and find trips based on related tags and popularity.
 
 # Project Task Requirements
 
 Minimum Requirements:
+
 - Add, edit, delete, view trip information, such as title, description, duration, and trip elements representing activities, reservations…
 - Visualize the trip elements via a map interface
 - Add other users as collaborators to a trip, so that each collaborator can make changes on the trip
 - Basic user authentication functionality
 
 Standard Requirements:
-- Users can publish their created trips so all other users can view them, and use them as templates when creating their own trips 
+
+- Users can publish their created trips so all other users can view them, and use them as templates when creating their own trips
 - Users can add comments and attachments to their trip elements for the trip collaborators to see
-- Changes and updates done by one user should be reflected in real-time for all members of the trip. 
+- Changes and updates done by one user should be reflected in real-time for all members of the trip.
 
 Stretch Requirements:
+
 - Search for published trips using parameters such as locations, activities, tags, etc.
 - Popularity system that allows users to rate and comment on other trips.
 - Functionality to allow users to keep track of trip expenses and distribute costs among all travellers.
@@ -27,6 +30,7 @@ Stretch Requirements:
 # Task Breakdown
 
 Task 1: User profile
+
 - Implement register functionality
   - Store data: Email, name, password
 - Implement login functionality
@@ -39,6 +43,7 @@ Task 1: User profile
   - If the trips made by the user have collaborators, the trips will still be accessible by the collaborators
 
 Task 2: Create Trip / Add details about Trip
+
 - Implement functionality to add other users to the current trip as collaborators.
   - Add users through email/username.
   - Extra feature: User can accept/decline invitation.
@@ -48,7 +53,7 @@ Task 2: Create Trip / Add details about Trip
   - Start Date
   - End Date
 - Display the added trip elements on a map interface
-- Drag and drop interface that allows users to move trip elements around 
+- Drag and drop interface that allows users to move trip elements around
   - Trash bucket to delete items
   - Order activities based on when they will take place
 
