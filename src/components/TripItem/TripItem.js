@@ -8,27 +8,27 @@ import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: theme.palette.primary.main,
+    border: `2px solid ${theme.palette.secondary.main}`,
   },
-  title: {
-    fontSize: 14,
-  },
-});
+}));
 
 const TripItem = ({ title, description, location, startTime, endTime }) => {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.container}>
       <CardHeader title={title} subheader={startTime + '-' + endTime} />
       <CardContent>
         <Typography variant='h5'>{description}</Typography>
         <Link href='#' onClick={(e) => e.preventDefault()}>
           {location}
         </Link>
-        {/* TODO: onclick --> display on gmaps */}
       </CardContent>
       <CardActions>
         <Button size='small'>Learn More</Button>
