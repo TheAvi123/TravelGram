@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AuthForm from '../components/AuthForm';
+import AuthForm from './AuthForm';
 import { Button, CardActions } from '@material-ui/core';
 
 export default function Login({ switchToRegister, onSubmit }) {

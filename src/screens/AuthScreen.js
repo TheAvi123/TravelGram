@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Login from './Login';
-import Register from './Register';
+import Login from '../components/Auth/Login';
+import Register from '../components/Auth/Register';
 import { Button, Card, CardActions } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
