@@ -1,0 +1,16 @@
+.tripScreen .cardList .cardListItem {
+    margin: 0px;
+    padding: 0px;
+    border-radius: 10px;
+}
+
+.tripScreen .cardList .cardName {
+    font-weight: bold;
+    font-size: large;
+}
+
+.tripScreen .cardList .cardDescription {
+    margin-top: 10px;
+    font-size: medium;
+    font-style: italic;
+}
