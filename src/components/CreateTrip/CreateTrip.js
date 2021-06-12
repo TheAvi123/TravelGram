@@ -1,13 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { makeStyles, styled, withStyles } from '@material-ui/core/styles';
 import {
-  Input,
   InputAdornment,
   Paper,
   FormControl,
   InputLabel,
   OutlinedInput,
-  MenuItem,
   Box,
   IconButton,
   Button,
@@ -22,8 +20,6 @@ import ImageIcon from '@material-ui/icons/Image';
 
 const maxTitleChars = 30;
 const maxDescrChars = 300;
-
-const users = ['abc', 'bcd', 'def', 'ghj']; // TODO: read from redux
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,8 +54,6 @@ const CreateTrip = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [showForm, setShowForm] = useState(true);
 
-  const fileInput = useRef(null);
-
   const classes = useStyles();
 
   const handleFormSubmit = async (e) => {
@@ -81,12 +75,6 @@ const CreateTrip = () => {
   const checkDescription = (val) => {
     setDescription(val);
     setDescrChars(maxDescrChars - val.length);
-  };
-
-  const handleFileUpload = async () => {
-    if (fileInput.current) {
-      fileInput.current.click();
-    }
   };
 
   const handleFileSelected = async (e) => {
@@ -134,7 +122,7 @@ const CreateTrip = () => {
             </StyledFormControl>
             <StyledFormControl fullWidth>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Box display='flex' justifyContent='space-between'>
+                <Box display='flex' justifyContent='space-evenly'>
                   <KeyboardDatePicker
                     disableToolbar
                     variant='inline'
@@ -143,7 +131,7 @@ const CreateTrip = () => {
                     id='date-picker-inline'
                     label='Start Date'
                     value={startDate}
-                    onChange={null}
+                    onChange={(date) => setStartDate(date)}
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
@@ -157,7 +145,7 @@ const CreateTrip = () => {
                     id='date-picker-inline'
                     label='End Date'
                     value={endDate}
-                    onChange={null}
+                    onChange={(date) => setEndDate(date)}
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
                     }}
@@ -168,18 +156,21 @@ const CreateTrip = () => {
             </StyledFormControl>
             <StyledFormControl fullWidth>
               <Box display='flex' justifyContent='space-between'>
-                <Input
-                  type='file'
-                  multiple
-                  ref={fileInput}
-                  onChange={handleFileSelected}
-                  display='none'
-                />
-                <IconButton
-                  aria-label='upload'
-                  icon={<ImageIcon />}
-                  onClick={handleFileUpload}
-                />
+                <Box display='flex'>
+                  <input
+                    accept='image/*'
+                    id='icon-button-file'
+                    type='file'
+                    multiple
+                    onChange={handleFileSelected}
+                    style={{ display: 'none' }}
+                  />
+                  <label htmlFor='icon-button-file'>
+                    <IconButton aria-label='upload picture' component='span'>
+                      <ImageIcon />
+                    </IconButton>
+                  </label>
+                </Box>
                 <Button variant='contained'>Create Trip</Button>
               </Box>
             </StyledFormControl>
