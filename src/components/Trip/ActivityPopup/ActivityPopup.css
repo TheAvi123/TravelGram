@@ -1,4 +1,4 @@
-.tripView .popup-back {
+.tripScreen .popup-back {
     position: fixed;
     left: 0;
     right: 0;
@@ -7,14 +7,13 @@
     background-color: rgba(0, 0, 0, 0.65);
 }
 
-.tripView .popup-front {
-    position: absolute;
+.tripScreen .popup-front {
+    position: fixed;
     left: 25%;
     right: 25%;
     bottom: 25%;
     top: 25%;
     background-color: white;
     border-radius: 20px;
-    padding: 25px;
-
+    /* padding: 25px; */
 }

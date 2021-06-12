@@ -1,28 +1,28 @@
-import React, {useState} from 'react';
-import CardList from '../components/CardList/CardList';
-import ActivityPopup from '../components/ActivityPopup/ActivityPopup';
-import './TripView.css';
+import React, { useState } from 'react';
+import CardList from '../components/Trip/CardList/CardList';
+import ActivityPopup from '../components/Trip/ActivityPopup/ActivityPopup';
+import './TripScreen.css';
 
-const TripView = () => {
+const TripScreen = () => {
 
     const [showPopup, setShowPopup] = useState(false);
     const [selectedCard, setSelectedCard] = useState(null);
 
-    const togglePopup = (selectedCard) => {
+    const togglePopup = (openedCard) => {
         if (showPopup) {
             setSelectedCard(null);
         } else {
-            setSelectedCard(selectedCard);
+            setSelectedCard(openedCard);
         }
         setShowPopup(!showPopup);
     };
 
     return (
-        <div className="tripView">
+        <div className="tripScreen">
             <CardList openPopup={togglePopup}/>
             {showPopup && <ActivityPopup card={selectedCard} closePopup={togglePopup}/>}
         </div>
     );
 };
 
-export default TripView;
+export default TripScreen;

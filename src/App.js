@@ -1,12 +1,11 @@
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
+import AuthScreen from './screens/AuthScreen';
 
 const App = () => {
-    return (
-        <div>
-            <ThemeProvider theme={theme}>Hello world!</ThemeProvider>;
-        </div>
-    );
+    return <ThemeProvider theme={theme}>
+        <AuthScreen />
+    </ThemeProvider>;
 };
 
 export default App;

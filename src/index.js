@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import TripView from './views/TripView.js';
+
+import './index.css';
 
 ReactDOM.render(
     <React.StrictMode>
-        <TripView />
+        <App />
     </React.StrictMode>,
     document.getElementById('root')
 );
