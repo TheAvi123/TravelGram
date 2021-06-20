@@ -1,15 +1,14 @@
-import React, { useState, useRef } from 'react';
-import { makeStyles, styled, withStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   InputAdornment,
   Paper,
   FormControl,
-  InputLabel,
   OutlinedInput,
   Box,
   IconButton,
   Button,
-  CardMedia,
+  Typography,
 } from '@material-ui/core';
 import 'date-fns';
 import {
@@ -18,9 +17,10 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ImageIcon from '@material-ui/icons/Image';
-import ImageCard from '../ImageCard/ImageCard';
 import ImageList from './ImageList';
+import UserList from './UserList';
 import CloseIcon from '@material-ui/icons/Close';
+import SearchBar from '../SearchBar/SearchBar';
 
 const maxTitleChars = 30;
 const maxDescrChars = 300;
@@ -52,6 +52,29 @@ const StyledFormControl = withStyles({
   },
 })(FormControl);
 
+const allUsers = [
+  {
+    username: 'angola',
+    email: 'dummyemail1',
+  },
+  {
+    username: 'anguilla',
+    email: 'dummyemail2',
+  },
+  {
+    username: 'antarctica',
+    email: 'dummyemail11',
+  },
+  {
+    username: 'antarctina',
+    email: 'dummyemail12',
+  },
+  {
+    username: 'anguralla',
+    email: 'dummyemail3',
+  },
+];
+
 const CreateTrip = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -61,6 +84,10 @@ const CreateTrip = () => {
   const [endDate, setEndDate] = useState(new Date());
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [showForm, setShowForm] = useState(true);
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [userSearchInput, setUserSearchInput] = useState('');
+  const [userSearchResults, setUserSearchResults] = useState([]);
 
   const classes = useStyles();
 
@@ -94,6 +121,42 @@ const CreateTrip = () => {
     setSelectedFiles((files) => files.filter((file) => file !== fileToRemove));
   };
 
+  const toggleSearchBar = () => {
+    setShowSearchBar((modal) => !modal);
+  };
+
+  const handleSearchInput = (e) => {
+    const searchTerm = e.target.value;
+    setUserSearchInput(searchTerm);
+    if (searchTerm) {
+      const newUserSearchResults = allUsers.filter((user) => {
+        const userInfo = user.username.concat(' ', user.email);
+        return userInfo.toLowerCase().includes(searchTerm.toLowerCase());
+      });
+      // console.log('search results: ');
+      // console.log(newUserSearchResults);
+      setUserSearchResults(newUserSearchResults);
+    } else {
+      console.log('search results empty');
+      setUserSearchResults([]);
+    }
+  };
+
+  const handleUserChosen = (e) => {
+    const chosenUser = e.target.value;
+    console.log('user chosen: ');
+    console.log(chosenUser);
+    // if the clicked user is in selected array, remove it
+    // if it's not in the array, add it!
+    setSelectedUsers((selectedUsers) => [...selectedUsers, chosenUser]);
+  };
+
+  const handleUserRemoved = (removedUser) => {
+    setSelectedUsers((selectedUsers) =>
+      selectedUsers.filter((user) => user.username !== removedUser)
+    );
+  };
+
   return (
     <div>
       {showForm && (
@@ -115,14 +178,7 @@ const CreateTrip = () => {
                 }}
                 onChange={(e) => checkTitle(e.target.value)}
                 endAdornment={
-                  <InputAdornment
-                    position='end'
-                    // style={{
-                    //   position: 'absolute',
-                    //   bottom: '15px',
-                    //   right: '10px',
-                    // }}
-                  >
+                  <InputAdornment position='end'>
                     {titleChars}/{maxTitleChars}
                   </InputAdornment>
                 }
@@ -203,8 +259,34 @@ const CreateTrip = () => {
                     </IconButton>
                   </label>
                 </Box>
-                <Button variant='contained'>Create Trip</Button>
+                <Button variant='contained' onClick={toggleSearchBar}>
+                  {showSearchBar ? 'Hide Search Bar' : 'Collaborate!'}
+                </Button>
               </Box>
+            </StyledFormControl>
+
+            <StyledFormControl>
+              {selectedUsers.length > 0 ? (
+                <UserList
+                  usernames={selectedUsers}
+                  onUserRemoved={handleUserRemoved}
+                />
+              ) : null}
+            </StyledFormControl>
+
+            {showSearchBar && (
+              <SearchBar
+                searchInput={userSearchInput}
+                onInputChange={handleSearchInput}
+                searchResults={userSearchResults}
+                onResultChosen={handleUserChosen}
+              />
+            )}
+
+            <StyledFormControl fullWidth>
+              <Button fullWidth variant='contained'>
+                Create Trip!
+              </Button>
             </StyledFormControl>
           </Paper>
         </form>

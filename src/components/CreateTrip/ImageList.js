@@ -2,15 +2,10 @@ import React from 'react';
 import {
   Box,
   Card,
-  CardContent,
-  CardHeader,
   CardMedia,
   IconButton,
-  Avatar,
   makeStyles,
 } from '@material-ui/core';
-import { styled } from '@material-ui/core/styles';
-import ImageIcon from '@material-ui/icons/Image';
 import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles({
