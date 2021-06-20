@@ -27,11 +27,6 @@ const SearchBar = ({
 }) => {
   const classes = useStyles();
 
-  const customHandleClick = (e) => {
-    console.log('in custom handle click: ');
-    console.log(e.target.value);
-  };
-
   return (
     <Box className={classes.container}>
       <FormControl variant='outlined'>
@@ -59,13 +54,10 @@ const SearchBar = ({
         native
         onChange={onResultChosen}
         inputProps={{
-          id: 'select-multiple-native',
+          id: 'select-results',
         }}>
         {searchResults.map((searchedUser) => (
-          <option
-            key={searchedUser.username}
-            value={searchedUser.username}
-            onClick={customHandleClick}>
+          <option key={searchedUser.username} value={searchedUser.username}>
             {searchedUser.username}
           </option>
         ))}

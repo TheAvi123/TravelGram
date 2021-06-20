@@ -133,27 +133,22 @@ const CreateTrip = () => {
         const userInfo = user.username.concat(' ', user.email);
         return userInfo.toLowerCase().includes(searchTerm.toLowerCase());
       });
-      // console.log('search results: ');
-      // console.log(newUserSearchResults);
       setUserSearchResults(newUserSearchResults);
     } else {
-      console.log('search results empty');
       setUserSearchResults([]);
     }
   };
 
   const handleUserChosen = (e) => {
     const chosenUser = e.target.value;
-    console.log('user chosen: ');
-    console.log(chosenUser);
-    // if the clicked user is in selected array, remove it
-    // if it's not in the array, add it!
-    setSelectedUsers((selectedUsers) => [...selectedUsers, chosenUser]);
+    if (!selectedUsers.includes(chosenUser)) {
+      setSelectedUsers((selectedUsers) => [...selectedUsers, chosenUser]);
+    }
   };
 
   const handleUserRemoved = (removedUser) => {
     setSelectedUsers((selectedUsers) =>
-      selectedUsers.filter((user) => user.username !== removedUser)
+      selectedUsers.filter((user) => user !== removedUser)
     );
   };
 
@@ -266,12 +261,15 @@ const CreateTrip = () => {
             </StyledFormControl>
 
             <StyledFormControl>
-              {selectedUsers.length > 0 ? (
+              {selectedUsers.length > 0 && (
+                <Typography>Click to Remove</Typography>
+              )}
+              {selectedUsers.length > 0 && (
                 <UserList
                   usernames={selectedUsers}
                   onUserRemoved={handleUserRemoved}
                 />
-              ) : null}
+              )}
             </StyledFormControl>
 
             {showSearchBar && (

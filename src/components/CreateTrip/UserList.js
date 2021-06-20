@@ -11,9 +11,10 @@ const UserList = ({ usernames, onUserRemoved }) => {
             display='flex'
             flexDirection='column'
             flexWrap='wrap'
-            style={{ margin: '5px' }}
-            onDoubleClick={() => onUserRemoved(username)}>
-            <Avatar>{username.length && username[0].toUpperCase()}</Avatar>
+            style={{ margin: '5px' }}>
+            <Avatar onClick={() => onUserRemoved(username)}>
+              {username.length && username[0].toUpperCase()}
+            </Avatar>
             <Typography>{username}</Typography>
           </Box>
         );
