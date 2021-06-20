@@ -49,19 +49,21 @@ const SearchBar = ({
           labelWidth={60}
         />
       </FormControl>
-      <Select
-        multiple
-        native
-        onChange={onResultChosen}
-        inputProps={{
-          id: 'select-results',
-        }}>
-        {searchResults.map((searchedUser) => (
-          <option key={searchedUser.username} value={searchedUser.username}>
-            {searchedUser.username}
-          </option>
-        ))}
-      </Select>
+      {searchResults.length > 0 && (
+        <Select
+          multiple
+          native
+          onChange={onResultChosen}
+          inputProps={{
+            id: 'select-results',
+          }}>
+          {searchResults.map((searchedUser) => (
+            <option key={searchedUser.username} value={searchedUser.username}>
+              {searchedUser.username}
+            </option>
+          ))}
+        </Select>
+      )}
     </Box>
   );
 };
