@@ -9,6 +9,7 @@ import {
   Box,
   IconButton,
   Button,
+  CardMedia,
 } from '@material-ui/core';
 import 'date-fns';
 import {
@@ -17,6 +18,9 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ImageIcon from '@material-ui/icons/Image';
+import ImageCard from '../ImageCard/ImageCard';
+import ImageList from './ImageList';
+import CloseIcon from '@material-ui/icons/Close';
 
 const maxTitleChars = 30;
 const maxDescrChars = 300;
@@ -31,9 +35,13 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     padding: '16px',
+    position: 'relative',
   },
-  margin: {
-    margin: '10px',
+  closeIcon: {
+    position: 'absolute',
+    top: '2px',
+    right: '10px',
+    padding: '0px',
   },
 }));
 
@@ -78,7 +86,12 @@ const CreateTrip = () => {
   };
 
   const handleFileSelected = async (e) => {
-    setSelectedFiles(Array.from(e.target.files ?? []));
+    const fileArray = Array.from(e.target.files ?? []);
+    setSelectedFiles(fileArray);
+  };
+
+  const handleFileRemoved = (fileToRemove) => {
+    setSelectedFiles((files) => files.filter((file) => file !== fileToRemove));
   };
 
   return (
@@ -86,8 +99,14 @@ const CreateTrip = () => {
       {showForm && (
         <form onSubmit={handleFormSubmit}>
           <Paper className={classes.form}>
+            <IconButton
+              className={classes.closeIcon}
+              aria-label='upload picture'
+              component='span'
+              onClick={handleClosed}>
+              <CloseIcon />
+            </IconButton>
             <StyledFormControl fullWidth>
-              <InputLabel htmlFor='title'>Title</InputLabel>
               <OutlinedInput
                 id='title'
                 value={title}
@@ -96,14 +115,21 @@ const CreateTrip = () => {
                 }}
                 onChange={(e) => checkTitle(e.target.value)}
                 endAdornment={
-                  <InputAdornment position='end'>
+                  <InputAdornment
+                    position='end'
+                    // style={{
+                    //   position: 'absolute',
+                    //   bottom: '15px',
+                    //   right: '10px',
+                    // }}
+                  >
                     {titleChars}/{maxTitleChars}
                   </InputAdornment>
                 }
+                placeholder='Title'
               />
             </StyledFormControl>
             <StyledFormControl fullWidth>
-              <InputLabel htmlFor='description'>Description</InputLabel>
               <OutlinedInput
                 id='description'
                 value={description}
@@ -118,6 +144,7 @@ const CreateTrip = () => {
                     {descrChars}/{maxDescrChars}
                   </InputAdornment>
                 }
+                placeholder='Description'
               />
             </StyledFormControl>
             <StyledFormControl fullWidth>
@@ -154,6 +181,11 @@ const CreateTrip = () => {
                 </Box>
               </MuiPickersUtilsProvider>
             </StyledFormControl>
+
+            {selectedFiles.length > 0 ? (
+              <ImageList images={selectedFiles} onRemove={handleFileRemoved} />
+            ) : null}
+
             <StyledFormControl fullWidth>
               <Box display='flex' justifyContent='space-between'>
                 <Box display='flex'>
