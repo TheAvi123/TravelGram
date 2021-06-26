@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledFormControl = withStyles({
   root: {
-    margin: '10px',
+    margin: '10px auto',
     variant: 'outlined',
   },
 })(FormControl);
@@ -159,7 +159,7 @@ const CreateTrip = () => {
           <Paper className={classes.form}>
             <IconButton
               className={classes.closeIcon}
-              aria-label='upload picture'
+              aria-label='close form picture'
               component='span'
               onClick={handleClosed}>
               <CloseIcon />

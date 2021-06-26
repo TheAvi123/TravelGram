@@ -1,0 +1,42 @@
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+import React, { useState } from 'react';
+
+const mapStyles = {
+  // width: '100%',
+  // height: '100%',
+  width: '550px',
+  height: '550px',
+};
+
+export class MapContainer extends React.Component {
+  render() {
+    return (
+      <div style={this.props.style}>
+        <Map
+          google={this.props.google}
+          zoom={8}
+          style={mapStyles}
+          initialCenter={this.props.coordinates}
+          center={this.props.coordinates}>
+          {this.props.markers.map((marker, index) => {
+            return (
+              <Marker
+                key={index}
+                id={index}
+                position={{
+                  lat: marker.lat,
+                  lng: marker.lng,
+                }}
+              />
+            );
+          })}
+        </Map>
+      </div>
+    );
+  }
+}
+
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyBRZT7261Q4tXMyD31yqTdeOoMkiPHJb3Y',
+})(MapContainer);
+// export default MapContainer;
