@@ -1,9 +1,0 @@
-.tripScreen .cardList {
-    margin: 0px;
-    padding: 25px;
-    list-style: none;
-}
-
-.tripScreen .cardList .cardListItem:not(:last-child) {
-    margin-bottom: 20px;
-}
