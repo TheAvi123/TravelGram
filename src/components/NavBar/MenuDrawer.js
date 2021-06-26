@@ -37,7 +37,7 @@ function MenuDrawer(props) {
 
     return (
         <div>
-            <IconButton ml={10} mr={20} onClick={toggleDrawer} >
+            <IconButton ml={10} mr={20} onClick={toggleDrawer} color="primary">
                 <MenuIcon/>
             </IconButton>
             <Drawer classes={{paper: classes.drawer}} variant="temporary" open={visibility} onClose={closeDrawer}>

@@ -8,6 +8,7 @@ import ProfileScreen from './screens/ProfileScreen';
 const App = () => {
     return <ThemeProvider theme={theme}>
         <ProfileScreen />
+        <AuthScreen />
     </ThemeProvider>;
 };
 

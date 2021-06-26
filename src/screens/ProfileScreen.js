@@ -3,8 +3,9 @@ import {Box, Menu, MenuItem, Button, makeStyles, useTheme} from '@material-ui/co
 import NavBar from '../components/NavBar/NavBar';
 import TitleBar from '../components/TitleBar';
 import ProfilePic from '../components/Profile/ProfilePic';
+import ProfileForm from '../components/Profile/ProfileForm';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     screen: {
         display: 'flex',
         flexDirection: 'column',
@@ -18,16 +19,22 @@ const useStyles = makeStyles(theme => ({
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-        height: '600px',
-        width: '75%',
-        backgroundColor: 'lightgrey',
+        height: '1100px',
+        width: '60%',
+        border: '1px solid',
+        borderColor: '#75BEE7',
         borderRadius: '20px',
         marginTop: '30px',
-        marginBottom: '30px',
+        marginBottom: '50px',
         paddingLeft: '50px',
         paddingRight: '50px',
+        alignContent: 'center',
+        alignItems: 'center',
     },
-}));
+    title: {
+        width: '100%',
+    },
+});
 
 export default function ProfileScreen(props) {
     const classes = useStyles();
@@ -38,8 +45,11 @@ export default function ProfileScreen(props) {
             <NavBar />
             <Box className={classes.screen}>
                 <Box className={classes.container}>
-                    <h1>My Profile</h1>
+                    <Box className={classes.title}>
+                        <h1 style={{color:'darkgrey'}}>Edit Profile</h1>
+                    </Box>
                     <ProfilePic />
+                    <ProfileForm />
                 </Box>
             </Box>
         </div>

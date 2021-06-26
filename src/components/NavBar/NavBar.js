@@ -3,7 +3,7 @@ import {Box, Menu, MenuItem, Button, makeStyles, useTheme} from '@material-ui/co
 import MenuDrawer from './MenuDrawer';
 import ProfileDrawer from './ProfileDrawer';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     root: {
         position: 'sticky; top: 0px;',
         width: '100%',
@@ -11,7 +11,6 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         height: '40px',
         justifyContent: 'flex-start',
-        zIndex: theme.zIndex.drawer + 1,
     },
     accountButton: {
         marginLeft: 'auto',
@@ -34,7 +33,7 @@ const useStyles = makeStyles(theme => ({
         marginLeft: '20px',
         cursor: 'pointer',
     }
-}));
+});
 
 export default function NavBar(props) {
 
@@ -52,11 +51,11 @@ export default function NavBar(props) {
 
     return (
         <Box>
-            <Box bgcolor="secondary.main">
+            <Box bgcolor="white" borderBottom={1} borderColor="primary.main">
                 {user &&
                 <div className={classes.root}>
                     <MenuDrawer />
-                    <Button className={classes.links} onClick={handleClick}>
+                    <Button className={classes.links} onClick={handleClick} color="primary">
                         Popular Trips
                     </Button>
                     <Menu
@@ -73,10 +72,10 @@ export default function NavBar(props) {
                         <MenuItem onClick={handleClose}>Sub Item 2</MenuItem>
                         <MenuItem onClick={handleClose}>Sub Item 3</MenuItem>
                     </Menu>
-                    <Button className={classes.links}>
+                    <Button className={classes.links} color="primary">
                         Explore
                     </Button>
-                    <Button className={classes.links}>
+                    <Button className={classes.links} color="primary">
                         Item 3
                     </Button>
                     <Box className={classes.accountButton}>
@@ -86,7 +85,7 @@ export default function NavBar(props) {
                 }
                 {!user &&
                     <Box className={classes.signInButtonContainer}>
-                        <Button className={classes.signInButton} style={{backgroundColor: "white"}}>Sign In</Button>
+                        <Button className={classes.signInButton} color="primary">Sign In</Button>
                     </Box>
                 }
             </Box>

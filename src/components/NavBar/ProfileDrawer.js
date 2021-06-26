@@ -33,7 +33,7 @@ function ProfileDrawer(props) {
 
     return (
         <div>
-            <IconButton onClick={toggleDrawer}>
+            <IconButton onClick={toggleDrawer} color="primary">
                 <AccountCircleIcon />
             </IconButton>
             <Drawer classes={{paper: classes.drawer}} variant="temporary" anchor="right" open={visibility} onClose={closeDrawer}>
