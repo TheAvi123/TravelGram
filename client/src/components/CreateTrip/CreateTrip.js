@@ -1,14 +1,14 @@
-import React, { useState, useRef } from 'react';
-import { makeStyles, styled, withStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   InputAdornment,
   Paper,
   FormControl,
-  InputLabel,
   OutlinedInput,
   Box,
   IconButton,
   Button,
+  Typography,
 } from '@material-ui/core';
 import 'date-fns';
 import {
@@ -17,6 +17,10 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ImageIcon from '@material-ui/icons/Image';
+import ImageList from './ImageList';
+import UserList from './UserList';
+import CloseIcon from '@material-ui/icons/Close';
+import SearchBar from '../SearchBar/SearchBar';
 
 const maxTitleChars = 30;
 const maxDescrChars = 300;
@@ -31,9 +35,13 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     padding: '16px',
+    position: 'relative',
   },
-  margin: {
-    margin: '10px',
+  closeIcon: {
+    position: 'absolute',
+    top: '2px',
+    right: '10px',
+    padding: '0px',
   },
 }));
 
@@ -44,6 +52,29 @@ const StyledFormControl = withStyles({
   },
 })(FormControl);
 
+const allUsers = [
+  {
+    username: 'angola',
+    email: 'dummyemail1',
+  },
+  {
+    username: 'anguilla',
+    email: 'dummyemail2',
+  },
+  {
+    username: 'antarctica',
+    email: 'dummyemail11',
+  },
+  {
+    username: 'antarctina',
+    email: 'dummyemail12',
+  },
+  {
+    username: 'anguralla',
+    email: 'dummyemail3',
+  },
+];
+
 const CreateTrip = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -53,6 +84,10 @@ const CreateTrip = () => {
   const [endDate, setEndDate] = useState(new Date());
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [showForm, setShowForm] = useState(true);
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [userSearchInput, setUserSearchInput] = useState('');
+  const [userSearchResults, setUserSearchResults] = useState([]);
 
   const classes = useStyles();
 
@@ -78,7 +113,43 @@ const CreateTrip = () => {
   };
 
   const handleFileSelected = async (e) => {
-    setSelectedFiles(Array.from(e.target.files ?? []));
+    const fileArray = Array.from(e.target.files ?? []);
+    setSelectedFiles(fileArray);
+  };
+
+  const handleFileRemoved = (fileToRemove) => {
+    setSelectedFiles((files) => files.filter((file) => file !== fileToRemove));
+  };
+
+  const toggleSearchBar = () => {
+    setShowSearchBar((modal) => !modal);
+  };
+
+  const handleSearchInput = (e) => {
+    const searchTerm = e.target.value;
+    setUserSearchInput(searchTerm);
+    if (searchTerm) {
+      const newUserSearchResults = allUsers.filter((user) => {
+        const userInfo = user.username.concat(' ', user.email);
+        return userInfo.toLowerCase().includes(searchTerm.toLowerCase());
+      });
+      setUserSearchResults(newUserSearchResults);
+    } else {
+      setUserSearchResults([]);
+    }
+  };
+
+  const handleUserChosen = (e) => {
+    const chosenUser = e.target.value;
+    if (!selectedUsers.includes(chosenUser)) {
+      setSelectedUsers((selectedUsers) => [...selectedUsers, chosenUser]);
+    }
+  };
+
+  const handleUserRemoved = (removedUser) => {
+    setSelectedUsers((selectedUsers) =>
+      selectedUsers.filter((user) => user !== removedUser)
+    );
   };
 
   return (
@@ -86,8 +157,14 @@ const CreateTrip = () => {
       {showForm && (
         <form onSubmit={handleFormSubmit}>
           <Paper className={classes.form}>
+            <IconButton
+              className={classes.closeIcon}
+              aria-label='upload picture'
+              component='span'
+              onClick={handleClosed}>
+              <CloseIcon />
+            </IconButton>
             <StyledFormControl fullWidth>
-              <InputLabel htmlFor='title'>Title</InputLabel>
               <OutlinedInput
                 id='title'
                 value={title}
@@ -100,10 +177,10 @@ const CreateTrip = () => {
                     {titleChars}/{maxTitleChars}
                   </InputAdornment>
                 }
+                placeholder='Title'
               />
             </StyledFormControl>
             <StyledFormControl fullWidth>
-              <InputLabel htmlFor='description'>Description</InputLabel>
               <OutlinedInput
                 id='description'
                 value={description}
@@ -118,6 +195,7 @@ const CreateTrip = () => {
                     {descrChars}/{maxDescrChars}
                   </InputAdornment>
                 }
+                placeholder='Description'
               />
             </StyledFormControl>
             <StyledFormControl fullWidth>
@@ -154,6 +232,11 @@ const CreateTrip = () => {
                 </Box>
               </MuiPickersUtilsProvider>
             </StyledFormControl>
+
+            {selectedFiles.length > 0 ? (
+              <ImageList images={selectedFiles} onRemove={handleFileRemoved} />
+            ) : null}
+
             <StyledFormControl fullWidth>
               <Box display='flex' justifyContent='space-between'>
                 <Box display='flex'>
@@ -171,8 +254,37 @@ const CreateTrip = () => {
                     </IconButton>
                   </label>
                 </Box>
-                <Button variant='contained'>Create Trip</Button>
+                <Button variant='contained' onClick={toggleSearchBar}>
+                  {showSearchBar ? 'Hide Search Bar' : 'Collaborate!'}
+                </Button>
               </Box>
+            </StyledFormControl>
+
+            <StyledFormControl>
+              {selectedUsers.length > 0 && (
+                <Typography>Click to Remove</Typography>
+              )}
+              {selectedUsers.length > 0 && (
+                <UserList
+                  usernames={selectedUsers}
+                  onUserRemoved={handleUserRemoved}
+                />
+              )}
+            </StyledFormControl>
+
+            {showSearchBar && (
+              <SearchBar
+                searchInput={userSearchInput}
+                onInputChange={handleSearchInput}
+                searchResults={userSearchResults}
+                onResultChosen={handleUserChosen}
+              />
+            )}
+
+            <StyledFormControl fullWidth>
+              <Button fullWidth variant='contained'>
+                Create Trip!
+              </Button>
             </StyledFormControl>
           </Paper>
         </form>
