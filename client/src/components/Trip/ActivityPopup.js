@@ -1,9 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, TextField, KeyboardTimePicker, CardMedia } from '@material-ui/core';
+import { Card, TextField, CardMedia } from '@material-ui/core';
 import './ActivityPopup.css';
 
-function ActivityPopup(props) {
+export default function ActivityPopup(props) {
 
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
 
@@ -65,6 +65,4 @@ function ActivityPopup(props) {
             </div>
         </Card>
     );
-}
-
-export default ActivityPopup;
+};
