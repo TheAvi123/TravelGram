@@ -1,9 +1,12 @@
 var createError = require('http-errors');
 var express = require('express');
+var mongoose = require('mongoose');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+var dotenv = require('dotenv');
+dotenv.config();
 
 var indexRouter = require('./routes/index');
 var tripRouter = require('./routes/trip');
@@ -17,6 +20,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+mongoose.connect(
+  `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PWD}@travelgram-cluster0.bk2k0.mongodb.net/Travelgram-db1?retryWrites=true&w=majority`,
+  {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
+  }
+);
 
 app.use('/', indexRouter);
 app.use('/trip', tripRouter);

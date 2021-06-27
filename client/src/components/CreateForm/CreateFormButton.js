@@ -17,9 +17,11 @@ const CreateFormButton = ({ formType, onSuccess, onError, onClose }) => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [formMessage, setFormMessage] = useState('');
+  const [toggleFormState, setToggleFormState] = useState(false);
 
   const toggleShowForm = () => {
     setShowForm((showForm) => !showForm);
+    setToggleFormState((toggleFormState) => !toggleFormState);
   };
 
   const handleSuccess = (data) => {
@@ -31,6 +33,7 @@ const CreateFormButton = ({ formType, onSuccess, onError, onClose }) => {
       clearTimeout(timer);
     }, 3000);
     onSuccess(data);
+    setToggleFormState((toggleFormState) => !toggleFormState);
   };
 
   const handleError = (data) => {
@@ -69,6 +72,7 @@ const CreateFormButton = ({ formType, onSuccess, onError, onClose }) => {
           onSuccess={handleSuccess}
           onError={handleError}
           onClose={handleClose}
+          toggleState={toggleFormState}
         />
       </Expand>
     </Box>

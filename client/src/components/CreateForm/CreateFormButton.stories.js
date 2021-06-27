@@ -8,8 +8,12 @@ export default {
 
 const Template = (args) => <CreateFormButton {...args} />;
 
+const onSuccess = () => {
+  console.log('success!');
+};
+
 export const CreateTripButton = Template.bind({});
-CreateTripButton.args = { formType: 'trip' };
+CreateTripButton.args = { formType: 'trip', onSuccess: onSuccess };
 
 export const CreateTripItemButton = Template.bind({});
-CreateTripItemButton.args = { formType: 'item' };
+CreateTripItemButton.args = { formType: 'item', onSuccess: onSuccess };

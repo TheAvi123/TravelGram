@@ -6,6 +6,7 @@ import {
   InputAdornment,
   IconButton,
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -13,7 +14,17 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 
+const useStyles = makeStyles({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+  },
+});
+
 const LocationSearchBar = ({ address, onLocationChange, onLocationSelect }) => {
+  const classes = useStyles();
+
   const handleSelect = async (selectedAddress) => {
     const results = await geocodeByAddress(selectedAddress);
     const latLng = await getLatLng(results[0]);
@@ -21,7 +32,7 @@ const LocationSearchBar = ({ address, onLocationChange, onLocationSelect }) => {
   };
 
   return (
-    <Box>
+    <Box className={classes.container}>
       <PlacesAutocomplete
         value={address}
         onChange={onLocationChange}
@@ -35,7 +46,7 @@ const LocationSearchBar = ({ address, onLocationChange, onLocationSelect }) => {
                 startAdornment={
                   <InputAdornment position='start'>
                     <IconButton
-                      aria-label='search-icon'
+                      aria-label='location-icon'
                       onClick={null}
                       onMouseDown={null}
                       edge='end'>

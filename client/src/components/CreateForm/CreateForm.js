@@ -110,8 +110,24 @@ const initializeStartEndTime = () => {
   return startEndTime;
 };
 
+const initialTime = initializeStartEndTime();
+
+const initialState = {
+  title: '',
+  description: '',
+  titleChars: maxTitleChars,
+  descriptionChars: maxDescrChars,
+  startTime: initialTime,
+  endTime: initialTime,
+  selectedFiles: [],
+  showSearchBar: false,
+  selectedUsers: [],
+  userSearchInput: '',
+  userSearchResults: [],
+  address: '',
+};
+
 const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
-  const initialTime = initializeStartEndTime();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [titleChars, setTitleChars] = useState(maxTitleChars);
@@ -130,14 +146,13 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
     lng: -122.176,
   });
   const [selectedTripItem, setSelectedTripItem] = useState('');
-  const [toggleForm, setToggleForm] = useState(false);
+  // const [toggleForm, setToggleForm] = useState(false);
 
   const classes = useStyles();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // TODO
     let data;
     if (formType === 'trip') {
       console.log('submitted TRIP!');
@@ -146,7 +161,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
         description,
         startTime,
         endTime,
-        selectedFiles,
+        // selectedFiles,
         selectedUsers,
       };
     } else if (formType === 'item') {
@@ -174,7 +189,9 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
         onError(data);
       }
     );
-    setToggleForm((toggle) => !toggle);
+    // setToggleForm((toggle) => !toggle);
+    // setState({ ...initialState });
+    setShowForm(false);
   };
 
   const handleClosed = () => {
