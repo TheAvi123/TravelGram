@@ -5,9 +5,6 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import MapContainer from './Map';
 
-// Geocode.setApiKey('AIzaSyAxujBb1nZWVisKB3svhnKuFB4r92joWaQ');
-// Geocode.enableDebug();
-
 const TripMap = ({ center }) => {
   const [address, setAddress] = useState('');
   const [coordinates, setCoordinates] = useState({
