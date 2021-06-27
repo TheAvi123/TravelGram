@@ -18,14 +18,14 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ImageIcon from '@material-ui/icons/Image';
-import AttachmentIcon from '@material-ui/icons/Attachment';
-import ImageList from '../CreateTrip/ImageList';
-import UserList from '../CreateTrip/UserList';
+import ImageList from './helpers/ImageList';
+import UserList from './helpers/UserList';
 import CloseIcon from '@material-ui/icons/Close';
 import SearchBar from '../SearchBar/SearchBar';
 import LocationSearchBar from '../SearchBar/LocationSearchBar';
-import TripItemTagList from '../CreateTripItem/TripItemTagList';
-import TripItems from '../CreateTripItem/TripItems';
+import TripItemTagList from './helpers/TripItemTagList';
+import TripItems from './helpers/TripItems';
+import axios from 'axios';
 
 const maxTitleChars = 30;
 const maxDescrChars = 300;
@@ -34,10 +34,14 @@ const useStyles = makeStyles((theme) => ({
   tripContainer: {
     maxWidth: '80%',
     maxHeight: '80%',
+    margin: '0 auto',
   },
   itemContainer: {
-    maxWidth: '45%',
-    maxHeight: '70%',
+    // maxWidth: '60%',
+    // maxHeight: '70%',
+    maxWidth: '80%',
+    maxHeight: '80%',
+    margin: '0 auto',
   },
   form: {
     padding: '16px',
@@ -106,13 +110,14 @@ const initializeStartEndTime = () => {
   return startEndTime;
 };
 
-const CreateForm = ({ formType, style, onSubmit, onClose }) => {
+const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
+  const initialTime = initializeStartEndTime();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [titleChars, setTitleChars] = useState(maxTitleChars);
   const [descrChars, setDescrChars] = useState(maxDescrChars);
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [startTime, setStartTime] = useState(initialTime);
+  const [endTime, setEndTime] = useState(initialTime);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [showForm, setShowForm] = useState(true);
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -125,23 +130,18 @@ const CreateForm = ({ formType, style, onSubmit, onClose }) => {
     lng: -122.176,
   });
   const [selectedTripItem, setSelectedTripItem] = useState('');
+  const [toggleForm, setToggleForm] = useState(false);
 
   const classes = useStyles();
-
-  // useEffect(() => {
-  //   const startEndTime = initializeStartEndTime();
-  //   setStartTime(startEndTime);
-  //   setEndTime(startEndTime);
-  //   console.log(startEndTime);
-  // }, []);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     // TODO
+    let data;
     if (formType === 'trip') {
       console.log('submitted TRIP!');
-      const data = {
+      data = {
         title,
         description,
         startTime,
@@ -149,11 +149,9 @@ const CreateForm = ({ formType, style, onSubmit, onClose }) => {
         selectedFiles,
         selectedUsers,
       };
-      console.log(data);
-      onSubmit(data);
     } else if (formType === 'item') {
       console.log('submitted TRIP ITEM!');
-      const data = {
+      data = {
         title,
         description,
         startTime,
@@ -163,9 +161,20 @@ const CreateForm = ({ formType, style, onSubmit, onClose }) => {
         coordinates,
         selectedTripItem,
       };
-      console.log(data);
-      onSubmit(data);
     }
+    axios.post('http://localhost:3001/trip', data).then(
+      (res) => {
+        console.log('submitted to backend: ');
+        console.log(res);
+        onSuccess(data);
+      },
+      (err) => {
+        console.log('error: ');
+        console.log(err);
+        onError(data);
+      }
+    );
+    setToggleForm((toggle) => !toggle);
   };
 
   const handleClosed = () => {
@@ -229,183 +238,176 @@ const CreateForm = ({ formType, style, onSubmit, onClose }) => {
   };
 
   return (
-    <div className={classes.popupContainer}>
-      <div
-        className={
-          formType === 'trip'
-            ? classes.tripContainer
-            : formType === 'item'
-            ? classes.itemContainer
-            : ''
-        }
-        style={style}>
-        {showForm && (
-          <form onSubmit={handleFormSubmit}>
-            <Paper className={classes.form}>
-              <IconButton
-                className={classes.closeIcon}
-                aria-label='close form picture'
-                component='span'
-                onClick={handleClosed}>
-                <CloseIcon />
-              </IconButton>
-              <FormControl fullWidth className={classes.formControl}>
-                <OutlinedInput
-                  id='title'
-                  value={title}
-                  inputProps={{
-                    maxLength: maxTitleChars,
-                  }}
-                  onChange={(e) => checkTitle(e.target.value)}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      {titleChars}/{maxTitleChars}
-                    </InputAdornment>
+    // <div className={classes.popupContainer}>
+    <div
+      className={
+        formType === 'trip'
+          ? classes.tripContainer
+          : formType === 'item'
+          ? classes.itemContainer
+          : ''
+      }>
+      {showForm && (
+        <form onSubmit={handleFormSubmit}>
+          <Paper className={classes.form}>
+            <IconButton
+              className={classes.closeIcon}
+              aria-label='close form picture'
+              component='span'
+              onClick={handleClosed}>
+              <CloseIcon />
+            </IconButton>
+            <FormControl fullWidth className={classes.formControl}>
+              <OutlinedInput
+                id='title'
+                value={title}
+                inputProps={{
+                  maxLength: maxTitleChars,
+                }}
+                required
+                onChange={(e) => checkTitle(e.target.value)}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    {titleChars}/{maxTitleChars}
+                  </InputAdornment>
+                }
+                placeholder='Title'
+              />
+            </FormControl>
+            <FormControl fullWidth className={classes.formControl}>
+              <OutlinedInput
+                id='description'
+                value={description}
+                inputProps={{
+                  maxLength: maxDescrChars,
+                }}
+                multiline={true}
+                rows={6}
+                onChange={(e) => checkDescription(e.target.value)}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    {descrChars}/{maxDescrChars}
+                  </InputAdornment>
+                }
+                placeholder='Description'
+              />
+            </FormControl>
+            <FormControl fullWidth className={classes.formControl}>
+              {/* <MuiPickersUtilsProvider utils={DateFnsUtils}> */}
+              <Box display='flex' justifyContent='space-evenly'>
+                <TextField
+                  id='datetime-local'
+                  label='Start Time'
+                  type='datetime-local'
+                  defaultValue={startTime}
+                  style={{ margin: '10px' }}
+                  onChange={(time) =>
+                    setStartTime(time.nativeEvent.target.value)
                   }
-                  placeholder='Title'
                 />
-              </FormControl>
-              <FormControl fullWidth className={classes.formControl}>
-                <OutlinedInput
-                  id='description'
-                  value={description}
-                  inputProps={{
-                    maxLength: maxDescrChars,
-                  }}
-                  multiline={true}
-                  rows={6}
-                  onChange={(e) => checkDescription(e.target.value)}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      {descrChars}/{maxDescrChars}
-                    </InputAdornment>
-                  }
-                  placeholder='Description'
+                <TextField
+                  id='datetime-local'
+                  label='End Time'
+                  type='datetime-local'
+                  defaultValue={endTime}
+                  style={{ margin: '10px' }}
+                  onChange={(time) => setEndTime(time.nativeEvent.target.value)}
                 />
-              </FormControl>
-              <FormControl fullWidth className={classes.formControl}>
-                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}> */}
-                <Box display='flex' justifyContent='space-evenly'>
-                  <TextField
-                    id='datetime-local'
-                    label='Start Time'
-                    type='datetime-local'
-                    defaultValue='2017-05-24T10:30' // TODO: change
-                    // defaultValue={startTime}
-                    style={{ margin: '10px' }}
-                    onChange={(time) =>
-                      setStartTime(time.nativeEvent.target.value)
-                    }
+              </Box>
+              {/* </MuiPickersUtilsProvider> */}
+            </FormControl>
+
+            {formType === 'item' ? (
+              <TripItemTagList
+                items={TripItems}
+                selectedItem={selectedTripItem}
+                onSelect={(id) => setSelectedTripItem(id)}
+                onRemove={() => setSelectedTripItem()}
+              />
+            ) : null}
+
+            {selectedFiles.length > 0 ? (
+              <ImageList images={selectedFiles} onRemove={handleFileRemoved} />
+            ) : null}
+
+            <FormControl fullWidth className={classes.formControl}>
+              <Box display='flex' justifyContent='space-between'>
+                <Box display='flex'>
+                  <input
+                    accept='image/*'
+                    id='icon-button-file'
+                    type='file'
+                    multiple
+                    onChange={handleFileSelected}
+                    style={{ display: 'none' }}
                   />
-                  <TextField
-                    id='datetime-local'
-                    label='End Time'
-                    type='datetime-local'
-                    defaultValue='2017-05-24T10:30'
-                    // defaultValue={endTime}
-                    style={{ margin: '10px' }}
-                    onChange={(time) =>
-                      setEndTime(time.nativeEvent.target.value)
-                    }
-                  />
+                  <label htmlFor='icon-button-file'>
+                    <IconButton aria-label='add attachments' component='span'>
+                      <ImageIcon />
+                    </IconButton>
+                  </label>
                 </Box>
-                {/* </MuiPickersUtilsProvider> */}
-              </FormControl>
-
-              {formType === 'item' ? (
-                <TripItemTagList
-                  items={TripItems}
-                  selectedItem={selectedTripItem}
-                  onSelect={(id) => setSelectedTripItem(id)}
-                  onRemove={() => setSelectedTripItem()}
-                />
-              ) : null}
-
-              {selectedFiles.length > 0 ? (
-                <ImageList
-                  images={selectedFiles}
-                  onRemove={handleFileRemoved}
-                />
-              ) : null}
-
-              <FormControl fullWidth className={classes.formControl}>
-                <Box display='flex' justifyContent='space-between'>
-                  <Box display='flex'>
-                    <input
-                      accept='image/*'
-                      id='icon-button-file'
-                      type='file'
-                      multiple
-                      onChange={handleFileSelected}
-                      style={{ display: 'none' }}
-                    />
-                    <label htmlFor='icon-button-file'>
-                      <IconButton aria-label='add attachments' component='span'>
-                        <ImageIcon />
-                      </IconButton>
-                    </label>
-                  </Box>
-                  <Button variant='contained' onClick={toggleSearchBar}>
-                    {showSearchBar
-                      ? 'Hide Search Bar'
-                      : formType === 'trip'
-                      ? 'Search Collaborators!'
-                      : formType === 'item'
-                      ? 'Search Location!'
-                      : ''}
-                  </Button>
-                </Box>
-              </FormControl>
-
-              <FormControl className={classes.formControl}>
-                {selectedUsers.length > 0 && (
-                  <Typography>Click to Remove</Typography>
-                )}
-                {selectedUsers.length > 0 && (
-                  <UserList
-                    usernames={selectedUsers}
-                    onUserRemoved={handleUserRemoved}
-                  />
-                )}
-              </FormControl>
-
-              {showSearchBar &&
-                (formType === 'trip' ? (
-                  <SearchBar
-                    searchInput={userSearchInput}
-                    onInputChange={handleSearchInput}
-                    searchResults={userSearchResults}
-                    onResultChosen={handleUserChosen}
-                  />
-                ) : formType === 'item' ? (
-                  <LocationSearchBar
-                    address={address}
-                    onLocationChange={setAddress}
-                    onLocationSelect={handleLocationSelect}
-                  />
-                ) : null)}
-
-              {address && (
-                <div>
-                  Chosen address: {address} and latitude: {coordinates.lat} and
-                  longitude: {coordinates.lng}
-                </div>
-              )}
-
-              <FormControl fullWidth className={classes.formControl}>
-                <Button fullWidth variant='contained' type='submit'>
-                  {formType === 'trip'
-                    ? 'Create Trip!'
+                <Button variant='contained' onClick={toggleSearchBar}>
+                  {showSearchBar
+                    ? 'Hide Search Bar'
+                    : formType === 'trip'
+                    ? 'Search Collaborators!'
                     : formType === 'item'
-                    ? 'Create Trip Item!'
+                    ? 'Search Location!'
                     : ''}
                 </Button>
-              </FormControl>
-            </Paper>
-          </form>
-        )}
-      </div>
+              </Box>
+            </FormControl>
+
+            <FormControl className={classes.formControl}>
+              {selectedUsers.length > 0 && (
+                <Typography>Click to Remove</Typography>
+              )}
+              {selectedUsers.length > 0 && (
+                <UserList
+                  usernames={selectedUsers}
+                  onUserRemoved={handleUserRemoved}
+                />
+              )}
+            </FormControl>
+
+            {showSearchBar &&
+              (formType === 'trip' ? (
+                <SearchBar
+                  searchInput={userSearchInput}
+                  onInputChange={handleSearchInput}
+                  searchResults={userSearchResults}
+                  onResultChosen={handleUserChosen}
+                />
+              ) : formType === 'item' ? (
+                <LocationSearchBar
+                  address={address}
+                  onLocationChange={setAddress}
+                  onLocationSelect={handleLocationSelect}
+                />
+              ) : null)}
+
+            {address && (
+              <div>
+                Chosen address: {address} and latitude: {coordinates.lat} and
+                longitude: {coordinates.lng}
+              </div>
+            )}
+
+            <FormControl fullWidth className={classes.formControl}>
+              <Button fullWidth variant='contained' type='submit'>
+                {formType === 'trip'
+                  ? 'Create Trip!'
+                  : formType === 'item'
+                  ? 'Create Trip Item!'
+                  : ''}
+              </Button>
+            </FormControl>
+          </Paper>
+        </form>
+      )}
     </div>
+    // </div>
   );
 };
 

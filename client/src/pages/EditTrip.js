@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Card, CardContent, Typography, Button } from '@material-ui/core';
+import { Box, Card, CardContent, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import CreateForm from '../components/CreateForm/CreateForm';
 import Map from '../components/TripMap/Map';
+import DraggableSchedule from './DraggableSchedule';
+import CreateFormButton from '../components/CreateForm/CreateFormButton';
 
 const dummyCoordinates = [
   { lat: 47.49855629475769, lng: -122.14184416996333 },
@@ -14,11 +15,31 @@ const dummyCoordinates = [
 ];
 
 const initialCardList = [
-  { title: 'First title', description: 'description' },
-  { title: 'Second title', description: 'description' },
-  { title: 'Third title', description: 'description' },
-  { title: 'Fourth title', description: 'description' },
-  { title: 'Fifth title', description: 'description' },
+  {
+    title: 'First title',
+    description: 'description',
+    startTime: '2021-06-26T10:30',
+  },
+  {
+    title: 'Second title',
+    description: 'description',
+    startTime: '2021-06-26T10:30',
+  },
+  {
+    title: 'Third title',
+    description: 'description',
+    startTime: '2021-06-26T10:30',
+  },
+  {
+    title: 'Fourth title',
+    description: 'description',
+    startTime: '2021-06-26T10:30',
+  },
+  {
+    title: 'Fifth title',
+    description: 'description',
+    startTime: '2021-06-26T10:30',
+  },
 ];
 
 const useStyles = makeStyles({
@@ -51,14 +72,6 @@ const useStyles = makeStyles({
   },
 });
 
-const CreateFormButton = ({ onClick }) => {
-  return (
-    <Button variant='contained' onClick={onClick}>
-      Create Trip Item
-    </Button>
-  );
-};
-
 const CardList = ({ cards }) => {
   const classes = useStyles();
   return (
@@ -85,36 +98,30 @@ const EditTripPage = () => {
     lat: 49.3,
     lng: -123.2,
   }); // TODO: fetch user's location
-  const [showFormPopup, setFormPopup] = useState(false);
   const [cardList, setCardList] = useState(initialCardList);
 
   const classes = useStyles();
 
-  const toggleFormPopup = () => {
-    setFormPopup((popup) => !popup);
-  };
-
   const handleSubmit = (data) => {
     console.log(data);
-    const { title, description, coordinates } = data;
+    const { title, description, startTime, coordinates } = data;
     setMarkers((markerCoordinates) => [...markerCoordinates, coordinates]);
-    setCardList((cards) => [{ title, description }, ...cards]);
+    setCardList((cards) => [{ title, description, startTime }, ...cards]);
     setCenter(coordinates);
-    toggleFormPopup();
   };
 
   return (
     <Box className={classes.wrapper}>
-      <CardList cards={cardList} />
-      {showFormPopup && (
-        <CreateForm
-          formType='item'
-          onSubmit={handleSubmit}
-          onClose={toggleFormPopup}
-        />
-      )}
+      <Box className={classes.cardListContainer}>
+        <DraggableSchedule cards={cardList} onDragDrop={setCardList} />
+      </Box>
       <Box className={classes.mapContainer}>
-        <CreateFormButton onClick={toggleFormPopup} />
+        <CreateFormButton
+          formType='item'
+          onSuccess={handleSubmit}
+          onError={null}
+          onClose={null}
+        />
         <Map
           coordinates={center}
           style={{ margin: '30px' }}
