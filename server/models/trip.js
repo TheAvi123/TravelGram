@@ -17,9 +17,6 @@ const TripSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // selectedFiles: {
-  //   type: [File],
-  // },
   selectedUsers: {
     type: [String],
   },

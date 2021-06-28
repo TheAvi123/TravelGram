@@ -16,4 +16,4 @@ export const CreateTripButton = Template.bind({});
 CreateTripButton.args = { formType: 'trip', onSuccess: onSuccess };
 
 export const CreateTripItemButton = Template.bind({});
-CreateTripItemButton.args = { formType: 'item', onSuccess: onSuccess };
+CreateTripItemButton.args = { formType: 'tripitem', onSuccess: onSuccess };

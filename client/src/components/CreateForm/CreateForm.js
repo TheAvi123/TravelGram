@@ -37,8 +37,6 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 auto',
   },
   itemContainer: {
-    // maxWidth: '60%',
-    // maxHeight: '70%',
     maxWidth: '80%',
     maxHeight: '80%',
     margin: '0 auto',
@@ -112,21 +110,6 @@ const initializeStartEndTime = () => {
 
 const initialTime = initializeStartEndTime();
 
-const initialState = {
-  title: '',
-  description: '',
-  titleChars: maxTitleChars,
-  descriptionChars: maxDescrChars,
-  startTime: initialTime,
-  endTime: initialTime,
-  selectedFiles: [],
-  showSearchBar: false,
-  selectedUsers: [],
-  userSearchInput: '',
-  userSearchResults: [],
-  address: '',
-};
-
 const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -146,7 +129,6 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
     lng: -122.176,
   });
   const [selectedTripItem, setSelectedTripItem] = useState('');
-  // const [toggleForm, setToggleForm] = useState(false);
 
   const classes = useStyles();
 
@@ -164,7 +146,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
         // selectedFiles,
         selectedUsers,
       };
-    } else if (formType === 'item') {
+    } else if (formType === 'tripitem') {
       console.log('submitted TRIP ITEM!');
       data = {
         title,
@@ -177,7 +159,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
         selectedTripItem,
       };
     }
-    axios.post('http://localhost:3001/trip', data).then(
+    axios.post(`http://localhost:3001/${formType}`, data).then(
       (res) => {
         console.log('submitted to backend: ');
         console.log(res);
@@ -189,9 +171,6 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
         onError(data);
       }
     );
-    // setToggleForm((toggle) => !toggle);
-    // setState({ ...initialState });
-    setShowForm(false);
   };
 
   const handleClosed = () => {
@@ -260,7 +239,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
       className={
         formType === 'trip'
           ? classes.tripContainer
-          : formType === 'item'
+          : formType === 'tripitem'
           ? classes.itemContainer
           : ''
       }>
@@ -334,7 +313,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
               {/* </MuiPickersUtilsProvider> */}
             </FormControl>
 
-            {formType === 'item' ? (
+            {formType === 'tripitem' ? (
               <TripItemTagList
                 items={TripItems}
                 selectedItem={selectedTripItem}
@@ -369,7 +348,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
                     ? 'Hide Search Bar'
                     : formType === 'trip'
                     ? 'Search Collaborators!'
-                    : formType === 'item'
+                    : formType === 'tripitem'
                     ? 'Search Location!'
                     : ''}
                 </Button>
@@ -396,7 +375,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
                   searchResults={userSearchResults}
                   onResultChosen={handleUserChosen}
                 />
-              ) : formType === 'item' ? (
+              ) : formType === 'tripitem' ? (
                 <LocationSearchBar
                   address={address}
                   onLocationChange={setAddress}
@@ -415,7 +394,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
               <Button fullWidth variant='contained' type='submit'>
                 {formType === 'trip'
                   ? 'Create Trip!'
-                  : formType === 'item'
+                  : formType === 'tripitem'
                   ? 'Create Trip Item!'
                   : ''}
               </Button>

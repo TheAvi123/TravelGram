@@ -13,7 +13,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// TODO: reuse for filter by title or location
 router.get('/', async (req, res) => {
   const page = Number(req.query.page);
   const pageSize = Number(req.query.pageSize);

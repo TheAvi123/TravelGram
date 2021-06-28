@@ -12,4 +12,4 @@ export const CreateTrip = Template.bind({});
 CreateTrip.args = { formType: 'trip' };
 
 export const CreateTripItem = Template.bind({});
-CreateTripItem.args = { formType: 'item' };
+CreateTripItem.args = { formType: 'tripitem' };

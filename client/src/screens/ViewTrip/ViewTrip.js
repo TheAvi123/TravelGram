@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 import { Box, Card, CardContent, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Map from '../components/TripMap/Map';
+import Map from '../../components/TripMap/Map';
 import DraggableSchedule from './DraggableSchedule';
-import CreateFormButton from '../components/CreateForm/CreateFormButton';
-
-const dummyCoordinates = [
-  { lat: 47.49855629475769, lng: -122.14184416996333 },
-  { lat: 47.359423, lng: -122.021071 },
-  { lat: 47.2052192687988, lng: -121.988426208496 },
-  { lat: 47.6307081, lng: -122.1434325 },
-  { lat: 47.3084488, lng: -122.2140121 },
-  { lat: 47.5524695, lng: -122.0425407 },
-];
+import CreateFormButton from '../../components/CreateForm/CreateFormButton';
 
 const initialCardList = [
   {
@@ -92,7 +83,7 @@ const CardList = ({ cards }) => {
   );
 };
 
-const EditTripPage = () => {
+const ViewTripPage = () => {
   const [markers, setMarkers] = useState([]);
   const [center, setCenter] = useState({
     lat: 49.3,
@@ -117,7 +108,7 @@ const EditTripPage = () => {
       </Box>
       <Box className={classes.mapContainer}>
         <CreateFormButton
-          formType='item'
+          formType='tripitem'
           onSuccess={handleSubmit}
           onError={null}
           onClose={null}
@@ -132,4 +123,4 @@ const EditTripPage = () => {
   );
 };
 
-export default EditTripPage;
+export default ViewTripPage;

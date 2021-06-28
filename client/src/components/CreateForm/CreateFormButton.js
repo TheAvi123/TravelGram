@@ -17,11 +17,9 @@ const CreateFormButton = ({ formType, onSuccess, onError, onClose }) => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [formMessage, setFormMessage] = useState('');
-  const [toggleFormState, setToggleFormState] = useState(false);
 
   const toggleShowForm = () => {
     setShowForm((showForm) => !showForm);
-    setToggleFormState((toggleFormState) => !toggleFormState);
   };
 
   const handleSuccess = (data) => {
@@ -33,7 +31,6 @@ const CreateFormButton = ({ formType, onSuccess, onError, onClose }) => {
       clearTimeout(timer);
     }, 3000);
     onSuccess(data);
-    setToggleFormState((toggleFormState) => !toggleFormState);
   };
 
   const handleError = (data) => {
@@ -62,19 +59,24 @@ const CreateFormButton = ({ formType, onSuccess, onError, onClose }) => {
         variant='contained'
         onClick={toggleShowForm}
         style={{ maxWidth: '200px', margin: '30px auto' }}>
-        Create Trip Item
+        {formType === 'trip'
+          ? 'Create Trip'
+          : formType === 'tripitem'
+          ? 'Create Trip Item'
+          : ''}
       </Button>
       {showSuccess && <Alert severity='success'>{formMessage}</Alert>}
       {showError && <Alert severity='error'>{formMessage}</Alert>}
-      <Expand open={showForm} duration={200}>
-        <CreateForm
-          formType={formType}
-          onSuccess={handleSuccess}
-          onError={handleError}
-          onClose={handleClose}
-          toggleState={toggleFormState}
-        />
-      </Expand>
+      {showForm && (
+        <Expand open={showForm} duration={200}>
+          <CreateForm
+            formType={formType}
+            onSuccess={handleSuccess}
+            onError={handleError}
+            onClose={handleClose}
+          />
+        </Expand>
+      )}
     </Box>
   );
 };

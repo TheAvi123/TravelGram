@@ -32,7 +32,7 @@ mongoose.connect(
 
 app.use('/', indexRouter);
 app.use('/trip', tripRouter);
-app.use('/tripItem', tripItemRouter);
+app.use('/tripitem', tripItemRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
