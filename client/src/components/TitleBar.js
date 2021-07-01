@@ -8,7 +8,7 @@ const useStyles = makeStyles({
         display: 'flex',
         height: '150px',
         cursor: 'pointer',
-        backgroundColor: '#75BEE7',
+        backgroundColor: '#3DB8DA',
         alignItems: 'flex-end',
     },
     text: {
@@ -19,9 +19,10 @@ const useStyles = makeStyles({
     },
     logo: {
         position: 'relative',
-        marginLeft: '40px',
-        marginBottom: '15px',
-        maxHeight: '90px',
+        marginLeft: '30px',
+        marginBottom: 'auto',
+        marginTop: '25px',
+        maxHeight: '60px',
     }
 });
 

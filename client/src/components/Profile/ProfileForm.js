@@ -16,7 +16,8 @@ const useStyles = makeStyles({
         fullWidth: 'true',
     },
     button: {
-        marginTop: '40px',
+        marginTop: '30px',
+        marginLeft: '10px',
         color: 'white',
     },
 
@@ -27,6 +28,7 @@ const useStyles = makeStyles({
 export default function ProfileForm(props) {
     const classes = useStyles();
 
+    const [changed, setChanged] = useState(false);
     const [userFirstName, setUserFirstName] = useState("John");
     const [userLastName, setUserLastName] = useState("Doe");
     const [userEmail, setUserEmail] = useState("JohnDoe@hotmail.com");
@@ -40,43 +42,58 @@ export default function ProfileForm(props) {
 
 
     const handleFirstNameChange = (event) => {
-      setUserFirstName(event.target.value);
+        setChanged(true);
+        setUserFirstName(event.target.value);
     };
 
     const handleLastNameChange = (event) => {
+        setChanged(true);
         setUserLastName(event.target.value);
     }
 
     const handleEmailChange = (event) => {
+        setChanged(true);
         setUserEmail(event.target.value);
     };
 
     const handleAboutChange = (event) => {
+        setChanged(true);
         setUserAbout(event.target.value);
     };
 
     const handlePhoneChange = (event) => {
+        setChanged(true);
         setUserPhone(event.target.value);
     };
 
     const handleAddressChange = (event) => {
+        setChanged(true);
         setUserAddress(event.target.value);
     };
 
     const handleCityChange = (event) => {
+        setChanged(true);
         setUserCity(event.target.value);
     };
 
     const handleStateChange = (event) => {
+        setChanged(true);
         setUserState(event.target.value);
     };
 
     const handleZipChange = (event) => {
+        setChanged(true);
         setUserZip(event.target.value);
     };
 
     const handleCountryChange = (event) => {
+        setChanged(true);
         setUserCountry(event.target.value);
+    };
+
+    const handleSave = () => {
+        setChanged(false);
+
     };
 
 
@@ -138,7 +155,7 @@ export default function ProfileForm(props) {
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Button className={classes.button} variant="contained" color="primary" style={{maxWidth: '150px'}}>Save Changes</Button>
+                <Button className={classes.button} variant="contained" color="primary" disabled={!changed} onClick={handleSave} style={{maxWidth: '100px'}}>Save</Button>
             </form>
     );
 }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Menu, MenuItem, Button, makeStyles, useTheme} from '@material-ui/core';
+import {Box, Menu, MenuItem, Button, makeStyles, Divider} from '@material-ui/core';
 import MenuDrawer from './MenuDrawer';
 import ProfileDrawer from './ProfileDrawer';
 
@@ -13,6 +13,7 @@ const useStyles = makeStyles({
         justifyContent: 'flex-start',
     },
     accountButton: {
+        display: 'flex',
         marginLeft: 'auto',
         marginRight: '15px',
         cursor: 'pointer',
@@ -51,10 +52,11 @@ export default function NavBar(props) {
 
     return (
         <Box>
-            <Box bgcolor="white" borderBottom={1} borderColor="primary.main">
+            <Box borderBottom={1} borderColor="primary.main">
                 {user &&
                 <div className={classes.root}>
                     <MenuDrawer />
+                    <Divider orientation='vertical' flexItem />
                     <Button className={classes.links} onClick={handleClick} color="primary">
                         Popular Trips
                     </Button>

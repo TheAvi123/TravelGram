@@ -8,12 +8,9 @@ const useStyles = makeStyles(theme => ({
         height: '150px',
         width: '150px',
     },
-    editButton: {
-        position: 'absolute',
-        bottom: '0',
-        right: '0',
-        zIndex: '10',
-        backgroundColor: 'white',
+    small: {
+      height: '30px',
+      width: '30px',
     },
     container: {
       position: 'inherit',
@@ -25,16 +22,9 @@ const useStyles = makeStyles(theme => ({
 export default function ProfilePic(props) {
     const classes = useStyles();
 
-    const [editProfile, setEditProfile] = useState(true);
-
     return (
         <Box className={classes.container}>
-            {editProfile &&
-                <IconButton className={classes.editButton}>
-                    <EditIcon />
-                </IconButton>
-            }
-            <Avatar src={avatar} className={classes.large}/>
+            <Avatar src={avatar} className={classes[props.size]}/>
         </Box>
     );
 }
