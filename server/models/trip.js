@@ -17,6 +17,9 @@ const TripSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  images: {
+    type: [String],
+  },
   selectedUsers: {
     type: [String],
   },

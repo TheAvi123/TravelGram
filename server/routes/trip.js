@@ -4,8 +4,10 @@ var tripModel = require('../models/trip');
 
 router.post('/', async (req, res) => {
   const trip = new tripModel(req.body);
+  console.log({ trip });
   try {
-    await trip.save();
+    const savedTrip = await trip.save();
+    console.log({ savedTrip });
     res.send(trip);
   } catch (err) {
     console.log(err);
