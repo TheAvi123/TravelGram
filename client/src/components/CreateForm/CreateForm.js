@@ -26,6 +26,7 @@ import LocationSearchBar from '../SearchBar/LocationSearchBar';
 import TripItemTagList from './helpers/TripItemTagList';
 import TripItems from './helpers/TripItems';
 import axios from 'axios';
+import { storeImages } from '../../services/storage';
 
 const maxTitleChars = 30;
 const maxDescrChars = 300;
@@ -143,46 +144,33 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
 
     const classes = useStyles();
 
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-
-        let data;
-        if (formType === 'trip') {
-            console.log('submitted TRIP!');
-            data = {
-                title,
-                description,
-                startTime,
-                endTime,
-                // selectedFiles,
-                selectedUsers,
-            };
-        } else if (formType === 'tripitem') {
-            console.log('submitted TRIP ITEM!');
-            data = {
-                title,
-                description,
-                startTime,
-                endTime,
-                selectedFiles,
-                address,
-                coordinates,
-                selectedTripItem,
-            };
-        }
-        axios.post(`http://localhost:3001/${formType}`, data).then(
-            (res) => {
-                console.log('submitted to backend: ');
-                console.log(res);
-                onSuccess(data);
-            },
-            (err) => {
-                console.log('error: ');
-                console.log(err);
-                onError(data);
-            }
-        );
-    };
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      console.log({ selectedFiles });
+      const images = await storeImages(selectedFiles);
+      console.log({ images });
+      const data = {
+        title,
+        description,
+        startTime,
+        endTime,
+        images,
+        ...(formType === 'trip' && { selectedUsers }),
+        ...(formType === 'tripitem' && { address }),
+        ...(formType === 'tripitem' && { coordinates }),
+        ...(formType === 'tripitem' && { selectedTripItem }),
+      };
+      const res = await axios.post(`http://localhost:3001/${formType}`, data);
+      console.log('submitted to backend: ');
+      console.log(res);
+      // onSuccess(data);
+    } catch (err) {
+      console.log('error: ');
+      console.log(err);
+      // onError(data);
+    }
+  };
 
     const handleClosed = () => {
         setShowForm(false);

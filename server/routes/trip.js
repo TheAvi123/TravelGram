@@ -7,7 +7,8 @@ var router = express.Router();
 router.post('/', async (req, res) => {
   const trip = new Trip(req.body);
   try {
-    await trip.save();
+    const savedTrip = await trip.save();
+    console.log({ savedTrip });
     res.send(trip);
   } catch (err) {
     console.log(err);
