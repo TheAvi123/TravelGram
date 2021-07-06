@@ -4,14 +4,18 @@ import AuthScreen from './screens/AuthScreen';
 import NavBar from './components/NavBar/NavBar';
 import Dashboard from './screens/Dashboard/Dashboard';
 import ViewTrip from './screens/ViewTrip/ViewTrip';
-import ProfileScreen from './screens/ProfileScreen';
+import EditProfileScreen from './screens/EditProfileScreen';
+import ProfileCard from './components/Profile/ProfileCard';
+import ProfilePic from './components/Profile/ProfilePic';
 
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
       {/* <AuthScreen /> */}
       {/*<Dashboard />*/}
-      <ProfileScreen />
+      <EditProfileScreen />
+      <ProfilePic clickable={true} size={"medium"}/>
+      <ProfilePic clickable={false} size={"large"}/>
       {/* <ViewTrip /> */}
     </ThemeProvider>
   );

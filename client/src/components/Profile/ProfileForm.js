@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Box, Button, makeStyles, TextField, FormControl, InputLabel, Input, OutlinedInput, Grid} from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
+import axios from "axios";
 
 const useStyles = makeStyles({
     formContainer: {
@@ -29,17 +30,16 @@ export default function ProfileForm(props) {
     const classes = useStyles();
 
     const [changed, setChanged] = useState(false);
-    const [userFirstName, setUserFirstName] = useState("John");
-    const [userLastName, setUserLastName] = useState("Doe");
-    const [userEmail, setUserEmail] = useState("JohnDoe@hotmail.com");
-    const [userAbout, setUserAbout] = useState("I am a mysterious person.");
-    const [userPhone, setUserPhone] = useState("604-123-4567");
-    const [userAddress, setUserAddress] = useState("1234 Easy St.");
-    const [userCity, setUserCity] = useState("Vancouver");
-    const [userState, setUserState] = useState("British Columbia");
-    const [userZip, setUserZip] = useState("123456");
-    const [userCountry, setUserCountry] = useState("Canada");
-
+    const [userFirstName, setUserFirstName] = useState(props.userInfo.name);
+    const [userLastName, setUserLastName] = useState(props.userInfo.lastName);
+    const [userEmail, setUserEmail] = useState(props.userInfo.email);
+    const [userAbout, setUserAbout] = useState(props.userInfo.about);
+    const [userPhone, setUserPhone] = useState(props.userInfo.phone);
+    const [userAddress, setUserAddress] = useState(props.userInfo.street);
+    const [userCity, setUserCity] = useState(props.userInfo.city);
+    const [userState, setUserState] = useState(props.userInfo.state);
+    const [userZip, setUserZip] = useState(props.userInfo.zip);
+    const [userCountry, setUserCountry] = useState(props.userInfo.country);
 
     const handleFirstNameChange = (event) => {
         setChanged(true);
@@ -93,10 +93,21 @@ export default function ProfileForm(props) {
 
     const handleSave = () => {
         setChanged(false);
-
+        let user = {
+            name: userFirstName,
+            lastName: userLastName,
+            email: userEmail,
+            about: userAbout,
+            phone: userPhone,
+            street: userAddress,
+            city: userCity,
+            state: userState,
+            zip: userZip,
+            country: userCountry,
+        };
+        axios.put(`http://localhost:3001/profile/edit/${props.userId}`, user)
+            .then((res) => {props.onChangeUserInfo(res.data)});
     };
-
-
 
     return (
             <form className={classes.formContainer} noValidate autoComplete="off">

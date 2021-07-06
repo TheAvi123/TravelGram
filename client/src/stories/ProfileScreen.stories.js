@@ -1,11 +1,11 @@
 import React from 'react';
-import ProfileScreen from '../screens/ProfileScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 
 export default {
     title: 'ProfileScreen',
-    component: ProfileScreen,
+    component: EditProfileScreen,
 };
 
-const Template = args => <ProfileScreen {...args} />;
+const Template = args => <EditProfileScreen {...args} />;
 
 export const Default = Template.bind({});

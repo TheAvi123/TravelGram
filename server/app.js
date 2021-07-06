@@ -11,6 +11,7 @@ dotenv.config();
 var indexRouter = require('./routes/index');
 var tripRouter = require('./routes/trip');
 var tripItemRouter = require('./routes/tripItem');
+var profileRouter = require('./routes/profile');
 
 var app = express();
 
@@ -33,6 +34,7 @@ mongoose.connect(
 app.use('/', indexRouter);
 app.use('/trip', tripRouter);
 app.use('/tripitem', tripItemRouter);
+app.use('/profile', profileRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

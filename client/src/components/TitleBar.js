@@ -20,9 +20,9 @@ const useStyles = makeStyles({
     logo: {
         position: 'relative',
         marginLeft: '30px',
-        marginBottom: 'auto',
-        marginTop: '25px',
-        maxHeight: '60px',
+        marginBottom: '25px',
+        marginTop: 'auto',
+        maxHeight: '70px',
     }
 });
 
