@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, IconButton, Avatar, Button, makeStyles, useTheme} from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import avatar from '../../images/avatar.jpg';
 import ProfileCard from './ProfileCard'
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
     large: {
@@ -29,9 +30,19 @@ export default function ProfilePic(props) {
     const classes = useStyles();
 
     const [cardVisibility, setCardVisibility] = useState(false);
+    const [userInfo, setUserInfo] = useState({});
+
+    const id = 12345;
 
     const toggleCard = (event) => {
-        setCardVisibility(!cardVisibility);
+        if (!cardVisibility) {
+            axios.get(`http://localhost:3001/profile/edit/${id}`)
+                .then((res) => {
+                    setUserInfo(res.data);
+                    setCardVisibility(true)});
+        } else {
+            setCardVisibility(false);
+        }
     }
 
     let pic;
@@ -44,7 +55,7 @@ export default function ProfilePic(props) {
     return (
         <Box className={classes.container}>
             {pic}
-            {cardVisibility && <ProfileCard onChange={setCardVisibility}/>}
+            {cardVisibility && <ProfileCard onChange={setCardVisibility} info={userInfo}/>}
         </Box>
     );
 }

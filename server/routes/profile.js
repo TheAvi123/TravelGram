@@ -15,7 +15,6 @@ users.set(12345,
     zip: "123456",
     country: "Canada"});
 
-
 router.get('/edit/:id/', function (req, res, next) {
     const userId = Number(req.params.id);
     const cUser = users.get(userId);

@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Box, Button, makeStyles, Grid} from '@material-ui/core';
+import React, {useEffect, useState} from 'react';
+import {Box, Button, makeStyles, Grid, Typography} from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import axios from "axios";
 import ProfilePic from './ProfilePic';
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
         top: '50%',
         left: '50%',
         height: '500px',
-        width: '300px',
+        width: '400px',
         transform: 'translate(-50%, -50%)',
         display: 'flex',
         flexDirection: 'column',
@@ -54,7 +54,11 @@ const useStyles = makeStyles({
         display: 'flex',
         justifyContent: 'center',
         position: 'relative',
+        overFlow: 'hidden',
+        textOverflow: 'ellipsis',
         width: '100%',
+        paddingLeft: '20px',
+        paddingRight: '20px',
         color: 'blue',
     },
     address: {
@@ -65,6 +69,8 @@ const useStyles = makeStyles({
         color: 'grey',
         fontSize: 'small',
         marginTop: '5px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
     },
     about: {
         display: 'flex',
@@ -82,6 +88,8 @@ export default function ProfileCard(props) {
 
     const classes = useStyles();
 
+    const userInfo = props.info;
+
 
     return (
         <Box className={classes.background} onClick={() => props.onChange(false)}>
@@ -91,21 +99,19 @@ export default function ProfileCard(props) {
                     <ProfilePic clickable={false} size={"medium"}/>
                 </Box>
                 <Box className={classes.name}>
-                    <h1>John Doe</h1>
+                    <h1>{userInfo.name} {userInfo.lastName}</h1>
                 </Box>
                 <Box className={classes.email}>
-                    <span>jd@hotmail.com</span>
+                    <Typography noWrap>{userInfo.email}</Typography>
                 </Box>
                 <Box className={classes.address}>
-                    <span>Richmond · BC · Canada</span>
+                    <span>{userInfo.city} · {userInfo.state} · {userInfo.country}</span>
                 </Box>
                 <Box className={classes.about}>
-                    <span> blah blah blah blah blah blah blah blah blah blah</span>
+                    <span>{userInfo.about}</span>
                 </Box>
             </Box>
         </Box>
-
-
     );
 }
 
