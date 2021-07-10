@@ -62,11 +62,7 @@ const CreateFormButton = ({ formType, onSuccess, onError, onClose }) => {
         {formType === 'trip'
           ? 'Create Trip'
           : formType === 'tripitem'
-<<<<<<< HEAD
           ? 'Add Trip Item'
-=======
-          ? 'Create Trip Item'
->>>>>>> main
           : ''}
       </Button>
       {showSuccess && <Alert severity='success'>{formMessage}</Alert>}
