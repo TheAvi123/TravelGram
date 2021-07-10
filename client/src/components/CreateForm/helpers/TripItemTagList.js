@@ -12,7 +12,7 @@ const TripItemTag = ({ id, icon, color, isSelected, onClick }) => {
       style={{
         margin: '4px',
         padding: '2px',
-        backgroundColor: !isSelected && color,
+        backgroundColor: isSelected && color,
       }}
       variant={!isSelected ? 'default' : 'outlined'}
     />
