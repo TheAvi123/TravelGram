@@ -35,6 +35,11 @@ function ProtectedRoute({ Component, ...props }) {
 
 function App() {
   return (
+    // <ThemeProvider theme={theme}>
+    //   {/* <AuthScreen /> */}
+    //   {/* <Dashboard /> */}
+    //   <ViewTrip />
+    // </ThemeProvider>
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <ThemeProvider theme={theme}>

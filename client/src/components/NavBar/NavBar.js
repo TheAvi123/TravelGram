@@ -51,7 +51,7 @@ export default function NavBar(props) {
 
     return (
         <Box>
-            <Box bgcolor="white" borderBottom={1} borderColor="primary.main">
+            <Box bgcolor="black" borderBottom={1} borderColor="primary.main">
                 {user &&
                 <div className={classes.root}>
                     <MenuDrawer />
@@ -68,15 +68,15 @@ export default function NavBar(props) {
                         anchorOrigin={{vertical: "bottom", horizontal: "left"}}
                         transformOrigin={{horizontal: "left"}}
                     >
-                        <MenuItem onClick={handleClose}>Sub Item 1</MenuItem>
-                        <MenuItem onClick={handleClose}>Sub Item 2</MenuItem>
-                        <MenuItem onClick={handleClose}>Sub Item 3</MenuItem>
+                        <MenuItem onClick={handleClose}>Vancouver Island Trip</MenuItem>
+                        <MenuItem onClick={handleClose}>Seattle Trip</MenuItem>
+                        <MenuItem onClick={handleClose}>Sunshine Coast Trip</MenuItem>
                     </Menu>
                     <Button className={classes.links} color="primary">
                         Explore
                     </Button>
                     <Button className={classes.links} color="primary">
-                        Item 3
+                        NEW TRIP
                     </Button>
                     <Box className={classes.accountButton}>
                         <ProfileDrawer />
@@ -89,7 +89,7 @@ export default function NavBar(props) {
                     </Box>
                 }
             </Box>
-            <Button onClick={() => setUser(!user)}>Toggle login test</Button>
+            {/* <Button onClick={() => setUser(!user)}>Toggle login test</Button> */}
         </Box>
     );
 }

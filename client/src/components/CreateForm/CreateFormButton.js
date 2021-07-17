@@ -58,11 +58,11 @@ const CreateFormButton = ({ formType, onSuccess, onError, onClose }) => {
       <Button
         variant='contained'
         onClick={toggleShowForm}
-        style={{ maxWidth: '200px', margin: '30px auto' }}>
+        style={{ maxWidth: '200px', margin: '10px auto' }}>
         {formType === 'trip'
           ? 'Create Trip'
           : formType === 'tripitem'
-          ? 'Create Trip Item'
+          ? 'Add Trip Item'
           : ''}
       </Button>
       {showSuccess && <Alert severity='success'>{formMessage}</Alert>}

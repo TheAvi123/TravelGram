@@ -24,7 +24,7 @@ const DraggableSchedule = ({ cards, onDragDrop }) => {
   return (
     <div>
       <Typography variant='h6' className='timeline-header'>
-        Trip Schedule
+        Trip Itinerary
       </Typography>
       <DragDropContext onDragEnd={handleDragDrop}>
         <Droppable droppableId='timeline'>

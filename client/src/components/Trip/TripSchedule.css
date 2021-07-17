@@ -8,3 +8,7 @@
     padding: 25px;
     list-style: none;
 }
+
+.trip-screen .timeline-header {
+    color: white;
+}

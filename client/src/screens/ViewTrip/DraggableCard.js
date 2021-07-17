@@ -22,17 +22,17 @@ const DraggableCard = ({ index, title, description, startTime }) => {
     },
     paper: {
       padding: '6px 16px',
-      background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+      background: 'linear-gradient(45deg, #fff44f 30%, #ffae42 90%)',
       border: 0,
       borderRadius: 5,
       boxShadow: '0 3px 5px 2px rgba(13, 59, 95, .3)',
-      color: 'white',
+      color: 'black',
     },
     secondaryTail: {
       backgroundColor: theme.palette.secondary.main,
     },
     timeline_part: {
-      background: '#2196F3',
+      background: '#fff44f',
     },
   }));
 
