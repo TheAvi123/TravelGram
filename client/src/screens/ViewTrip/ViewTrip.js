@@ -1,41 +1,14 @@
 import React, { useState } from 'react';
-import { Box, Card, CardContent, Typography } from '@material-ui/core';
-import SplitPane from 'react-split-pane';
 import { makeStyles } from '@material-ui/core/styles';
+import { Box, Card, CardContent, Typography } from '@material-ui/core';
+
+import SplitPane from 'react-split-pane';
+
 import Map from '../../components/TripMap/Map';
-import DraggableSchedule from './DraggableSchedule';
-import CreateFormButton from '../../components/CreateForm/CreateFormButton';
-import NavBar from '../../components/NavBar/NavBar';
+import TripSchedule from '../../components/Trip/TripSchedule';
+import ActivityPopup from '../../components/Trip/ActivityPopup';
 
 import './Resizer.css';
-
-const initialCardList = [
-    {
-        title: 'First title',
-        description: 'description',
-        startTime: '2021-06-26T10:30',
-    },
-    {
-        title: 'Second title',
-        description: 'description',
-        startTime: '2021-06-26T10:30',
-    },
-    {
-        title: 'Third title',
-        description: 'description',
-        startTime: '2021-06-26T10:30',
-    },
-    {
-        title: 'Fourth title',
-        description: 'description',
-        startTime: '2021-06-26T10:30',
-    },
-    {
-        title: 'Fifth title',
-        description: 'description',
-        startTime: '2021-06-26T10:30',
-    },
-];
 
 const useStyles = makeStyles({
     tripCard: {
@@ -51,7 +24,7 @@ const useStyles = makeStyles({
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'column',
-        margin: '10px',
+        padding: '10px',
         flex: 4,
     },
     wrapper: {
@@ -68,7 +41,10 @@ const useStyles = makeStyles({
         flex: 6,
     },
     leftPanel: {
-        backgroundColor: 'rgb(250, 250, 250)',
+        backgroundColor: '#888888',
+        margin: '0px',
+        height: '100%',
+        width: '100%'
     },
     rightPanel: {
     }
@@ -95,20 +71,33 @@ const CardList = ({ cards }) => {
 };
 
 const ViewTripPage = () => {
+
+    // Component Hooks
+    const [showPopup, setShowPopup] = useState(false);
+    const [selectedCard, setSelectedCard] = useState(null);
+
     const [markers, setMarkers] = useState([]);
     const [center, setCenter] = useState({
         lat: 49.3,
         lng: -123.2,
     }); // TODO: fetch user's location
-    const [cardList, setCardList] = useState(initialCardList);
 
     const classes = useStyles();
+
+    // Component Functions
+    const togglePopup = (openedCard) => {
+        if (showPopup) {
+            setSelectedCard(null);
+        } else {
+            setSelectedCard(openedCard);
+        }
+        setShowPopup(!showPopup);
+    };
 
     const handleSubmit = (data) => {
         console.log(data);
         const { title, description, startTime, coordinates } = data;
         setMarkers((markerCoordinates) => [...markerCoordinates, coordinates]);
-        setCardList((cards) => [{ title, description, startTime }, ...cards]);
         setCenter(coordinates);
     };
 
@@ -121,20 +110,17 @@ const ViewTripPage = () => {
                        onChange={(size) => localStorage.setItem('splitPos', size)}>    
                        {/*Currently using localStorage - change to DB */}
                 <Box className={classes.leftPanel}>
-                    <CreateFormButton className={classes.formButton}
-                        formType='tripitem'
-                        onSuccess={handleSubmit}
-                        onError={null}
-                        onClose={null}
-                    />
                     <Box className={classes.cardListContainer}>
-                        <DraggableSchedule cards={cardList} onDragDrop={setCardList} />
+                        {/* <DraggableSchedule cards={cardList} onDragDrop={setCardList} /> */}
+                        <TripSchedule openPopup={togglePopup}
+                                      handleSubmit={handleSubmit}/>
                     </Box>
                 </Box>
                 <Box className={classes.rightPanel}>
                     <Map coordinates={center} markers={markers} />
                 </Box>
             </SplitPane>
+            {showPopup && <ActivityPopup card={selectedCard} closePopup={togglePopup}/>}
         </Box>
     );
 };

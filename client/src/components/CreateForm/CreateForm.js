@@ -51,7 +51,10 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         zIndex: 2,
-        position: 'relative',
+        position: 'absolute',
+        top: '100px',
+        left: '20px',
+        right: '20px'
     },
     closeIcon: {
         position: 'absolute',
@@ -411,7 +414,6 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
                 </form>
             )}
         </div>
-        // </div>
     );
 };
 
