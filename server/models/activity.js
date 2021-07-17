@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import validator from 'validator';
+const mongoose = require('mongoose');
+const validator = require('validator');
 
 const ActivitySchema = new mongoose.Schema({
     title: {
@@ -29,4 +29,4 @@ const ActivitySchema = new mongoose.Schema({
 
 const Activity = mongoose.model('Activites', ActivitySchema);
 
-export default Activity;
+module.exports = Activity;

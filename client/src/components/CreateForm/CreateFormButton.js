@@ -58,7 +58,7 @@ const CreateFormButton = ({ formType, onSuccess, onError, onClose }) => {
       <Button
         variant='contained'
         onClick={toggleShowForm}
-        style={{ maxWidth: '200px', margin: '30px auto' }}>
+        style={{ maxWidth: '200px', margin: '10px auto' }}>
         {formType === 'trip'
           ? 'Create Trip'
           : formType === 'tripitem'

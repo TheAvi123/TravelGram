@@ -7,63 +7,13 @@ import Timeline from '@material-ui/lab/Timeline';
 
 import ActivityCard from './TripCard.js';
 import CreateFormButton from '../CreateForm/CreateFormButton';
+import initialTimeline from './initialTimeline.js';
 import './TripSchedule.css';
 
 export default function TripSchedule(props) {
 
     const [cards, setCards] = useState([]);
-
-    const [timeline, setTimeline] = useState({
-        activities: {
-            'activity_1': {
-                id: 'activity_1',
-                title: 'Go To Beach',
-                description: 'Temp Desc 1',
-                time: '09:00'
-            },
-            'activity_2': {
-                id: 'activity_2',
-                title: 'Go To Mall',
-                description: 'Temp Desc 2',
-                time: '17:00'
-            },
-            'activity_3': {
-                id: 'activity_3',
-                title: 'Go To Sleep',
-                description: 'Temp Desc 3',
-                time: '22:00'
-            },
-            'activity_4': {
-                id: 'activity_4',
-                title: 'Go To Code',
-                description: 'Temp Desc 4',
-                time: '12:00'
-            },
-            'activity_5': {
-                id: 'activity_5',
-                title: 'Go To Class',
-                description: 'Temp Desc 5',
-                time: '09:00'
-            },
-        },
-        days: [
-            {
-                id: 'day_1',
-                description: 'first day',
-                activities: []
-            },
-            {
-                id: 'day_2',
-                description: 'middle day',
-                activities: []
-            },
-            {
-                id: 'day_3',
-                description: 'last day',
-                activities: []
-            }
-        ],
-    });
+    const [timeline, setTimeline] = useState(initialTimeline);
 
     const cardName = useRef();
     const cardDescription = useRef();
@@ -107,8 +57,8 @@ export default function TripSchedule(props) {
     const handleFormSubmit = (data) => {
         console.log(data);
         const { title, description, startTime } = data;
-        // setCards((cards) => [{ title, description, startTime }, ...cards]);
-        // this.props.handleSubmit(data);
+        setCards((cards) => [{ title, description, startTime }, ...cards]);
+        this.props.handleSubmit(data);
     };
 
     const useStyles = makeStyles({
@@ -132,9 +82,9 @@ export default function TripSchedule(props) {
             display: 'flex',
             flexWrap: 'wrap',
         },
-        formButton: {
-            position: 'fixed'
-        },
+        // formButton: {
+        //     position: 'fixed'
+        // },
     });
 
     const classes = useStyles();
@@ -142,12 +92,11 @@ export default function TripSchedule(props) {
     return (
         <div>
             <CreateFormButton className={classes.formButton}
-                        formType='tripitem'
-                        onSuccess={handleFormSubmit}
-                        onError={null}
-                        onClose={null}
-                    />
-            <Typography variant="h6" className="timeline-header">Itinerary</Typography>
+                              formType='tripitem'
+                              onSuccess={handleFormSubmit}
+                              onError={null}
+                              onClose={null}/>
+            <Typography variant="h6" className="timeline-header">TRIP ITINERARY</Typography>
             <DragDropContext onDragEnd={handleDragDrop}>
                 <Droppable droppableId="timeline">
                     {(provided) => (

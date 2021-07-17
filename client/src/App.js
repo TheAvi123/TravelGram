@@ -8,7 +8,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import configureStore from './store';
 import Layout from './components/Layout';
 import theme from './theme';
-import AuthScreen from './screens/AuthScreen';
 import Dashboard from './screens/Dashboard/Dashboard';
 import ViewTrip from './screens/ViewTrip/ViewTrip';
 import Login from './screens/LoginScreen';

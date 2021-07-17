@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import validator from 'validator';
+const mongoose = require('mongoose');
+const validator = require('validator');
 
 const UserSchema = new mongoose.Schema({
     email: {
@@ -46,4 +46,4 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model('Users', UserSchema);
 
-export default User;
+module.exports = User;

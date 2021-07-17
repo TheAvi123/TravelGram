@@ -1,7 +1,8 @@
-var express = require('express');
+const express = require('express');
+const Trip = require('../models/trip');
+const Activity = require('../models/activity');
+
 var router = express.Router();
-import Trip from '../models/trip';
-import Activity from '../models/activity';
 
 router.post('/', async (req, res) => {
   const trip = new Trip(req.body);

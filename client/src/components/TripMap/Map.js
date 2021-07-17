@@ -1,23 +1,36 @@
-import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 import React from 'react';
+import { Map , GoogleApiWrapper, Marker } from 'google-maps-react';
 
-const mapStyles = {
-    top: '0px',
-    bottom: '0px',
-    left: '0px',
-    right: '0px'
-};
+import darkTheme from './MapStyle';
+
+// const mapStyles = {
+//     top: '0px',
+//     bottom: '0px',
+//     left: '0px',
+//     right: '0px'
+// };
 
 export class MapContainer extends React.Component {
+
+    _mapLoaded(mapProps, map) {
+        map.setOptions({
+           styles: darkTheme
+        })
+     }
+
     render() {
         return (
             <div style={this.props.style}>
                 <Map
                     google={this.props.google}
-                    zoom={8}
-                    style={mapStyles}
+                    zoom={11}
+                    // style={mapStyles}
+                    options={{
+                        styles: darkTheme,
+                    }}
                     initialCenter={this.props.coordinates}
-                    center={this.props.coordinates}>
+                    center={this.props.coordinates}
+                    onReady={(mapProps, map) => this._mapLoaded(mapProps, map)}>
                     {this.props.markers.map((marker, index) => {
                         return (
                             <Marker
