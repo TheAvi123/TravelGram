@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Typography,
   Card,
@@ -22,6 +23,7 @@ const TripInfoCard = ({ trip }) => {
   const classes = useStyles();
   const startDate = new Date(trip.startTime).toLocaleDateString();
   const endDate = new Date(trip.endTime).toLocaleDateString();
+  let history = useHistory();
   let cardImageIndex;
   if (trip.images && trip.images.length) {
     cardImageIndex = Math.floor(Math.random() * (trip.images.length - 1));
@@ -47,7 +49,12 @@ const TripInfoCard = ({ trip }) => {
         )}
       </CardActionArea>
       <CardActions>
-        <Button>View Trip</Button>
+        <Button
+          onClick={() =>
+            history.push({ pathname: `/trip/${trip.title}`, state: trip })
+          }>
+          View Trip
+        </Button>
       </CardActions>
     </Card>
   );

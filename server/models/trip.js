@@ -1,30 +1,47 @@
 const mongoose = require('mongoose');
 
-const TripSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
+const TripSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    startTime: {
+      type: String,
+      required: true,
+    },
+    endTime: {
+      type: String,
+      required: true,
+    },
+    images: {
+      type: [String],
+    },
+    selectedUsers: {
+      type: [String],
+    },
+    activities: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Activity',
+      },
+    ],
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  startTime: {
-    type: String,
-    required: true,
-  },
-  endTime: {
-    type: String,
-    required: true,
-  },
-  images: {
-    type: [String],
-  },
-  selectedUsers: {
-    type: [String],
-  },
-});
+  {
+    timestamps: true,
+    toJSON: {
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+      },
+    },
+  }
+);
 
-const Trip = mongoose.model('Trips', TripSchema);
+const Trip = mongoose.model('Trip', TripSchema);
 
 module.exports = Trip;

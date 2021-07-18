@@ -61,6 +61,7 @@ const Dashboard = () => {
           onSuccess={handleSubmit}
           onError={null}
           onClose={null}
+          tripId={null}
         />
       </Box>
       <Feed
