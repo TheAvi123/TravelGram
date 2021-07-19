@@ -13,7 +13,6 @@ import ViewTrip from './screens/ViewTrip/ViewTrip';
 import Login from './screens/LoginScreen';
 import Register from './screens/RegisterScreen';
 
-
 const history = createBrowserHistory();
 const store = configureStore(history);
 
@@ -46,12 +45,12 @@ function App() {
           <Layout>
             <Router history={history}>
               <Switch>
-                <Route path="/login" component={Login} />
-                <Route path="/register" component={Register} />
-                <ProtectedRoute path="/Dashboard" Component={Dashboard} />
-                <ProtectedRoute path="/trip" Component={ViewTrip} />
+                <Route path='/login' component={Login} />
+                <Route path='/register' component={Register} />
+                <ProtectedRoute path='/Dashboard' Component={Dashboard} />
+                <ProtectedRoute path='/trip/:title' Component={ViewTrip} />
                 {/* TODO: route '/' to a homepage instead of personal dashboard */}
-                <ProtectedRoute path="/" Component={Dashboard} />
+                <ProtectedRoute path='/' Component={Dashboard} />
               </Switch>
             </Router>
           </Layout>

@@ -12,7 +12,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateFormButton = ({ formType, onSuccess, onError, onClose }) => {
+const CreateFormButton = ({
+  formType,
+  onSuccess,
+  onError,
+  onClose,
+  tripId,
+}) => {
   const [showForm, setShowForm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -55,16 +61,18 @@ const CreateFormButton = ({ formType, onSuccess, onError, onClose }) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Button
-        variant='contained'
-        onClick={toggleShowForm}
-        style={{ maxWidth: '200px', margin: '10px auto' }}>
-        {formType === 'trip'
-          ? 'Create Trip'
-          : formType === 'tripitem'
-          ? 'Add Trip Item'
-          : ''}
-      </Button>
+      {!showForm && (
+        <Button
+          variant='contained'
+          onClick={toggleShowForm}
+          style={{ maxWidth: '200px', margin: '30px auto' }}>
+          {formType === 'trip'
+            ? 'Create Trip'
+            : formType === 'tripitem'
+            ? 'Add Trip Item'
+            : ''}
+        </Button>
+      )}
       {showSuccess && <Alert severity='success'>{formMessage}</Alert>}
       {showError && <Alert severity='error'>{formMessage}</Alert>}
       {showForm && (
@@ -74,6 +82,7 @@ const CreateFormButton = ({ formType, onSuccess, onError, onClose }) => {
             onSuccess={handleSuccess}
             onError={handleError}
             onClose={handleClose}
+            tripId={tripId}
           />
         </Expand>
       )}

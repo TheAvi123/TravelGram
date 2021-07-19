@@ -5,10 +5,28 @@ const Activity = require('../models/activity');
 var router = express.Router();
 
 router.post('/', async (req, res) => {
+  console.log('creating a trip!');
   const trip = new Trip(req.body);
   try {
-    await trip.save();
-    res.send(trip);
+    const savedTrip = await trip.save();
+    console.log({ savedTrip });
+    res.send(savedTrip);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+});
+
+router.post('/:id/activity', async (req, res, next) => {
+  console.log('creating a trip activity!');
+  const activity = new Activity(req.body);
+  const tripId = req.params.id;
+  try {
+    const savedActivity = await activity.save();
+    const trip = await Trip.findById(tripId);
+    trip.activities.push(savedActivity);
+    const savedTrip = await trip.save();
+    res.send(savedActivity);
   } catch (err) {
     console.log(err);
     res.status(500).send(err);
@@ -31,6 +49,20 @@ router.get('/', async (req, res) => {
     console.log(err);
     res.status(500).send(err);
   }
+});
+
+router.get('/:id/activity', async (req, res, next) => {
+  console.log('getting trip activities!');
+  const tripId = req.params.id;
+  Trip.findById(tripId)
+    .populate('activities')
+    .exec((err, trip) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      }
+      return res.send(trip.activities);
+    });
 });
 
 // GET Request - Get Trip Activities

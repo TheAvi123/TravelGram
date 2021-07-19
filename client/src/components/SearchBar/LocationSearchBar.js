@@ -64,6 +64,7 @@ const LocationSearchBar = ({ address, onLocationChange, onLocationSelect }) => {
                 {suggestions.map((suggestion) => {
                   const style = {
                     backgroundColor: suggestion.active ? '#41b6e6' : '#fff',
+                    cursor: 'pointer',
                   };
                   return (
                     <div {...getSuggestionItemProps(suggestion, { style })}>
