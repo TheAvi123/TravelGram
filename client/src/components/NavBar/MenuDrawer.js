@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
    drawer: {
        width: 250,
        top: '64px',
-       height: '60%',
+       height: '28%',
        backgroundColor: 'white',
        borderRadius: '0px 20px 20px 0px',
    },
@@ -43,8 +43,8 @@ function MenuDrawer(props) {
             <Drawer classes={{paper: classes.drawer}} variant="temporary" open={visibility} onClose={closeDrawer}>
                 <div className={classes.topSpace}></div>
                 <Button style={{justifyContent: "flex-start"}}>Dashboard</Button>
-                <Button style={{justifyContent: "flex-start"}}>Your Trips</Button>
-                <Button style={{justifyContent: "flex-start"}}>Something</Button>
+                <Button style={{justifyContent: "flex-start"}}>My Trips</Button>
+                <Button style={{justifyContent: "flex-start"}}>View Other Trips</Button>
             </Drawer>
         </div>
 

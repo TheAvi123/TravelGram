@@ -1,15 +1,19 @@
 import React, { useState, useRef } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import Typography from '@material-ui/core/Typography';
 import Timeline from '@material-ui/lab/Timeline';
 
 import ActivityCard from './TripCard.js';
+import CreateFormButton from '../CreateForm/CreateFormButton';
+import initialTimeline from './initialTimeline.js';
 import './TripSchedule.css';
 
 export default function TripSchedule(props) {
 
     const [cards, setCards] = useState([]);
+    const [timeline, setTimeline] = useState(initialTimeline);
 
     const cardName = useRef();
     const cardDescription = useRef();
@@ -50,28 +54,49 @@ export default function TripSchedule(props) {
         setCards(cardList);
     }
 
-    // const createCard = (card) => {
-    //     return <ActivityCard card={card} openPopup={props.openPopup} />
-    // };
+    const handleFormSubmit = (data) => {
+        console.log(data);
+        const { title, description, startTime } = data;
+        setCards((cards) => [{ title, description, startTime }, ...cards]);
+        this.props.handleSubmit(data);
+    };
 
-    // let cardList = cards.map(createCard);
+    const useStyles = makeStyles({
+        tripCard: {
+            background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+            border: 0,
+            borderRadius: 15,
+            boxShadow: '0 3px 5px 2px rgba(13, 59, 95, .3)',
+            color: 'white',
+            width: '300px',
+            margin: '10px',
+        },
+        cardListContainer: {
+            display: 'flex',
+            flexWrap: 'wrap',
+            flexDirection: 'column',
+            margin: '10px',
+            flex: 4,
+        },
+        wrapper: {
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
+        // formButton: {
+        //     position: 'fixed'
+        // },
+    });
+
+    const classes = useStyles();
 
     return (
         <div>
-            {/* Temporary Form */}
-            <form onSubmit={(e) => { addNewCard(e) }}>
-                <label>Temporary Add Card Form</label>
-                <br />
-                <input type="text" placeholder="Card Name" ref={cardName}></input>
-                <br />
-                <input type="text" placeholder="Card Description" ref={cardDescription}></input>
-                <br />
-                <input type="time" placeholder="Time" ref={cardTime}></input>
-                <br />
-                <button type="submit">Add Card</button>
-            </form>
-            {/* Temporary Form */}
-            <Typography variant="h6" className="timeline-header">Trip Schedule</Typography>
+            <CreateFormButton className={classes.formButton}
+                              formType='tripitem'
+                              onSuccess={handleFormSubmit}
+                              onError={null}
+                              onClose={null}/>
+            <Typography variant="h6" className="timeline-header">TRIP ITINERARY</Typography>
             <DragDropContext onDragEnd={handleDragDrop}>
                 <Droppable droppableId="timeline">
                     {(provided) => (

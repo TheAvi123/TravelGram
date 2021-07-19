@@ -26,20 +26,29 @@ import LocationSearchBar from '../SearchBar/LocationSearchBar';
 import TripItemTagList from './helpers/TripItemTagList';
 import TripItems from './helpers/TripItems';
 import axios from 'axios';
+import { storeImages } from '../../services/storage';
 
 const maxTitleChars = 30;
 const maxDescrChars = 300;
 
 const useStyles = makeStyles((theme) => ({
+  popupbg: {
+    position: 'fixed',
+    left: '0',
+    right: '0',
+    top: '0',
+    bottom: '0',
+    backgroundColor: 'rgba(0, 0, 0, 0.65)',
+  },
   tripContainer: {
     maxWidth: '80%',
     maxHeight: '80%',
-    margin: '0 auto',
+    margin: '20px auto',
   },
   itemContainer: {
     maxWidth: '80%',
     maxHeight: '80%',
-    margin: '0 auto',
+    margin: '20px auto',
   },
   form: {
     padding: '16px',
@@ -110,7 +119,7 @@ const initializeStartEndTime = () => {
 
 const initialTime = initializeStartEndTime();
 
-const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
+const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [titleChars, setTitleChars] = useState(maxTitleChars);
@@ -134,43 +143,33 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
-    let data;
-    if (formType === 'trip') {
-      console.log('submitted TRIP!');
-      data = {
-        title,
-        description,
-        startTime,
-        endTime,
-        // selectedFiles,
-        selectedUsers,
-      };
-    } else if (formType === 'tripitem') {
-      console.log('submitted TRIP ITEM!');
-      data = {
-        title,
-        description,
-        startTime,
-        endTime,
-        selectedFiles,
-        address,
-        coordinates,
-        selectedTripItem,
-      };
+    console.log({ selectedFiles });
+    const images = await storeImages(selectedFiles);
+    console.log({ images });
+    const data = {
+      title,
+      description,
+      startTime,
+      endTime,
+      images,
+      ...(formType === 'trip' && { selectedUsers }),
+      ...(formType === 'trip' && { activities: [] }),
+      ...(formType === 'tripitem' && { address }),
+      ...(formType === 'tripitem' && { coordinates }),
+      ...(formType === 'tripitem' && { selectedTripItem }),
+    };
+    const url =
+      formType === 'trip'
+        ? `http://localhost:3001/trip`
+        : `http://localhost:3001/trip/${tripId}/activity`;
+    try {
+      const res = await axios.post(url, data);
+      onSuccess(res.data);
+    } catch (err) {
+      console.log('error: ');
+      console.log(err);
+      onError(data);
     }
-    axios.post(`http://localhost:3001/${formType}`, data).then(
-      (res) => {
-        console.log('submitted to backend: ');
-        console.log(res);
-        onSuccess(data);
-      },
-      (err) => {
-        console.log('error: ');
-        console.log(err);
-        onError(data);
-      }
-    );
   };
 
   const handleClosed = () => {
@@ -234,7 +233,6 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
   };
 
   return (
-    // <div className={classes.popupContainer}>
     <div
       className={
         formType === 'trip'
@@ -277,6 +275,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
                 inputProps={{
                   maxLength: maxDescrChars,
                 }}
+                required
                 multiline={true}
                 rows={6}
                 onChange={(e) => checkDescription(e.target.value)}
@@ -289,7 +288,6 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
               />
             </FormControl>
             <FormControl fullWidth className={classes.formControl}>
-              {/* <MuiPickersUtilsProvider utils={DateFnsUtils}> */}
               <Box display='flex' justifyContent='space-evenly'>
                 <TextField
                   id='datetime-local'
@@ -310,7 +308,6 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
                   onChange={(time) => setEndTime(time.nativeEvent.target.value)}
                 />
               </Box>
-              {/* </MuiPickersUtilsProvider> */}
             </FormControl>
 
             {formType === 'tripitem' ? (
@@ -383,13 +380,6 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
                 />
               ) : null)}
 
-            {address && (
-              <div>
-                Chosen address: {address} and latitude: {coordinates.lat} and
-                longitude: {coordinates.lng}
-              </div>
-            )}
-
             <FormControl fullWidth className={classes.formControl}>
               <Button fullWidth variant='contained' type='submit'>
                 {formType === 'trip'
@@ -403,7 +393,6 @@ const CreateForm = ({ formType, onSuccess, onError, onClose }) => {
         </form>
       )}
     </div>
-    // </div>
   );
 };
 

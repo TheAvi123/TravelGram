@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
-const TripSchema = new mongoose.Schema(
+const ActivitySchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -20,16 +21,20 @@ const TripSchema = new mongoose.Schema(
     },
     images: {
       type: [String],
-    },
-    selectedUsers: {
-      type: [String],
-    },
-    activities: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Activity',
+      validate: (images) => {
+        return images.forEach((image) => validator.isURL(image));
       },
-    ],
+    },
+    address: {
+      type: String,
+    },
+    coordinates: {
+      type: mongoose.Schema.Types.Mixed,
+    },
+    selectedTripItem: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -42,6 +47,6 @@ const TripSchema = new mongoose.Schema(
   }
 );
 
-const Trip = mongoose.model('Trip', TripSchema);
+const Activity = mongoose.model('Activity', ActivitySchema);
 
-module.exports = Trip;
+module.exports = Activity;
