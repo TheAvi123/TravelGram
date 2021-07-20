@@ -27,7 +27,8 @@ mongoose.connect(
     useNewUrlParser: true,
     useFindAndModify: false,
     useUnifiedTopology: true,
-  }
+  },
+    () => console.log("Mongoose is connected")
 );
 
 app.use('/', indexRouter);

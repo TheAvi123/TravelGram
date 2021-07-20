@@ -30,8 +30,8 @@ export default function ProfileForm(props) {
     const classes = useStyles();
 
     const [changed, setChanged] = useState(false);
-    const [userFirstName, setUserFirstName] = useState(props.userInfo.name);
-    const [userLastName, setUserLastName] = useState(props.userInfo.lastName);
+    const [userFirstName, setUserFirstName] = useState(props.userInfo.first_name);
+    const [userLastName, setUserLastName] = useState(props.userInfo.last_name);
     const [userEmail, setUserEmail] = useState(props.userInfo.email);
     const [userAbout, setUserAbout] = useState(props.userInfo.about);
     const [userPhone, setUserPhone] = useState(props.userInfo.phone);
@@ -94,8 +94,8 @@ export default function ProfileForm(props) {
     const handleSave = () => {
         setChanged(false);
         let user = {
-            name: userFirstName,
-            lastName: userLastName,
+            first_name: userFirstName,
+            last_name: userLastName,
             email: userEmail,
             about: userAbout,
             phone: userPhone,
@@ -105,7 +105,7 @@ export default function ProfileForm(props) {
             zip: userZip,
             country: userCountry,
         };
-        axios.put(`http://localhost:3001/profile/edit/${props.userId}`, user)
+        axios.put(`http://localhost:3001/users/profile/${props.userId}`, user)
             .then((res) => {props.onChangeUserInfo(res.data)});
     };
 

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Box, Menu, MenuItem, Button, makeStyles, Divider} from '@material-ui/core';
 import MenuDrawer from './MenuDrawer';
 import ProfileDrawer from './ProfileDrawer';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {

@@ -62,27 +62,31 @@ const useStyles = makeStyles({
     },
 });
 
-export default function EditProfileScreen(props) {
+export default function EditProfile(props) {
     const classes = useStyles();
 
     const [loading, setLoading] = useState(true);
     const [userInfo, setUserInfo] = useState({
-        name: "abc",
-        lastName: "",
         email: "",
+        password: "",
+        first_name: "abc",
+        last_name: "",
         about: "",
         phone: "",
         street: "",
         city: "",
         state: "",
         zip: "",
-        country: ""});
+        country: "",
+        photo_id: "",
+        trips: [],
+    });
 
     // Temp!!!!!!!!!!!!!!!!!!!!!!!!!!
-    const id = 12345;
+    const id = "60f61319da53d5843ea69a8b";
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/profile/edit/${id}`)
+        axios.get(`http://localhost:3001/users/profile/${id}`)
             .then(res => {
                 setUserInfo(res.data);
                 setLoading(false);
@@ -113,6 +117,7 @@ export default function EditProfileScreen(props) {
                         <ProfileForm userInfo={userInfo} onChangeUserInfo={setUserInfo} userId={id}/>
                     </Box>
                 </Box>
+                <ProfilePic size="medium" clickable="true"/>
             </div>
         );
     }

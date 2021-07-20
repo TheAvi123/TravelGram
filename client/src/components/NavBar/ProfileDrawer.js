@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Grid, Box, Button, Divider, makeStyles, Drawer} from '@material-ui/core';
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ProfilePic from '../Profile/ProfilePic';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
     drawer: {
@@ -53,7 +54,7 @@ function ProfileDrawer(props) {
                 <Box className={classes.drawerTop} bgcolor="primary.main">
                     <h5 style={{marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 25, color: 'white'}}>{userName}</h5>
                 </Box>
-                <Button style={{justifyContent: "flex-start"}}>Profile</Button>
+                <Link to="/profile"><Button style={{justifyContent: "flex-start"}}>Profile</Button></Link>
                 <Divider />
                 <Button style={{justifyContent: "flex-start"}}>Account Settings</Button>
                 <Divider />

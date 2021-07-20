@@ -12,6 +12,7 @@ import Dashboard from './screens/Dashboard/Dashboard';
 import ViewTrip from './screens/ViewTrip/ViewTrip';
 import Login from './screens/LoginScreen';
 import Register from './screens/RegisterScreen';
+import EditProfile from './screens/EditProfile'
 
 const history = createBrowserHistory();
 const store = configureStore(history);
@@ -47,6 +48,7 @@ function App() {
               <Switch>
                 <Route path='/login' component={Login} />
                 <Route path='/register' component={Register} />
+                <ProtectedRoute path='/profile' Component={EditProfile} />
                 <ProtectedRoute path='/Dashboard' Component={Dashboard} />
                 <ProtectedRoute path='/trip/:title' Component={ViewTrip} />
                 {/* TODO: route '/' to a homepage instead of personal dashboard */}

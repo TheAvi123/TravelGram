@@ -32,11 +32,11 @@ export default function ProfilePic(props) {
     const [cardVisibility, setCardVisibility] = useState(false);
     const [userInfo, setUserInfo] = useState({});
 
-    const id = 12345;
+    const id = "60f61319da53d5843ea69a8b";
 
     const toggleCard = (event) => {
         if (!cardVisibility) {
-            axios.get(`http://localhost:3001/profile/edit/${id}`)
+            axios.get(`http://localhost:3001/users/profile/${id}`)
                 .then((res) => {
                     setUserInfo(res.data);
                     setCardVisibility(true)});
