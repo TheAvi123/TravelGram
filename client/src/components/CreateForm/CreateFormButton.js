@@ -18,6 +18,7 @@ const CreateFormButton = ({
   onError,
   onClose,
   tripId,
+  onClick,
 }) => {
   const [showForm, setShowForm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -25,6 +26,7 @@ const CreateFormButton = ({
   const [formMessage, setFormMessage] = useState('');
 
   const toggleShowForm = () => {
+    onClick(!showForm);
     setShowForm((showForm) => !showForm);
   };
 
@@ -47,10 +49,6 @@ const CreateFormButton = ({
       setShowError(false);
       clearTimeout(timer);
     }, 3000);
-  };
-
-  const handleClose = () => {
-    toggleShowForm();
   };
 
   return (
@@ -76,12 +74,12 @@ const CreateFormButton = ({
       {showSuccess && <Alert severity='success'>{formMessage}</Alert>}
       {showError && <Alert severity='error'>{formMessage}</Alert>}
       {showForm && (
-        <Expand open={showForm} duration={200}>
+        <Expand open={showForm} duration={400}>
           <CreateForm
             formType={formType}
             onSuccess={handleSuccess}
             onError={handleError}
-            onClose={handleClose}
+            onClose={toggleShowForm}
             tripId={tripId}
           />
         </Expand>

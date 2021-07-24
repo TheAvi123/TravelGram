@@ -34,7 +34,7 @@ const ImageList = ({ images, onRemove }) => {
           <Card className={classes.cardContainer} key={i}>
             <IconButton
               className={classes.icon}
-              aria-label='upload picture'
+              aria-label='remove image'
               component='span'
               onClick={() => onRemove(img)}>
               <CloseIcon />

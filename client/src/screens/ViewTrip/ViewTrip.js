@@ -1,7 +1,7 @@
 // Package imports
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box } from '@material-ui/core';
+import { Box, Paper } from '@material-ui/core';
 import SplitPane from 'react-split-pane';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -11,14 +11,17 @@ import TripSchedule from '../../components/Trip/TripSchedule';
 import CreateFormButton from '../../components/CreateForm/CreateFormButton';
 import DraggableSchedule from './DraggableSchedule';
 import ActivityPopup from '../../components/Trip/ActivityPopup';
-import initialTimeline from './../../components/Trip/initialTimeline';
+import TripImageListButton from '../../components/TripImageList/TripImageListButton';
+import EditableContentButton from '../../components/EditableContent/EditableContentButton';
 
 // Styling Imports
 import './Resizer.css';
 
 const useStyles = makeStyles({
-  scheduleContainer: {
+  tripInfoContainer: {
     padding: '15px',
+    height: '100%',
+    width: '100%',
   },
   leftPanel: {
     backgroundColor: '#292929',
@@ -42,10 +45,13 @@ const ViewTripPage = (props) => {
 
   const [markers, setMarkers] = useState([]);
 
-  const [showPopup, setShowPopup] = useState(false);
+  const [showActivityPopup, setShowActivityPopup] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const trip = props.location.state;
   const [activities, setActivities] = useState([]);
+  const [showAboutButton, setShowAboutButton] = useState(true);
+  const [showActivityFormButton, setShowActivityFormButton] = useState(true);
+  const [showImagesButton, setShowImagesButton] = useState(true);
 
   const classes = useStyles();
 
@@ -70,12 +76,12 @@ const ViewTripPage = (props) => {
 
   // Component Functions
   const togglePopup = (theActivity) => {
-    if (showPopup) {
+    if (showActivityPopup) {
       setSelectedActivity(null);
     } else {
       setSelectedActivity(theActivity);
     }
-    setShowPopup(!showPopup);
+    setShowActivityPopup(!showActivityPopup);
   };
 
   const handleSubmit = (data) => {
@@ -83,6 +89,38 @@ const ViewTripPage = (props) => {
     setMarkers((markerCoordinates) => [...markerCoordinates, data.coordinates]);
     setCenter(data.coordinates);
   };
+
+  const handleFileRemoved = (fileToRemove) => {
+    // setSelectedFiles((files) => files.filter((file) => file !== fileToRemove));
+    console.log(fileToRemove);
+  };
+
+  const handleAboutButtonClick = (shown) => {
+    setShowActivityFormButton(!shown);
+    setShowImagesButton(!shown);
+    if (!shown) {
+      setShowAboutButton(!shown);
+    }
+  };
+
+  const handleActivityFormButtonClick = (shown) => {
+    setShowAboutButton(!shown);
+    setShowImagesButton(!shown);
+    if (!shown) {
+      setShowActivityFormButton(!shown);
+    }
+  };
+
+  const handleImageListButtonClick = (shown) => {
+    setShowAboutButton(!shown);
+    setShowActivityFormButton(!shown);
+    if (!shown) {
+      setShowImagesButton(!shown);
+    }
+  };
+
+  console.log('view trip');
+  console.log(trip.images);
 
   return (
     <Box>
@@ -93,25 +131,48 @@ const ViewTripPage = (props) => {
         defaultSize={parseInt(localStorage.getItem('splitPos'), 10)}
         onChange={(size) => localStorage.setItem('splitPos', size)}>
         <Box className={classes.leftPanel}>
-          <Box className={classes.scheduleContainer}>
-            {/* <TripSchedule openPopup={togglePopup}
-                                      handleSubmit={handleSubmit}/> */}
-            <CreateFormButton
-              className={classes.formButton}
-              formType='tripitem'
-              onSuccess={handleSubmit}
-              onError={null}
-              onClose={null}
-              tripId={trip.id}
-            />
-            <DraggableSchedule cards={activities} onDragDrop={setActivities} />
+          <Box display='flex' justifyContent='space-evenly'>
+            {showAboutButton && (
+              <EditableContentButton
+                buttonName={'About this trip'}
+                content={trip.description}
+                readOnly={true}
+                onClick={handleAboutButtonClick}
+              />
+            )}
+
+            {showActivityFormButton && (
+              <CreateFormButton
+                formType='tripitem'
+                onSuccess={handleSubmit}
+                onError={null}
+                onClose={null}
+                tripId={trip.id}
+                onClick={handleActivityFormButtonClick}
+              />
+            )}
+
+            {showImagesButton && (
+              <TripImageListButton
+                buttonName={'View Images'}
+                images={trip.images}
+                onRemove={handleFileRemoved}
+                onClick={handleImageListButtonClick}
+              />
+            )}
           </Box>
+
+          <DraggableSchedule
+            cards={activities}
+            onDragDrop={setActivities}
+            title={trip.title}
+          />
         </Box>
         <Box className={classes.rightPanel}>
           <Map coordinates={center} markers={markers} />
         </Box>
       </SplitPane>
-      {showPopup && (
+      {showActivityPopup && (
         <ActivityPopup card={selectedActivity} closePopup={togglePopup} />
       )}
     </Box>
