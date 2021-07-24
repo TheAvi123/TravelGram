@@ -49,6 +49,7 @@ const ViewTripPage = (props) => {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const trip = props.location.state;
   const [activities, setActivities] = useState([]);
+  const [selectedActivities, setSelectedActivities] = useState([]);
   const [showAboutButton, setShowAboutButton] = useState(true);
   const [showActivityFormButton, setShowActivityFormButton] = useState(true);
   const [showImagesButton, setShowImagesButton] = useState(true);
@@ -62,10 +63,10 @@ const ViewTripPage = (props) => {
         const res = await axios.get(
           `http://localhost:3001/trip/${tripId}/activity`
         );
-        console.log('got data from backend: ');
         const activites = res.data;
-        console.log(activites);
+        const markers = activites.map((activity) => activity.coordinates);
         setActivities(activites);
+        setMarkers(markers);
       } catch (err) {
         console.log('error: ');
         console.log(err);
@@ -119,8 +120,36 @@ const ViewTripPage = (props) => {
     }
   };
 
-  console.log('view trip');
-  console.log(trip.images);
+  const handleMarkerClick = (marker) => {
+    const currentSelectedActivites = activities.filter(
+      (activity) =>
+        activity.coordinates.lat === marker.lat &&
+        activity.coordinates.lng === marker.lng
+    );
+    const isAllSelected = currentSelectedActivites.every((activity) =>
+      selectedActivities.includes(activity)
+    );
+    // if every activity that should be selected is selected
+    if (isAllSelected) {
+      // remove all from the selected array
+      const newSelectedActivities = selectedActivities.filter(
+        (activity) => !currentSelectedActivites.includes(activity)
+      );
+      setSelectedActivities(newSelectedActivities);
+    } else {
+      // otherwise, add the missing activities from the activites that should be selected to selected activities state
+      const newSelectedActivities = [];
+      currentSelectedActivites.forEach((activity) => {
+        if (!selectedActivities.includes(activity)) {
+          newSelectedActivities.push(activity);
+        }
+      });
+      setSelectedActivities((selectedActivities) => [
+        ...selectedActivities,
+        ...newSelectedActivities,
+      ]);
+    }
+  };
 
   return (
     <Box>
@@ -165,12 +194,17 @@ const ViewTripPage = (props) => {
 
           <DraggableSchedule
             cards={activities}
+            selectedCards={selectedActivities}
             onDragDrop={setActivities}
             title={trip.title}
           />
         </Box>
         <Box className={classes.rightPanel}>
-          <Map coordinates={center} markers={markers} />
+          <Map
+            coordinates={center}
+            markers={markers}
+            onMarkerClick={handleMarkerClick}
+          />
         </Box>
       </SplitPane>
       {showActivityPopup && (

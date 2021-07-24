@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
 });
 
-const DraggableSchedule = ({ cards, onDragDrop, title }) => {
+const DraggableSchedule = ({ cards, selectedCards, onDragDrop, title }) => {
   const classes = useStyles();
   function handleDragDrop(result) {
     console.log('handle drag drop');
@@ -49,12 +49,16 @@ const DraggableSchedule = ({ cards, onDragDrop, title }) => {
               ref={provided.innerRef}
               {...provided.droppableProps}>
               {cards.map((card, index) => {
+                const isSelected = selectedCards.some(
+                  (selectedCard) => selectedCard.id === card.id
+                );
                 return (
                   <DraggableCard
                     index={index}
                     title={card.title}
                     description={card.description}
                     startTime={card.startTime}
+                    selected={isSelected}
                   />
                 );
               })}
