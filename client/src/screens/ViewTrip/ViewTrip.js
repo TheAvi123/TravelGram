@@ -154,7 +154,8 @@ const ViewTripPage = (props) => {
 
             {showImagesButton && (
               <TripImageListButton
-                buttonName={'View Images'}
+                shownButtonName={'View Images'}
+                hiddenButtonName={'Hide Images'}
                 images={trip.images}
                 onRemove={handleFileRemoved}
                 onClick={handleImageListButtonClick}

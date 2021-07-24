@@ -25,16 +25,12 @@ const CreateFormButton = ({
   const [showError, setShowError] = useState(false);
   const [formMessage, setFormMessage] = useState('');
 
-  const toggleShowForm = () => {
-    onClick(!showForm);
-    setShowForm((showForm) => !showForm);
-  };
-
   const handleSuccess = (data) => {
     setFormMessage(`Success: ${data.title} is created!`);
     setShowSuccess(true);
     const timer = setTimeout(() => {
-      toggleShowForm();
+      onClick(false);
+      setShowForm(false);
       setShowSuccess(false);
       clearTimeout(timer);
     }, 3000);
@@ -45,7 +41,8 @@ const CreateFormButton = ({
     setFormMessage(`Error: ${data.title} could not be created!`);
     setShowError(true);
     const timer = setTimeout(() => {
-      toggleShowForm();
+      onClick(false);
+      setShowForm(false);
       setShowError(false);
       clearTimeout(timer);
     }, 3000);
@@ -62,7 +59,10 @@ const CreateFormButton = ({
       {!showForm && (
         <Button
           variant='contained'
-          onClick={toggleShowForm}
+          onClick={() => {
+            onClick(true);
+            setShowForm(true);
+          }}
           style={{ maxWidth: '200px', margin: '30px auto' }}>
           {formType === 'trip'
             ? 'Create Trip'
@@ -79,7 +79,10 @@ const CreateFormButton = ({
             formType={formType}
             onSuccess={handleSuccess}
             onError={handleError}
-            onClose={toggleShowForm}
+            onClose={() => {
+              onClick(false);
+              setShowForm(false);
+            }}
             tripId={tripId}
           />
         </Expand>
