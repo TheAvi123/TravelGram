@@ -62,6 +62,7 @@ const Dashboard = () => {
           onError={null}
           onClose={null}
           tripId={null}
+          onClick={() => {}}
         />
       </Box>
       <Feed

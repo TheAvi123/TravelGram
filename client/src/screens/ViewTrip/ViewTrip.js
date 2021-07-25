@@ -1,7 +1,8 @@
 // Package imports
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { Box, Paper } from '@material-ui/core';
+import { Box, Paper, Button } from '@material-ui/core';
 import SplitPane from 'react-split-pane';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -37,6 +38,7 @@ const useStyles = makeStyles({
 });
 
 const ViewTripPage = (props) => {
+  let history = useHistory();
   // Component Hooks
   const [center, setCenter] = useState({
     lat: 49.28273,
@@ -151,6 +153,18 @@ const ViewTripPage = (props) => {
     }
   };
 
+  const handleDeleteTrip = async () => {
+    const tripId = trip.id;
+    try {
+      const res = await axios.delete(`http://localhost:3001/trip/${tripId}`);
+      console.log('successfully deleted trip');
+      history.push({ pathname: '/' });
+    } catch (err) {
+      console.log('error: ');
+      console.log(err);
+    }
+  };
+
   return (
     <Box>
       <SplitPane
@@ -198,7 +212,21 @@ const ViewTripPage = (props) => {
             onDragDrop={setActivities}
             title={trip.title}
           />
+
+          <Box display='flex' justifyContent='center'>
+            <Button
+              variant='contained'
+              onClick={handleDeleteTrip}
+              style={{
+                maxWidth: '200px',
+                margin: '30px auto',
+                backgroundColor: '#fa345f',
+              }}>
+              {'Delete Trip'}
+            </Button>
+          </Box>
         </Box>
+
         <Box className={classes.rightPanel}>
           <Map
             coordinates={center}
