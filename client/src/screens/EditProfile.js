@@ -57,7 +57,8 @@ const useStyles = makeStyles({
         alignContent: 'center',
         alignItems: 'center',
         borderRadius: "20px 20px 0px 0px",
-        height: '225px',
+        height: 'auto',
+        paddingBottom: '20px',
         marginTop: '-1px',
     },
 });
@@ -67,6 +68,7 @@ export default function EditProfile(props) {
 
     const [loading, setLoading] = useState(true);
     const [userInfo, setUserInfo] = useState({
+        user_name: "",
         email: "",
         password: "",
         first_name: "abc",
@@ -83,7 +85,7 @@ export default function EditProfile(props) {
     });
 
     // Temp!!!!!!!!!!!!!!!!!!!!!!!!!!
-    const id = "60f61319da53d5843ea69a8b";
+    const id = "60fcde5f6f567e4e1d872bca";
 
     useEffect(() => {
         axios.get(`http://localhost:3001/users/profile/${id}`)
@@ -98,8 +100,6 @@ export default function EditProfile(props) {
     } else {
         return (
             <div>
-                <TitleBar/>
-                <NavBar/>
                 <Box className={classes.screen}>
                     <Box className={classes.container}>
                         <Box className={classes.topContainer} bgcolor="primary.main" align="center">
@@ -113,6 +113,7 @@ export default function EditProfile(props) {
                                     <EditIcon/>
                                 </IconButton>
                             </Box>
+                            <h1 style={{color: 'white', marginTop: '15px'}}>{userInfo.user_name}</h1>
                         </Box>
                         <ProfileForm userInfo={userInfo} onChangeUserInfo={setUserInfo} userId={id}/>
                     </Box>

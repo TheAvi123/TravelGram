@@ -99,7 +99,7 @@ export default function ProfileCard(props) {
                     <ProfilePic clickable={false} size={"medium"}/>
                 </Box>
                 <Box className={classes.name}>
-                    <h1>{userInfo.first_name} {userInfo.last_name}</h1>
+                    <h1>{userInfo.user_name}</h1>
                 </Box>
                 <Box className={classes.email}>
                     <Typography noWrap>{userInfo.email}</Typography>

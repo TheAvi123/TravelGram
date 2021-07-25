@@ -53,7 +53,7 @@ export default function NavBar(props) {
 
     return (
         <Box>
-            <Box bgcolor="black" borderBottom={1} borderColor="primary.main">
+            <Box bgcolor="white" borderBottom={1} borderColor="primary.main">
                 {user &&
                 <div className={classes.root}>
                     <MenuDrawer />

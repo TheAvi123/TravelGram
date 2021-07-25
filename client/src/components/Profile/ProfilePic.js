@@ -29,17 +29,35 @@ const useStyles = makeStyles(theme => ({
 export default function ProfilePic(props) {
     const classes = useStyles();
 
+    const [loading, setLoading] = useState(true);
     const [cardVisibility, setCardVisibility] = useState(false);
     const [userInfo, setUserInfo] = useState({});
 
-    const id = "60f61319da53d5843ea69a8b";
+    const id = "60fcde5f6f567e4e1d872bca";
+
+    useEffect(() => {
+        axios.get(`http://localhost:3001/users/profile/${id}`)
+            .then(res => {
+                setUserInfo(res.data);
+                setLoading(false);
+            })
+    }, []);
+
+
+    // const toggleCard = (event) => {
+    //     if (!cardVisibility) {
+    //         axios.get(`http://localhost:3001/users/profile/${id}`)
+    //             .then((res) => {
+    //                 setUserInfo(res.data);
+    //                 setCardVisibility(true)});
+    //     } else {
+    //         setCardVisibility(false);
+    //     }
+    // }
 
     const toggleCard = (event) => {
         if (!cardVisibility) {
-            axios.get(`http://localhost:3001/users/profile/${id}`)
-                .then((res) => {
-                    setUserInfo(res.data);
-                    setCardVisibility(true)});
+            setCardVisibility(true);
         } else {
             setCardVisibility(false);
         }
@@ -52,10 +70,21 @@ export default function ProfilePic(props) {
         pic = <Avatar src={avatar} className={classes[props.size]}/>
     }
 
-    return (
-        <Box className={classes.container}>
-            {pic}
-            {cardVisibility && <ProfileCard onChange={setCardVisibility} info={userInfo}/>}
-        </Box>
-    );
+    let defaultPic = <Avatar src={avatar} className={classes[props.size]}/>;
+
+    if(loading) {
+        return (
+            <Box className={classes.container}>
+                {defaultPic}
+                {cardVisibility && <ProfileCard onChange={setCardVisibility} info={userInfo}/>}
+            </Box>
+        );
+    } else {
+        return (
+            <Box className={classes.container}>
+                {pic}
+                {cardVisibility && <ProfileCard onChange={setCardVisibility} info={userInfo}/>}
+            </Box>
+        );
+    }
 }

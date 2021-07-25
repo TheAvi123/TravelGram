@@ -54,11 +54,13 @@ function ProfileDrawer(props) {
                 <Box className={classes.drawerTop} bgcolor="primary.main">
                     <h5 style={{marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 25, color: 'white'}}>{userName}</h5>
                 </Box>
-                <Link to="/profile"><Button style={{justifyContent: "flex-start"}}>Profile</Button></Link>
+                <Link to="/profile"><Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Profile</Button></Link>
                 <Divider />
-                <Button style={{justifyContent: "flex-start"}}>Account Settings</Button>
+                <Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Account Settings</Button>
                 <Divider />
-                <Button style={{justifyContent: "flex-start"}}>Site Settings</Button>
+                <Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Site Settings</Button>
+                <Divider />
+                <Button style={{justifyContent: "flex-start", color: "red"}} onClick={closeDrawer}>Log Out</Button>
                 <Divider />
             </Drawer>
         </div>
