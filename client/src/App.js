@@ -10,8 +10,8 @@ import Layout from './components/Layout';
 import theme from './theme';
 import Dashboard from './screens/Dashboard/Dashboard';
 import ViewTrip from './screens/ViewTrip/ViewTrip';
-import Login from './screens/LoginScreen';
-import Register from './screens/RegisterScreen';
+import Login from './screens/Auth/LoginScreen';
+import Register from './screens/Auth/RegisterScreen';
 
 const history = createBrowserHistory();
 const store = configureStore(history);

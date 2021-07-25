@@ -3,8 +3,6 @@ const User = require('../models/user');
 
 var router = express.Router();
 
-let usersCollection = [];
-
 // GET Request - Get All Users
 router.get('/', function (req, res, next) {
   User.find()
