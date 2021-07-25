@@ -21,7 +21,7 @@ import ImageIcon from '@material-ui/icons/Image';
 import ImageList from './helpers/ImageList';
 import UserList from './helpers/UserList';
 import CloseIcon from '@material-ui/icons/Close';
-import SearchBar from '../SearchBar/SearchBar';
+import UserSearchBar from '../SearchBar/UserSearchBar';
 import LocationSearchBar from '../SearchBar/LocationSearchBar';
 import TripItemTagList from './helpers/TripItemTagList';
 import TripItems from './helpers/TripItems';
@@ -79,29 +79,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const allUsers = [
-  {
-    username: 'angola',
-    email: 'dummyemail1',
-  },
-  {
-    username: 'anguilla',
-    email: 'dummyemail2',
-  },
-  {
-    username: 'antarctica',
-    email: 'dummyemail11',
-  },
-  {
-    username: 'antarctina',
-    email: 'dummyemail12',
-  },
-  {
-    username: 'anguralla',
-    email: 'dummyemail3',
-  },
-];
-
 const initializeStartEndTime = () => {
   const current = new Date();
   const startEndTime =
@@ -138,8 +115,21 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
     lng: -122.176,
   });
   const [selectedTripItem, setSelectedTripItem] = useState('');
+  const [users, setUsers] = useState([]);
 
   const classes = useStyles();
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/user').then(
+      (res) => {
+        setUsers(res.data);
+      },
+      (err) => {
+        console.log('error: ');
+        console.log(err);
+      }
+    );
+  }, []);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -200,11 +190,11 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
     setShowSearchBar((modal) => !modal);
   };
 
-  const handleSearchInput = (e) => {
+  const handleUserSearchInput = async (e) => {
     const searchTerm = e.target.value;
     setUserSearchInput(searchTerm);
     if (searchTerm) {
-      const newUserSearchResults = allUsers.filter((user) => {
+      const newUserSearchResults = users.filter((user) => {
         const userInfo = user.username.concat(' ', user.email);
         return userInfo.toLowerCase().includes(searchTerm.toLowerCase());
       });
@@ -366,9 +356,9 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
 
             {showSearchBar &&
               (formType === 'trip' ? (
-                <SearchBar
+                <UserSearchBar
                   searchInput={userSearchInput}
-                  onInputChange={handleSearchInput}
+                  onInputChange={handleUserSearchInput}
                   searchResults={userSearchResults}
                   onResultChosen={handleUserChosen}
                 />

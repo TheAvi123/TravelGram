@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
-const SearchBar = ({
+const UserSearchBar = ({
   searchInput,
   onInputChange,
   searchResults,
@@ -68,4 +68,4 @@ const SearchBar = ({
   );
 };
 
-export default SearchBar;
+export default UserSearchBar;

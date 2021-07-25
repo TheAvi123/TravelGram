@@ -5,17 +5,29 @@ import {
   CardMedia,
   IconButton,
   makeStyles,
+  Paper,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles({
+  imageListContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    margin: '20px auto',
+    width: '80%',
+    padding: '16px',
+    position: 'relative',
+  },
   cardContainer: {
-    maxWidth: '100px',
+    maxWidth: '200px',
     margin: '10px',
     position: 'relative',
   },
   media: {
-    height: '70px',
+    width: '100%',
+    height: 'auto',
   },
   icon: {
     position: 'absolute',
@@ -25,25 +37,22 @@ const useStyles = makeStyles({
   },
 });
 
-const ImageList = ({ images, onRemove }) => {
+const TripImageList = ({ images, onRemove }) => {
   const classes = useStyles();
+
   return (
-    <Box display='flex' flexWrap='wrap' justifyContent='flex-start'>
+    <Box className={classes.imageListContainer}>
       {images.map((img, i) => {
         return (
           <Card className={classes.cardContainer} key={i}>
             <IconButton
               className={classes.icon}
-              aria-label='remove image'
+              aria-label='remove picture'
               component='span'
               onClick={() => onRemove(img)}>
               <CloseIcon />
             </IconButton>
-            <CardMedia
-              className={classes.media}
-              component='img'
-              image={URL.createObjectURL(img)}
-            />
+            <CardMedia className={classes.media} component='img' image={img} />
           </Card>
         );
       })}
@@ -51,4 +60,4 @@ const ImageList = ({ images, onRemove }) => {
   );
 };
 
-export default ImageList;
+export default TripImageList;
