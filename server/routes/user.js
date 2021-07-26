@@ -76,7 +76,7 @@ router.post('/login', (req, res) => {
   const { username, password } = req.body;
   User.find({
     username: { $regex: username },
-    password: { $regex: password }
+    password
   }).then(data => {
     console.log("Successfully logged in.");
     console.log(data);
@@ -96,7 +96,7 @@ router.post('/register', (req, res) => {
   newUser.save().then(data => {
     console.log("Successfully added user to DB.");
     console.log(data);
-    res.send();
+    res.send(data);
   }).catch(err => {
     console.log("Failed to add user to DB.");
     console.log(err);

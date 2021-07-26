@@ -13,6 +13,7 @@ import Dashboard from './screens/Dashboard/Dashboard';
 import ViewTrip from './screens/ViewTrip/ViewTrip';
 import Login from './screens/Auth/LoginScreen';
 import Register from './screens/Auth/RegisterScreen';
+import NotFound from './screens/NotFound';
 
 const history = createBrowserHistory();
 const store = configureStore(history);
@@ -23,26 +24,18 @@ const store = configureStore(history);
 */
 function ProtectedRoute({ Component, ...props }) {
   /* Try to get user from the store */
-  let isLoggedIn = store.getState() && store.getState().auth && store.getState().auth.user && store.getState().auth.user.username;
+  let isLoggedIn = store.getState() && store.getState().get('auth') && store.getState().get('auth').user && store.getState().get('auth').user.username;
   /* If user does not exist in store, try to get user data from local storage */
   if (!isLoggedIn && localStorage.getItem('user')) {
-    store.dispatch(localLogin()).then(() => {
-      return <Route {...props} render={() => <Component {...props} />} />
-    }).catch(err => {
-      console.log(err);
-      alert(err);
-      /* Redirect to login page if a user isn't found */
-      <Route {...props} render={<Redirect to="/login" />} />
-    })
-  } else {
-    return (
-      /* If user is logged in, proceed with original component; otherwise redirect to login page */
-      <Route
-        {...props}
-        render={() => isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />}
-      />
-    )
+    store.dispatch(localLogin());
   }
+  return (
+    /* If user is logged in, proceed with original component; otherwise redirect to login page */
+    <Route
+      {...props}
+      render={() => isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />}
+    />
+  );
 }
 
 function App() {
@@ -57,7 +50,8 @@ function App() {
                 <Route path="/register" component={Register} />
                 <ProtectedRoute path="/Dashboard" Component={Dashboard} />
                 <ProtectedRoute path="/trip/:title" Component={ViewTrip} />
-                <ProtectedRoute path="/" Component={Dashboard} />
+                <ProtectedRoute exact path="/" Component={Dashboard} />
+                <Route component={NotFound} />
               </Switch>
             </Router>
           </Layout>

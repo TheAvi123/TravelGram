@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Button, Card, CardActions } from '@material-ui/core';
 import AuthForm from '../../components/AuthForm';
@@ -32,7 +32,7 @@ function Login() {
         submitButton="Login"
         fields={fields}
         onChange={(event) => updateFields({ ...fields, ...event })}
-        onSubmit={() => dispatch(login(fields)).then(() => { return <Redirect to="/" /> }).catch(err => alert(err))}
+        onSubmit={() => dispatch(login(fields)).then(() => window.location = '/').catch(err => alert(err))}
       />
       <CardActions>
         <div style={{ textAlign: 'center' }}>

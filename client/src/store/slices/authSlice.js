@@ -11,13 +11,21 @@ export const login = createAsyncThunk('user/login', async (params) => {
   };
   const response = await axios.post(url + '/user/login', { ...encoded })
     .then(({ data }) => {
+      const user = data[ 0 ];
       return {
-        user: data.data,
+        user: {
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+          id: user.id,
+          username: user.username,
+          trips: user.trips,
+        },
         error: false
       };
     })
     .catch(error => {
-      return { error };
+      return { error: error.message || error };
     });
   return response;
 });
@@ -39,12 +47,12 @@ export const register = createAsyncThunk('user/register', async (params) => {
           last_name: params[ LAST_NAME ],
           email: params[ EMAIL ],
           username: params[ USERNAME ],
-          id: data.data._id || data.data.id
+          id: data.id
         }
       };
     })
     .catch(error => {
-      return { error };
+      return { error: error.message || error };
     });
   return response;
 });
@@ -57,12 +65,13 @@ export const updateUser = createAsyncThunk('user/update', async (params) => {
   const response = await axios.post(url + '/user/update', { ...encoded, ...params })
     .then(({ data }) => {
       return {
-        user: data.data,
+        // TODO: edit so that "user" gets what it needs
+        user: data,
         error: false
       };
     })
     .catch(error => {
-      return { error };
+      return { error: error.message || error };
     });
   return response;
 });
@@ -99,7 +108,7 @@ export const authSlice = createSlice({
       return state;
     },
     localLogin: state => {
-      state.user = localStorage.getItem('user');
+      state.user = JSON.parse(localStorage.getItem('user'));
       state.isLoading = false;
       state.message = null;
       return state;
@@ -115,16 +124,18 @@ export const authSlice = createSlice({
       state.isLoading = false;
       if (payload.error) {
         state.message = payload.error;
+        alert(payload.error);
       } else {
         state.user = payload.user;
         state.message = null;
-        localStorage.setItem('user', payload.user);
+        localStorage.setItem('user', JSON.stringify(payload.user));
       }
       return state;
     },
     [ login.rejected ]: (state, { payload }) => {
       state.isLoading = false;
       state.message = payload.error;
+      alert(payload.error);
       return state;
     },
     [ register.pending ]: state => {
@@ -135,15 +146,17 @@ export const authSlice = createSlice({
     [ register.fulfilled ]: (state, { payload }) => {
       if (payload.error) {
         state.message = payload.error;
+        alert(payload.error);
       } else {
         state.user = payload.user;
         state.message = null;
-        localStorage.setItem('user', payload.user);
+        localStorage.setItem('user', JSON.stringify(payload.user));
       }
       return state;
     },
     [ register.rejected ]: (state, { payload }) => {
       state.message = payload.error;
+      alert(payload.error);
       return state;
     },
     [ updateUser.pending ]: state => {
@@ -155,21 +168,23 @@ export const authSlice = createSlice({
       state.isLoading = false;
       if (payload.error) {
         state.message = payload.error;
+        alert(payload.error);
       } else {
         state.user = { ...state.user, ...payload.user };
         state.message = null;
-        localStorage.setItem('user', payload.user);
+        localStorage.setItem('user', JSON.stringify(payload.user));
       }
       return state;
     },
     [ updateUser.rejected ]: (state, { payload }) => {
       state.isLoading = false;
       state.message = payload.error;
+      alert(payload.error);
       return state;
     },
   }
 });
 
-export const { logout, localLogin } = authSlice;
+export const { logout, localLogin } = authSlice.actions;
 
 export default authSlice.reducer;
