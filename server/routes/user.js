@@ -71,4 +71,37 @@ router.delete('/:email', function (req, res, next) {
     });
 });
 
+// LOGIN -- NEEDS: username, email, password
+router.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  User.find({
+    username: { $regex: username },
+    password
+  }).then(data => {
+    console.log("Successfully logged in.");
+    console.log(data);
+    res.send(data);
+  }).catch(err => {
+    console.log("Failed to log in.");
+    console.log(err);
+    res.status(400).send({ error: err });
+  });
+});
+
+// REGISTER -- NEEDS: username, email, password, first_name, last_name
+router.post('/register', (req, res) => {
+  console.log(req)
+  const { username, email, password, first_name, last_name } = req.body;
+  const newUser = new User({ username, email, password, first_name, last_name });
+  newUser.save().then(data => {
+    console.log("Successfully added user to DB.");
+    console.log(data);
+    res.send(data);
+  }).catch(err => {
+    console.log("Failed to add user to DB.");
+    console.log(err);
+    res.status(400).send({ error: err });
+  });
+});
+
 module.exports = router;

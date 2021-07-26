@@ -3,6 +3,11 @@ const validator = require('validator');
 
 const UserSchema = new mongoose.Schema(
   {
+    username: {
+      type: String,
+      unique: true,
+      required: true
+    },
     email: {
       type: String,
       unique: true,
@@ -10,10 +15,10 @@ const UserSchema = new mongoose.Schema(
       lowercase: true,
       validate: (input) => {
         return validator.isEmail(input);
-      },
+      }
     },
     password: {
-      type: String,
+      type: Buffer,
       required: true,
     },
     first_name: {
@@ -29,10 +34,6 @@ const UserSchema = new mongoose.Schema(
       validate: (input) => {
         return validator.isAlpha(input, 'en-US');
       },
-    },
-    username: {
-      type: String,
-      required: true,
     },
     about: {
       type: String,
