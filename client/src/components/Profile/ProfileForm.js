@@ -105,7 +105,7 @@ export default function ProfileForm(props) {
             zip: userZip,
             country: userCountry,
         };
-        axios.put(`http://localhost:3001/users/profile/${props.userId}`, user)
+        axios.put(`http://localhost:3001/user/profile/${props.userId}`, user)
             .then((res) => {props.onChangeUserInfo(res.data)});
     };
 

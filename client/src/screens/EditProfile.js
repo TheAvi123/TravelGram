@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Box,  makeStyles, IconButton, Divider} from '@material-ui/core';
-import NavBar from '../components/NavBar/NavBar';
-import TitleBar from '../components/TitleBar';
+import {Box,  makeStyles, IconButton} from '@material-ui/core';
 import ProfilePic from '../components/Profile/ProfilePic';
 import ProfileForm from '../components/Profile/ProfileForm';
 import EditIcon from "@material-ui/icons/Edit";
@@ -68,10 +66,10 @@ export default function EditProfile(props) {
 
     const [loading, setLoading] = useState(true);
     const [userInfo, setUserInfo] = useState({
-        user_name: "",
+        username: "",
         email: "",
         password: "",
-        first_name: "abc",
+        first_name: "",
         last_name: "",
         about: "",
         phone: "",
@@ -88,15 +86,15 @@ export default function EditProfile(props) {
     const id = "60fcde5f6f567e4e1d872bca";
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/users/profile/${id}`)
+        axios.get(`http://localhost:3001/user/profile/${id}`)
             .then(res => {
                 setUserInfo(res.data);
                 setLoading(false);
-            })
+            });
     }, []);
 
     if (loading) {
-        return (<span>Loading...</span>)
+        return (<span>Loading...</span>);
     } else {
         return (
             <div>
@@ -107,18 +105,18 @@ export default function EditProfile(props) {
                                 <h1 style={{color: 'white'}}>Edit Profile</h1>
                             </Box>
                             <Box className={classes.picContainer}>
-                                <ProfilePic size="large" userInfo={userInfo} userId={id}/>
+                                <ProfilePic size="large" userInfo={userInfo} userID={id}/>
                                 <IconButton className={classes.editButton} component="label">
                                     <input type="file" hidden/>
                                     <EditIcon/>
                                 </IconButton>
                             </Box>
-                            <h1 style={{color: 'white', marginTop: '15px'}}>{userInfo.user_name}</h1>
+                            <h1 style={{color: 'white', marginTop: '15px'}}>{userInfo.username}</h1>
                         </Box>
                         <ProfileForm userInfo={userInfo} onChangeUserInfo={setUserInfo} userId={id}/>
                     </Box>
                 </Box>
-                <ProfilePic size="medium" clickable="true"/>
+                <ProfilePic size="medium" clickable="true" userID={id}/>
             </div>
         );
     }
