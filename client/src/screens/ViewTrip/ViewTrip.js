@@ -15,6 +15,7 @@ import ActivityPopup from '../../components/Trip/ActivityPopup';
 import TripImageListButton from '../../components/TripImageList/TripImageListButton';
 import EditableContentButton from '../../components/EditableContent/EditableContentButton';
 import CreateTemplatePopup from './CreateTemplatePopup';
+import { Alert } from '@material-ui/lab';
 
 // Styling Imports
 import './Resizer.css';
@@ -59,6 +60,9 @@ const useStyles = makeStyles({
     borderRadius: '5px',
     margin: '20px',
   },
+  alertBox: {
+    margin: '5px 20px',
+  },
 });
 
 const ViewTripPage = (props) => {
@@ -80,11 +84,16 @@ const ViewTripPage = (props) => {
   const [showActivityFormButton, setShowActivityFormButton] = useState(true);
   const [showImagesButton, setShowImagesButton] = useState(true);
   const [showTemplatePopup, setShowTemplatePopup] = useState(false);
+  const [activitiesError, setActivitiesError] = useState('');
+  const [templateError, setTemplateError] = useState('');
+  const [deleteError, setDeleteError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const classes = useStyles();
 
   useEffect(() => {
     const fetchActivities = async () => {
+      setIsLoading(true);
       const tripId = trip.id;
       try {
         const res = await axios.get(
@@ -94,9 +103,10 @@ const ViewTripPage = (props) => {
         const markers = activites.map((activity) => activity.coordinates);
         setActivities(activites);
         setMarkers(markers);
+        setIsLoading(false);
       } catch (err) {
-        console.log('error: ');
-        console.log(err);
+        const errorMsg = err.response.data;
+        setActivitiesError(errorMsg);
       }
     };
     fetchActivities();
@@ -185,8 +195,8 @@ const ViewTripPage = (props) => {
       console.log('successfully deleted trip');
       history.push({ pathname: '/' });
     } catch (err) {
-      console.log('error: ');
-      console.log(err);
+      const errorMsg = err.response.data;
+      setDeleteError(errorMsg);
     }
   };
 
@@ -201,12 +211,10 @@ const ViewTripPage = (props) => {
       );
       const trip = res.data;
       const tripTitle = res.data.title;
-      console.log('result of patching: ');
-      console.log(res.data);
       history.push({ pathname: `/trip/${tripTitle}`, state: trip });
     } catch (err) {
-      console.log(`error!`);
-      console.log(err);
+      const errorMsg = err.response.data;
+      setTemplateError(errorMsg);
     }
   };
 
@@ -258,6 +266,26 @@ const ViewTripPage = (props) => {
             title={trip.title}
           />
 
+          {activitiesError ? (
+            <Box className={classes.alertBox}>
+              <Alert severity='error'>{activitiesError}</Alert>
+            </Box>
+          ) : activities.length < 1 && !isLoading ? (
+            <Box className={classes.alertBox}>
+              <Alert severity='warning'>{'There are no activities!'}</Alert>
+            </Box>
+          ) : null}
+
+          {templateError && (
+            <Box className={classes.alertBox}>
+              <Alert severity='error'>{templateError}</Alert>
+            </Box>
+          )}
+          {deleteError && (
+            <Box className={classes.alertBox}>
+              <Alert severity='error'>{deleteError}</Alert>
+            </Box>
+          )}
           <Box display='flex' justifyContent='space-evenly'>
             <Button
               variant='contained'

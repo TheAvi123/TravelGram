@@ -118,6 +118,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
   const [selectedTripItem, setSelectedTripItem] = useState('');
   const [users, setUsers] = useState([]);
   const [showActivityWarning, setShowActivityWarning] = useState(false);
+  const [collaboratorsError, setCollaboratorsError] = useState('');
 
   const classes = useStyles();
 
@@ -127,8 +128,8 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
         setUsers(res.data);
       },
       (err) => {
-        console.log('error: ');
-        console.log(err);
+        const errorMsg = err.response.data;
+        setCollaboratorsError(errorMsg);
       }
     );
   }, []);
@@ -160,9 +161,8 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
       const res = await axios.post(url, data);
       onSuccess(res.data);
     } catch (err) {
-      console.log('error: ');
-      console.log(err);
-      onError(data);
+      const errorMsg = err.response.data;
+      onError(errorMsg);
     }
   };
 
@@ -370,12 +370,17 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
 
             {showSearchBar &&
               (formType === 'trip' ? (
-                <UserSearchBar
-                  searchInput={userSearchInput}
-                  onInputChange={handleUserSearchInput}
-                  searchResults={userSearchResults}
-                  onResultChosen={handleUserChosen}
-                />
+                <Box>
+                  {collaboratorsError && (
+                    <Alert severity='warning'>{collaboratorsError}</Alert>
+                  )}
+                  <UserSearchBar
+                    searchInput={userSearchInput}
+                    onInputChange={handleUserSearchInput}
+                    searchResults={userSearchResults}
+                    onResultChosen={handleUserChosen}
+                  />
+                </Box>
               ) : formType === 'tripitem' ? (
                 <LocationSearchBar
                   address={address}
