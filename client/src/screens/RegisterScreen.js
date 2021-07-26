@@ -21,6 +21,8 @@ function Register() {
   // TODO: these fields should come from a database
   const [ fields, updateFields ] = useState({
     'Username': '',
+    'First Name': '',
+    'Last Name': '',
     'Email': '',
     'Password': ''
   });
