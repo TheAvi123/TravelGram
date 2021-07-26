@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const url = 'http://localhost:3007';
+const url = 'http://localhost:3001';
 
 export const login = createAsyncThunk('users/login', async (params) => {
   const encoded = { username: params[ 'Username' ], password: btoa(params[ 'Password' ]) };
