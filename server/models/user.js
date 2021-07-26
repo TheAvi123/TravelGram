@@ -1,18 +1,21 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-const UserSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    lowercase: true,
-    validate: (input) => {
-      return validator.isEmail(input);
+const UserSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      unique: true,
+      required: true
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      lowercase: true,
+      validate: (input) => {
+        return validator.isEmail(input);
+      }
     },
   },
   password: {
@@ -70,7 +73,16 @@ const UserSchema = new mongoose.Schema({
     required: true,
     default: [],
   },
-});
+  {
+    timestamps: true,
+    toJSON: {
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+      },
+    },
+  }
+);
 
 const User = mongoose.model('User', UserSchema);
 

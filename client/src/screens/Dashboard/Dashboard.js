@@ -59,9 +59,10 @@ const Dashboard = () => {
         <CreateFormButton
           formType='trip'
           onSuccess={handleSubmit}
-          onError={null}
-          onClose={null}
+          // onError={null}
+          // onClose={null}
           tripId={null}
+          onClick={() => {}}
         />
       </Box>
       <Feed

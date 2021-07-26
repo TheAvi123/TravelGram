@@ -3,11 +3,23 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import Typography from '@material-ui/core/Typography';
 import Timeline from '@material-ui/lab/Timeline';
+import { Box, Paper } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 import DraggableCard from './DraggableCard';
 import './DraggableSchedule.css';
 
-const DraggableSchedule = ({ cards, onDragDrop }) => {
+const useStyles = makeStyles({
+  title: {
+    padding: '15px',
+  },
+  wrapper: {
+    padding: '20px 0',
+  },
+});
+
+const DraggableSchedule = ({ cards, selectedCards, onDragDrop, title }) => {
+  const classes = useStyles();
   function handleDragDrop(result) {
     console.log('handle drag drop');
     const cardList = Array.from(cards);
@@ -22,10 +34,13 @@ const DraggableSchedule = ({ cards, onDragDrop }) => {
   }
 
   return (
-    <div>
-      <Typography variant='h6' className='timeline-header'>
-        Trip Itinerary
-      </Typography>
+    <Box className={classes.wrapper}>
+      <Box className={classes.title}>
+        <Typography variant='h6' className='timeline-header'>
+          {title}
+        </Typography>
+      </Box>
+
       <DragDropContext onDragEnd={handleDragDrop}>
         <Droppable droppableId='timeline'>
           {(provided) => (
@@ -34,12 +49,16 @@ const DraggableSchedule = ({ cards, onDragDrop }) => {
               ref={provided.innerRef}
               {...provided.droppableProps}>
               {cards.map((card, index) => {
+                const isSelected = selectedCards.some(
+                  (selectedCard) => selectedCard.id === card.id
+                );
                 return (
                   <DraggableCard
                     index={index}
                     title={card.title}
                     description={card.description}
                     startTime={card.startTime}
+                    selected={isSelected}
                   />
                 );
               })}
@@ -48,7 +67,7 @@ const DraggableSchedule = ({ cards, onDragDrop }) => {
           )}
         </Droppable>
       </DragDropContext>
-    </div>
+    </Box>
   );
 };
 

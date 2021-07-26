@@ -4,21 +4,21 @@ const Activity = require('../models/activity');
 
 var router = express.Router();
 
+// create a trip
 router.post('/', async (req, res) => {
-  console.log('creating a trip!');
   const trip = new Trip(req.body);
   try {
     const savedTrip = await trip.save();
     console.log({ savedTrip });
-    res.send(savedTrip);
+    res.status(200).send(savedTrip);
   } catch (err) {
     console.log(err);
-    res.status(500).send(err);
+    res.status(500).send('Trip could not be created!');
   }
 });
 
+// create a trip activity
 router.post('/:id/activity', async (req, res, next) => {
-  console.log('creating a trip activity!');
   const activity = new Activity(req.body);
   const tripId = req.params.id;
   try {
@@ -26,13 +26,26 @@ router.post('/:id/activity', async (req, res, next) => {
     const trip = await Trip.findById(tripId);
     trip.activities.push(savedActivity);
     const savedTrip = await trip.save();
-    res.send(savedActivity);
+    res.status(200).send(savedActivity);
   } catch (err) {
     console.log(err);
-    res.status(500).send(err);
+    res.status(500).send('Activity could not created!');
   }
 });
 
+// add activities to a trip (for templates)
+router.patch('/:id/activity', async (req, res, next) => {
+  const tripId = req.params.id;
+  const { activities } = req.body;
+  try {
+    const trip = await Trip.findByIdAndUpdate(tripId, { activities });
+    res.status(200).send(trip);
+  } catch (err) {
+    res.status(500).send('Could not create a trip template!');
+  }
+});
+
+// get trips with pagination
 router.get('/', async (req, res) => {
   const page = Number(req.query.page);
   const pageSize = Number(req.query.pageSize);
@@ -44,13 +57,14 @@ router.get('/', async (req, res) => {
     const tripCount = await Trip.count({});
     const pageCount = Math.ceil(tripCount / pageSize);
     console.log(trips);
-    res.send({ trips, pageCount });
+    res.status(200).send({ trips, pageCount });
   } catch (err) {
     console.log(err);
-    res.status(500).send(err);
+    res.status(500).send('Could not load trips!');
   }
 });
 
+// get trip activities
 router.get('/:id/activity', async (req, res, next) => {
   console.log('getting trip activities!');
   const tripId = req.params.id;
@@ -59,10 +73,24 @@ router.get('/:id/activity', async (req, res, next) => {
     .exec((err, trip) => {
       if (err) {
         console.log(err);
-        return res.status(500).send(err);
+        return res.status(500).send('Could not load trip activities!');
       }
-      return res.send(trip.activities);
+      return res.status(200).send(trip.activities);
     });
+});
+
+// delete a trip
+router.delete('/:id', async (req, res, next) => {
+  const tripId = req.params.id;
+  try {
+    const trip = await Trip.findByIdAndDelete(tripId);
+    if (!trip) {
+      return res.status(404).send('Trip not found!');
+    }
+    res.status(200).send();
+  } catch (err) {
+    res.status(500).send('Trip could not be deleted!');
+  }
 });
 
 // GET Request - Get Trip Activities

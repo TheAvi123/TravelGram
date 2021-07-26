@@ -15,42 +15,37 @@ const useStyles = makeStyles((theme) => ({
 const CreateFormButton = ({
   formType,
   onSuccess,
-  onError,
-  onClose,
+  // onError,
+  // onClose,
   tripId,
+  onClick,
 }) => {
   const [showForm, setShowForm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [formMessage, setFormMessage] = useState('');
 
-  const toggleShowForm = () => {
-    setShowForm((showForm) => !showForm);
-  };
-
   const handleSuccess = (data) => {
     setFormMessage(`Success: ${data.title} is created!`);
     setShowSuccess(true);
     const timer = setTimeout(() => {
-      toggleShowForm();
+      onClick(false);
+      setShowForm(false);
       setShowSuccess(false);
       clearTimeout(timer);
     }, 3000);
     onSuccess(data);
   };
 
-  const handleError = (data) => {
-    setFormMessage(`Error: ${data.title} could not be created!`);
+  const handleError = (errorMsg) => {
+    setFormMessage(errorMsg);
     setShowError(true);
     const timer = setTimeout(() => {
-      toggleShowForm();
+      onClick(false);
+      setShowForm(false);
       setShowError(false);
       clearTimeout(timer);
     }, 3000);
-  };
-
-  const handleClose = () => {
-    toggleShowForm();
   };
 
   return (
@@ -64,7 +59,10 @@ const CreateFormButton = ({
       {!showForm && (
         <Button
           variant='contained'
-          onClick={toggleShowForm}
+          onClick={() => {
+            onClick(true);
+            setShowForm(true);
+          }}
           style={{ maxWidth: '200px', margin: '30px auto' }}>
           {formType === 'trip'
             ? 'Create Trip'
@@ -76,12 +74,15 @@ const CreateFormButton = ({
       {showSuccess && <Alert severity='success'>{formMessage}</Alert>}
       {showError && <Alert severity='error'>{formMessage}</Alert>}
       {showForm && (
-        <Expand open={showForm} duration={200}>
+        <Expand open={showForm} duration={400}>
           <CreateForm
             formType={formType}
             onSuccess={handleSuccess}
             onError={handleError}
-            onClose={handleClose}
+            onClose={() => {
+              onClick(false);
+              setShowForm(false);
+            }}
             tripId={tripId}
           />
         </Expand>

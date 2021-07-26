@@ -21,12 +21,13 @@ import ImageIcon from '@material-ui/icons/Image';
 import ImageList from './helpers/ImageList';
 import UserList from './helpers/UserList';
 import CloseIcon from '@material-ui/icons/Close';
-import SearchBar from '../SearchBar/SearchBar';
+import UserSearchBar from '../SearchBar/UserSearchBar';
 import LocationSearchBar from '../SearchBar/LocationSearchBar';
 import TripItemTagList from './helpers/TripItemTagList';
 import TripItems from './helpers/TripItems';
 import axios from 'axios';
 import { storeImages } from '../../services/storage';
+import { Alert } from '@material-ui/lab';
 
 const maxTitleChars = 30;
 const maxDescrChars = 300;
@@ -79,29 +80,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const allUsers = [
-  {
-    username: 'angola',
-    email: 'dummyemail1',
-  },
-  {
-    username: 'anguilla',
-    email: 'dummyemail2',
-  },
-  {
-    username: 'antarctica',
-    email: 'dummyemail11',
-  },
-  {
-    username: 'antarctina',
-    email: 'dummyemail12',
-  },
-  {
-    username: 'anguralla',
-    email: 'dummyemail3',
-  },
-];
-
 const initializeStartEndTime = () => {
   const current = new Date();
   const startEndTime =
@@ -138,14 +116,31 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
     lng: -122.176,
   });
   const [selectedTripItem, setSelectedTripItem] = useState('');
+  const [users, setUsers] = useState([]);
+  const [showActivityWarning, setShowActivityWarning] = useState(false);
+  const [collaboratorsError, setCollaboratorsError] = useState('');
 
   const classes = useStyles();
 
+  useEffect(() => {
+    axios.get('http://localhost:3001/user').then(
+      (res) => {
+        setUsers(res.data);
+      },
+      (err) => {
+        const errorMsg = err.response.data;
+        setCollaboratorsError(errorMsg);
+      }
+    );
+  }, []);
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log({ selectedFiles });
+    if (formType === 'tripitem' && !selectedTripItem) {
+      setShowActivityWarning(true);
+      return;
+    }
     const images = await storeImages(selectedFiles);
-    console.log({ images });
     const data = {
       title,
       description,
@@ -166,9 +161,8 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
       const res = await axios.post(url, data);
       onSuccess(res.data);
     } catch (err) {
-      console.log('error: ');
-      console.log(err);
-      onError(data);
+      const errorMsg = err.response.data;
+      onError(errorMsg);
     }
   };
 
@@ -200,11 +194,11 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
     setShowSearchBar((modal) => !modal);
   };
 
-  const handleSearchInput = (e) => {
+  const handleUserSearchInput = async (e) => {
     const searchTerm = e.target.value;
     setUserSearchInput(searchTerm);
     if (searchTerm) {
-      const newUserSearchResults = allUsers.filter((user) => {
+      const newUserSearchResults = users.filter((user) => {
         const userInfo = user.username.concat(' ', user.email);
         return userInfo.toLowerCase().includes(searchTerm.toLowerCase());
       });
@@ -311,12 +305,22 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
             </FormControl>
 
             {formType === 'tripitem' ? (
-              <TripItemTagList
-                items={TripItems}
-                selectedItem={selectedTripItem}
-                onSelect={(id) => setSelectedTripItem(id)}
-                onRemove={() => setSelectedTripItem()}
-              />
+              <Box>
+                {showActivityWarning && (
+                  <Alert severity='warning'>
+                    Please choose an activity type!
+                  </Alert>
+                )}
+                <TripItemTagList
+                  items={TripItems}
+                  selectedItem={selectedTripItem}
+                  onSelect={(id) => {
+                    setSelectedTripItem(id);
+                    setShowActivityWarning(false);
+                  }}
+                  onRemove={() => setSelectedTripItem()}
+                />
+              </Box>
             ) : null}
 
             {selectedFiles.length > 0 ? (
@@ -366,12 +370,17 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
 
             {showSearchBar &&
               (formType === 'trip' ? (
-                <SearchBar
-                  searchInput={userSearchInput}
-                  onInputChange={handleSearchInput}
-                  searchResults={userSearchResults}
-                  onResultChosen={handleUserChosen}
-                />
+                <Box>
+                  {collaboratorsError && (
+                    <Alert severity='warning'>{collaboratorsError}</Alert>
+                  )}
+                  <UserSearchBar
+                    searchInput={userSearchInput}
+                    onInputChange={handleUserSearchInput}
+                    searchResults={userSearchResults}
+                    onResultChosen={handleUserChosen}
+                  />
+                </Box>
               ) : formType === 'tripitem' ? (
                 <LocationSearchBar
                   address={address}
