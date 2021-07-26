@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
 const CreateFormButton = ({
   formType,
   onSuccess,
-  onError,
-  onClose,
+  // onError,
+  // onClose,
   tripId,
   onClick,
 }) => {

@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
   try {
     const savedTrip = await trip.save();
     console.log({ savedTrip });
-    res.send(savedTrip);
+    res.status(200).send(savedTrip);
   } catch (err) {
     console.log(err);
     res.status(500).send(err);
@@ -29,6 +29,17 @@ router.post('/:id/activity', async (req, res, next) => {
     res.send(savedActivity);
   } catch (err) {
     console.log(err);
+    res.status(500).send(err);
+  }
+});
+
+router.patch('/:id/activity', async (req, res, next) => {
+  const tripId = req.params.id;
+  const { activities } = req.body;
+  try {
+    const trip = await Trip.findByIdAndUpdate(tripId, { activities });
+    res.send(trip);
+  } catch (err) {
     res.status(500).send(err);
   }
 });
