@@ -3,9 +3,9 @@ import axios from 'axios';
 
 const url = 'http://localhost:3001';
 
-export const login = createAsyncThunk('users/login', async (params) => {
+export const login = createAsyncThunk('user/login', async (params) => {
   const encoded = { username: params[ 'Username' ], password: btoa(params[ 'Password' ]) };
-  const response = await axios.post(url + '/users/login', { ...encoded })
+  const response = await axios.post(url + '/user/login', { ...encoded })
     .then(({ data }) => {
       debugger;
       return {
@@ -31,9 +31,9 @@ export const login = createAsyncThunk('users/login', async (params) => {
   return response;
 });
 
-export const register = createAsyncThunk('users/register', async (params) => {
+export const register = createAsyncThunk('user/register', async (params) => {
   const encoded = { username: params[ 'Username' ], email: params[ 'Email' ], password: btoa(params[ 'Password' ]), first_name: params[ 'First Name' ], last_name: params['Last Name'] };
-  const response = await axios.post(url + '/users/register', { ...encoded })
+  const response = await axios.post(url + '/user/register', { ...encoded })
     .then(data => {
       debugger
       return {

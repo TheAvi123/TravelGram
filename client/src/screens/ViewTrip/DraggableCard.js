@@ -14,7 +14,7 @@ import TimelineDot from '@material-ui/lab/TimelineDot';
 
 import './DraggableCard.css';
 
-const DraggableCard = ({ index, title, description, startTime }) => {
+const DraggableCard = ({ index, title, description, startTime, selected }) => {
   const useStyles = makeStyles((theme) => ({
     oppositeContent: {
       // TODO: adjust this value accordingly
@@ -23,6 +23,14 @@ const DraggableCard = ({ index, title, description, startTime }) => {
     paper: {
       padding: '6px 16px',
       background: 'linear-gradient(45deg, #fff44f 30%, #ffae42 90%)',
+      border: 0,
+      borderRadius: 5,
+      boxShadow: '0 3px 5px 2px rgba(13, 59, 95, .3)',
+      color: 'black',
+    },
+    selectedPaper: {
+      padding: '6px 16px',
+      background: 'linear-gradient(45deg, #01c1f3 30%, #0395d6 90%)',
       border: 0,
       borderRadius: 5,
       boxShadow: '0 3px 5px 2px rgba(13, 59, 95, .3)',
@@ -57,7 +65,7 @@ const DraggableCard = ({ index, title, description, startTime }) => {
           <TimelineContent>
             <Paper
               elevation={10}
-              className={style.paper}
+              className={selected ? style.selectedPaper : style.paper}
               // onClick={(e) => {
               //   props.openPopup(props.card);
               // }}>

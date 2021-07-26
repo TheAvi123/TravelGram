@@ -10,8 +10,8 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: '20% auto'
-  }
+    margin: '20% auto',
+  },
 });
 
 export default function AuthScreen() {
@@ -19,18 +19,24 @@ export default function AuthScreen() {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
-      {
-        state === 'home'
-        ? <Home onClick={e => setState(e)} />
-        : state === 'login'
-          ? <Login switchToRegister={() => setState('register')} onSubmit={e => mockLogin(e)} />
-          : <Register switchToLogin={() => setState('login')} onSubmit={e => mockRegister(e)} />
-      }
+      {state === 'home' ? (
+        <Home onClick={(e) => setState(e)} />
+      ) : state === 'login' ? (
+        <Login
+          switchToRegister={() => setState('register')}
+          onSubmit={(e) => mockLogin(e)}
+        />
+      ) : (
+        <Register
+          switchToLogin={() => setState('login')}
+          onSubmit={(e) => mockRegister(e)}
+        />
+      )}
     </Card>
   );
 }
 
-function Home({onClick}) {
+function Home({ onClick }) {
   return (
     <CardActions>
       <Button onClick={() => onClick('login')}>Login</Button>

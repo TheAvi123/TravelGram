@@ -65,6 +65,19 @@ router.get('/:id/activity', async (req, res, next) => {
     });
 });
 
+router.delete('/:id', async (req, res, next) => {
+  const tripId = req.params.id;
+  try {
+    const trip = await Trip.findByIdAndDelete(tripId);
+    if (!trip) {
+      return res.status(404).send('Card not found!');
+    }
+    res.status(200).send();
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 // GET Request - Get Trip Activities
 router.get('/', function (req, res, next) {
   Activity.find()
