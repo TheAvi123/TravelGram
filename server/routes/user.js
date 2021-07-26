@@ -3,17 +3,17 @@ const User = require('../models/user');
 
 var router = express.Router();
 
-// GET Request - Get All Users
+// fetch all users
 router.get('/', function (req, res, next) {
   User.find()
     .then((docs) => {
       console.log('Successfully got data from the DB.');
-      res.send(docs);
+      res.status(200).send(docs);
     })
     .catch((err) => {
       console.log('Failed to get data the DB.');
       console.log(err);
-      throw new Error('Failed to get data the DB.');
+      res.status(500).send('Could not get user accounts!');
     });
 });
 

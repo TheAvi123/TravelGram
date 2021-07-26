@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
 const CreateFormButton = ({
   formType,
   onSuccess,
-  onError,
-  onClose,
+  // onError,
+  // onClose,
   tripId,
   onClick,
 }) => {
@@ -37,8 +37,8 @@ const CreateFormButton = ({
     onSuccess(data);
   };
 
-  const handleError = (data) => {
-    setFormMessage(`Error: ${data.title} could not be created!`);
+  const handleError = (errorMsg) => {
+    setFormMessage(errorMsg);
     setShowError(true);
     const timer = setTimeout(() => {
       onClick(false);

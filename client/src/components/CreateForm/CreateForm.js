@@ -27,6 +27,7 @@ import TripItemTagList from './helpers/TripItemTagList';
 import TripItems from './helpers/TripItems';
 import axios from 'axios';
 import { storeImages } from '../../services/storage';
+import { Alert } from '@material-ui/lab';
 
 const maxTitleChars = 30;
 const maxDescrChars = 300;
@@ -116,6 +117,8 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
   });
   const [selectedTripItem, setSelectedTripItem] = useState('');
   const [users, setUsers] = useState([]);
+  const [showActivityWarning, setShowActivityWarning] = useState(false);
+  const [collaboratorsError, setCollaboratorsError] = useState('');
 
   const classes = useStyles();
 
@@ -125,17 +128,19 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
         setUsers(res.data);
       },
       (err) => {
-        console.log('error: ');
-        console.log(err);
+        const errorMsg = err.response.data;
+        setCollaboratorsError(errorMsg);
       }
     );
   }, []);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log({ selectedFiles });
+    if (formType === 'tripitem' && !selectedTripItem) {
+      setShowActivityWarning(true);
+      return;
+    }
     const images = await storeImages(selectedFiles);
-    console.log({ images });
     const data = {
       title,
       description,
@@ -156,9 +161,8 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
       const res = await axios.post(url, data);
       onSuccess(res.data);
     } catch (err) {
-      console.log('error: ');
-      console.log(err);
-      onError(data);
+      const errorMsg = err.response.data;
+      onError(errorMsg);
     }
   };
 
@@ -301,12 +305,22 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
             </FormControl>
 
             {formType === 'tripitem' ? (
-              <TripItemTagList
-                items={TripItems}
-                selectedItem={selectedTripItem}
-                onSelect={(id) => setSelectedTripItem(id)}
-                onRemove={() => setSelectedTripItem()}
-              />
+              <Box>
+                {showActivityWarning && (
+                  <Alert severity='warning'>
+                    Please choose an activity type!
+                  </Alert>
+                )}
+                <TripItemTagList
+                  items={TripItems}
+                  selectedItem={selectedTripItem}
+                  onSelect={(id) => {
+                    setSelectedTripItem(id);
+                    setShowActivityWarning(false);
+                  }}
+                  onRemove={() => setSelectedTripItem()}
+                />
+              </Box>
             ) : null}
 
             {selectedFiles.length > 0 ? (
@@ -356,12 +370,17 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
 
             {showSearchBar &&
               (formType === 'trip' ? (
-                <UserSearchBar
-                  searchInput={userSearchInput}
-                  onInputChange={handleUserSearchInput}
-                  searchResults={userSearchResults}
-                  onResultChosen={handleUserChosen}
-                />
+                <Box>
+                  {collaboratorsError && (
+                    <Alert severity='warning'>{collaboratorsError}</Alert>
+                  )}
+                  <UserSearchBar
+                    searchInput={userSearchInput}
+                    onInputChange={handleUserSearchInput}
+                    searchResults={userSearchResults}
+                    onResultChosen={handleUserChosen}
+                  />
+                </Box>
               ) : formType === 'tripitem' ? (
                 <LocationSearchBar
                   address={address}

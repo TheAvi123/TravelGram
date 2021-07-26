@@ -14,6 +14,8 @@ import DraggableSchedule from './DraggableSchedule';
 import ActivityPopup from '../../components/Trip/ActivityPopup';
 import TripImageListButton from '../../components/TripImageList/TripImageListButton';
 import EditableContentButton from '../../components/EditableContent/EditableContentButton';
+import CreateTemplatePopup from './CreateTemplatePopup';
+import { Alert } from '@material-ui/lab';
 
 // Styling Imports
 import './Resizer.css';
@@ -35,6 +37,32 @@ const useStyles = makeStyles({
     height: '100%',
     width: '100%',
   },
+  popupOuter: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100vh',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
+    overflow: 'scroll',
+    margin: '20px auto',
+  },
+  popupInner: {
+    width: '90%',
+    height: '90%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '5px',
+    margin: '20px',
+  },
+  alertBox: {
+    margin: '5px 20px',
+  },
 });
 
 const ViewTripPage = (props) => {
@@ -55,11 +83,17 @@ const ViewTripPage = (props) => {
   const [showAboutButton, setShowAboutButton] = useState(true);
   const [showActivityFormButton, setShowActivityFormButton] = useState(true);
   const [showImagesButton, setShowImagesButton] = useState(true);
+  const [showTemplatePopup, setShowTemplatePopup] = useState(false);
+  const [activitiesError, setActivitiesError] = useState('');
+  const [templateError, setTemplateError] = useState('');
+  const [deleteError, setDeleteError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const classes = useStyles();
 
   useEffect(() => {
     const fetchActivities = async () => {
+      setIsLoading(true);
       const tripId = trip.id;
       try {
         const res = await axios.get(
@@ -69,9 +103,10 @@ const ViewTripPage = (props) => {
         const markers = activites.map((activity) => activity.coordinates);
         setActivities(activites);
         setMarkers(markers);
+        setIsLoading(false);
       } catch (err) {
-        console.log('error: ');
-        console.log(err);
+        const errorMsg = err.response.data;
+        setActivitiesError(errorMsg);
       }
     };
     fetchActivities();
@@ -160,8 +195,26 @@ const ViewTripPage = (props) => {
       console.log('successfully deleted trip');
       history.push({ pathname: '/' });
     } catch (err) {
-      console.log('error: ');
-      console.log(err);
+      const errorMsg = err.response.data;
+      setDeleteError(errorMsg);
+    }
+  };
+
+  const handleCreateTemplate = async (data) => {
+    setShowTemplatePopup(false);
+    const tripId = data.id;
+    const activities = { activities: trip.activities };
+    try {
+      const res = await axios.patch(
+        `http://localhost:3001/trip/${tripId}/activity`,
+        activities
+      );
+      const trip = res.data;
+      const tripTitle = res.data.title;
+      history.push({ pathname: `/trip/${tripTitle}`, state: trip });
+    } catch (err) {
+      const errorMsg = err.response.data;
+      setTemplateError(errorMsg);
     }
   };
 
@@ -188,8 +241,8 @@ const ViewTripPage = (props) => {
               <CreateFormButton
                 formType='tripitem'
                 onSuccess={handleSubmit}
-                onError={null}
-                onClose={null}
+                // onError={null}
+                // onClose={null}
                 tripId={trip.id}
                 onClick={handleActivityFormButtonClick}
               />
@@ -213,7 +266,38 @@ const ViewTripPage = (props) => {
             title={trip.title}
           />
 
-          <Box display='flex' justifyContent='center'>
+          {activitiesError ? (
+            <Box className={classes.alertBox}>
+              <Alert severity='error'>{activitiesError}</Alert>
+            </Box>
+          ) : activities.length < 1 && !isLoading ? (
+            <Box className={classes.alertBox}>
+              <Alert severity='warning'>{'There are no activities!'}</Alert>
+            </Box>
+          ) : null}
+
+          {templateError && (
+            <Box className={classes.alertBox}>
+              <Alert severity='error'>{templateError}</Alert>
+            </Box>
+          )}
+          {deleteError && (
+            <Box className={classes.alertBox}>
+              <Alert severity='error'>{deleteError}</Alert>
+            </Box>
+          )}
+          <Box display='flex' justifyContent='space-evenly'>
+            <Button
+              variant='contained'
+              onClick={() => setShowTemplatePopup(true)}
+              style={{
+                maxWidth: '200px',
+                margin: '30px auto',
+                backgroundColor: '#4290f5',
+              }}>
+              {'Use as Template'}
+            </Button>
+
             <Button
               variant='contained'
               onClick={handleDeleteTrip}
@@ -235,8 +319,20 @@ const ViewTripPage = (props) => {
           />
         </Box>
       </SplitPane>
-      {showActivityPopup && (
+      {/* {showActivityPopup && (
         <ActivityPopup card={selectedActivity} closePopup={togglePopup} />
+      )} */}
+      {showTemplatePopup && (
+        <Box className={classes.popupOuter}>
+          <Box className={classes.popupInner}>
+            <CreateTemplatePopup
+              onSuccess={handleCreateTemplate}
+              onError={() => setShowTemplatePopup(false)}
+              onClose={() => setShowTemplatePopup(false)}
+              // tripId={trip.id}
+            />
+          </Box>
+        </Box>
       )}
     </Box>
   );
