@@ -6,6 +6,7 @@ import { ConnectedRouter } from 'connected-react-router/immutable';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 import configureStore from './store';
+import { localLogin } from './store/slices/authSlice';
 import Layout from './components/Layout';
 import theme from './theme';
 import Dashboard from './screens/Dashboard/Dashboard';
@@ -21,36 +22,42 @@ const store = configureStore(history);
   ProtectedRoute rather than the normal Route
 */
 function ProtectedRoute({ Component, ...props }) {
-  // TODO: setup token auth (local storage? cookie?)
-  //const hasToken = store.getState() && store.getState().auth && store.getState().auth.token;
-  return (
-    <Route
-      {...props}
-      //render={() => hasToken ? <Component {...props} /> : <Redirect to="/login" />}
-      render={() => <Component {...props} />}
-    />
-  );
+  /* Try to get user from the store */
+  let isLoggedIn = store.getState() && store.getState().auth && store.getState().auth.user && store.getState().auth.user.username;
+  /* If user does not exist in store, try to get user data from local storage */
+  if (!isLoggedIn && localStorage.getItem('user')) {
+    store.dispatch(localLogin()).then(() => {
+      return <Route {...props} render={() => <Component {...props} />} />
+    }).catch(err => {
+      console.log(err);
+      alert(err);
+      /* Redirect to login page if a user isn't found */
+      <Route {...props} render={<Redirect to="/login" />} />
+    })
+  } else {
+    return (
+      /* If user is logged in, proceed with original component; otherwise redirect to login page */
+      <Route
+        {...props}
+        render={() => isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />}
+      />
+    )
+  }
 }
 
 function App() {
   return (
-    // <ThemeProvider theme={theme}>
-    //   {/* <AuthScreen /> */}
-    //   {/* <Dashboard /> */}
-    //   <ViewTrip />
-    // </ThemeProvider>
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <ThemeProvider theme={theme}>
           <Layout>
             <Router history={history}>
               <Switch>
-                <Route path='/login' component={Login} />
-                <Route path='/register' component={Register} />
-                <ProtectedRoute path='/Dashboard' Component={Dashboard} />
-                <ProtectedRoute path='/trip/:title' Component={ViewTrip} />
-                {/* TODO: route '/' to a homepage instead of personal dashboard */}
-                <ProtectedRoute path='/' Component={Dashboard} />
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+                <ProtectedRoute path="/Dashboard" Component={Dashboard} />
+                <ProtectedRoute path="/trip/:title" Component={ViewTrip} />
+                <ProtectedRoute path="/" Component={Dashboard} />
               </Switch>
             </Router>
           </Layout>

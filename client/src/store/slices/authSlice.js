@@ -1,67 +1,69 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL } from '../../screens/Auth/fieldNames';
 
 const url = 'http://localhost:3001';
 
 export const login = createAsyncThunk('user/login', async (params) => {
-  const encoded = { username: params[ 'Username' ], password: btoa(params[ 'Password' ]) };
+  const encoded = {
+    username: params[ USERNAME ],
+    password: Buffer.from(params[ PASSWORD ], 'base64')
+  };
   const response = await axios.post(url + '/user/login', { ...encoded })
     .then(({ data }) => {
-      debugger;
       return {
         user: data.data,
         error: false
       };
     })
     .catch(error => {
-      debugger
-      try {
-        let msg = 'ERROR!';
-        const errors = error.response.data.data.errors;
-        Object.keys(errors).map(key => errors[ key ].map(item => msg = `${msg}\n${item}`));
-        return { error: msg };
-      } catch (err) {
-        try {
-          return { error: error.response.data.message };
-        } catch (e) {
-          return { error: error.message || err }
-        }
-      }
-    })
+      return { error };
+    });
   return response;
 });
 
 export const register = createAsyncThunk('user/register', async (params) => {
-  const encoded = { username: params[ 'Username' ], email: params[ 'Email' ], password: btoa(params[ 'Password' ]), first_name: params[ 'First Name' ], last_name: params['Last Name'] };
+  const encoded = {
+    username: params[ USERNAME ],
+    email: params[ EMAIL ],
+    password: Buffer.from(params[ PASSWORD ], 'base64'),
+    first_name: params[ FIRST_NAME ],
+    last_name: params[ LAST_NAME ]
+  };
   const response = await axios.post(url + '/user/register', { ...encoded })
-    .then(data => {
-      debugger
+    .then(({ data }) => {
       return {
         error: false,
         user: {
-          firstName: params[ 'First Name' ],
-          lastName: params[ 'Last Name' ],
-          email: params[ 'Email' ],
-          username: params[ 'Username' ],
-          id: data.data._id
+          first_name: params[ FIRST_NAME ],
+          last_name: params[ LAST_NAME ],
+          email: params[ EMAIL ],
+          username: params[ USERNAME ],
+          id: data.data._id || data.data.id
         }
       };
     })
     .catch(error => {
-      debugger
-      try {
-        let msg = 'ERROR!';
-        const errors = error.response.data.data.errors;
-        Object.keys(errors).map(key => errors[ key ].map(item => msg = `${msg}\n${item}`));
-        return { error: msg };
-      } catch (err) {
-        try {
-          return { error: error.response.data.message };
-        } catch (e) {
-          return { error: error.message || err }
-        }
-      }
+      return { error };
+    });
+  return response;
+});
+
+export const updateUser = createAsyncThunk('user/update', async (params) => {
+  let encoded = {};
+  if (params.password) {
+    encoded[ 'password' ] = Buffer.from(params.password, 'base64');
+  }
+  const response = await axios.post(url + '/user/update', { ...encoded, ...params })
+    .then(({ data }) => {
+      return {
+        user: data.data,
+        error: false
+      };
     })
+    .catch(error => {
+      return { error };
+    });
   return response;
 });
 
@@ -69,12 +71,13 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: {
-      firstName: null,
-      lastName: null,
+      first_name: null,
+      last_name: null,
       username: null,
       email: null,
       phone: null,
-      icon: null
+      icon: null,
+      id: null
     },
     message: null,
     isLoading: false
@@ -82,13 +85,23 @@ export const authSlice = createSlice({
   reducers: {
     logout: state => {
       state.user = {
-        firstName: null,
-        lastName: null,
+        first_name: null,
+        last_name: null,
         username: null,
         email: null,
         phone: null,
-        icon: null
+        icon: null,
+        id: null
       };
+      state.isLoading = false;
+      state.message = null;
+      localStorage.clear();
+      return state;
+    },
+    localLogin: state => {
+      state.user = localStorage.getItem('user');
+      state.isLoading = false;
+      state.message = null;
       return state;
     }
   },
@@ -105,6 +118,7 @@ export const authSlice = createSlice({
       } else {
         state.user = payload.user;
         state.message = null;
+        localStorage.setItem('user', payload.user);
       }
       return state;
     },
@@ -124,16 +138,38 @@ export const authSlice = createSlice({
       } else {
         state.user = payload.user;
         state.message = null;
+        localStorage.setItem('user', payload.user);
       }
       return state;
     },
     [ register.rejected ]: (state, { payload }) => {
       state.message = payload.error;
       return state;
-    }
+    },
+    [ updateUser.pending ]: state => {
+      state.isLoading = true;
+      state.message = null;
+      return state;
+    },
+    [ updateUser.fulfilled ]: (state, { payload }) => {
+      state.isLoading = false;
+      if (payload.error) {
+        state.message = payload.error;
+      } else {
+        state.user = { ...state.user, ...payload.user };
+        state.message = null;
+        localStorage.setItem('user', payload.user);
+      }
+      return state;
+    },
+    [ updateUser.rejected ]: (state, { payload }) => {
+      state.isLoading = false;
+      state.message = payload.error;
+      return state;
+    },
   }
 });
 
-export const { logout } = authSlice;
+export const { logout, localLogin } = authSlice;
 
 export default authSlice.reducer;

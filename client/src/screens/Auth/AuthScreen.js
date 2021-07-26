@@ -19,19 +19,10 @@ export default function AuthScreen() {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
-      {state === 'home' ? (
-        <Home onClick={(e) => setState(e)} />
-      ) : state === 'login' ? (
-        <Login
-          switchToRegister={() => setState('register')}
-          onSubmit={(e) => mockLogin(e)}
-        />
-      ) : (
-        <Register
-          switchToLogin={() => setState('login')}
-          onSubmit={(e) => mockRegister(e)}
-        />
-      )}
+      {
+        state === 'home' ? <Home onClick={(e) => setState(e)} /> :
+          (state === 'login' ? <Login /> : <Register />)
+      }
     </Card>
   );
 }
@@ -43,26 +34,4 @@ function Home({ onClick }) {
       <Button onClick={() => onClick('register')}>Register</Button>
     </CardActions>
   );
-}
-
-// TODO: this function should call an actual api
-function mockRegister(data) {
-  if (data['Password'] !== data['Confirm Password']) {
-    alert('Passwords have to match. Please try again.');
-  } else {
-    console.log('=================');
-    for (const [key, value] of Object.entries(data)) {
-      console.log(`${key}: ${value}`);
-    }
-    console.log('=================');
-  }
-}
-
-// TODO: this function should call an actual api
-function mockLogin(data) {
-  console.log('=================');
-  for (const [key, value] of Object.entries(data)) {
-    console.log(`${key}: ${value}`);
-  }
-  console.log('=================');
 }

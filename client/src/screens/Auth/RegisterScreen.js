@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Button, Card, CardActions } from '@material-ui/core';
 import AuthForm from '../../components/AuthForm';
 import { register } from '../../store/slices/authSlice';
 import { makeStyles } from '@material-ui/core/styles';
+import { USERNAME, PASSWORD, EMAIL, FIRST_NAME, LAST_NAME } from './fieldNames';
 
 const useStyles = makeStyles({
   root: {
@@ -18,11 +19,12 @@ const useStyles = makeStyles({
 });
 
 function Register() {
-  // TODO: these fields should come from a database
   const [fields, updateFields] = useState({
-    Username: '',
-    Email: '',
-    Password: '',
+    [USERNAME]: '',
+    [FIRST_NAME]: '',
+    [LAST_NAME]: '',
+    [EMAIL]: '',
+    [PASSWORD]: '',
   });
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -30,15 +32,15 @@ function Register() {
   return (
     <Card className={classes.root}>
       <AuthForm
-        submitButton='Register'
+        submitButton="Register"
         fields={fields}
         onChange={(event) => updateFields({ ...fields, ...event })}
-        onSubmit={() => dispatch(register(fields))}
+        onSubmit={() => dispatch(register(fields)).then(() => { return <Redirect to="/" /> }).catch(err => alert(err))}
       />
       <CardActions>
         <div style={{ textAlign: 'center' }}>
           Have an account already?{' '}
-          <Link to='/login'>
+          <Link to="/login">
             <Button>Login</Button>
           </Link>
         </div>
