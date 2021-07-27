@@ -4,6 +4,7 @@ import ProfilePic from '../components/Profile/ProfilePic';
 import ProfileForm from '../components/Profile/ProfileForm';
 import EditIcon from "@material-ui/icons/Edit";
 import axios from "axios";
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles({
     screen: {
@@ -82,8 +83,8 @@ export default function EditProfile(props) {
         trips: [],
     });
 
-    // Temp!!!!!!!!!!!!!!!!!!!!!!!!!!
-    const id = "60fcde5f6f567e4e1d872bca";
+    const user = useSelector((state) => state.get('auth').user);
+    const id = user.id;
 
     useEffect(() => {
         axios.get(`http://localhost:3001/user/profile/${id}`)

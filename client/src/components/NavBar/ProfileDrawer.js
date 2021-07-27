@@ -3,6 +3,8 @@ import {Grid, Box, Button, Divider, makeStyles, Drawer} from '@material-ui/core'
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ProfilePic from '../Profile/ProfilePic';
 import { Link } from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from '../../store/slices/authSlice';
 
 const useStyles = makeStyles({
     drawer: {
@@ -32,8 +34,13 @@ const useStyles = makeStyles({
 function ProfileDrawer(props) {
 
     const classes = useStyles();
+
+    const dispatch = useDispatch();
+
+    const user = useSelector(state => state.get('auth').user);
+
     const [visibility, setVisibility] = useState(false);
-    const [userName, setUserName] = useState("John Doe");
+
 
     const toggleDrawer = () => {
         setVisibility(true);
@@ -43,7 +50,10 @@ function ProfileDrawer(props) {
         setVisibility(false);
     }
 
-
+    const logOut = () => {
+        dispatch(logout());
+        window.location = '/';
+    }
 
     return (
         <div>
@@ -52,7 +62,7 @@ function ProfileDrawer(props) {
             </Box>
             <Drawer classes={{paper: classes.drawer}} variant="temporary" anchor="right" open={visibility} onClose={closeDrawer}>
                 <Box className={classes.drawerTop} bgcolor="primary.main">
-                    <h5 style={{marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 25, color: 'white'}}>{userName}</h5>
+                    <h5 style={{marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 25, color: 'white'}}>{user.first_name}</h5>
                 </Box>
                 <Link to="/profile"><Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Profile</Button></Link>
                 <Divider />
@@ -60,7 +70,7 @@ function ProfileDrawer(props) {
                 <Divider />
                 <Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Site Settings</Button>
                 <Divider />
-                <Button style={{justifyContent: "flex-start", color: "red"}} onClick={closeDrawer}>Log Out</Button>
+                <Button style={{justifyContent: "flex-start", color: "red"}} onClick={logOut}>Log Out</Button>
                 <Divider />
             </Drawer>
         </div>

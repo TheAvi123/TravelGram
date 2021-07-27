@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {Box, Button, makeStyles, TextField, FormControl, InputLabel, Input, OutlinedInput, Grid} from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import axios from "axios";
+import {Button, makeStyles, TextField, FormControl, InputLabel, OutlinedInput, Grid} from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { updateUser } from '../../store/slices/authSlice';
 
 const useStyles = makeStyles({
     formContainer: {
@@ -28,6 +28,8 @@ const useStyles = makeStyles({
 
 export default function ProfileForm(props) {
     const classes = useStyles();
+
+    const dispatch = useDispatch();
 
     const [changed, setChanged] = useState(false);
     const [userFirstName, setUserFirstName] = useState(props.userInfo.first_name);
@@ -104,9 +106,11 @@ export default function ProfileForm(props) {
             state: userState,
             zip: userZip,
             country: userCountry,
+            _id: props.userId
         };
-        axios.put(`http://localhost:3001/user/profile/${props.userId}`, user)
-            .then((res) => {props.onChangeUserInfo(res.data)});
+        // axios.put(`http://localhost:3001/user/profile/${props.userId}`, user)
+        //     .then((res) => {props.onChangeUserInfo(res.data)});
+        dispatch(updateUser(user));
     };
 
     return (

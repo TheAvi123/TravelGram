@@ -13,6 +13,7 @@ import Dashboard from './screens/Dashboard/Dashboard';
 import ViewTrip from './screens/ViewTrip/ViewTrip';
 import Login from './screens/Auth/LoginScreen';
 import Register from './screens/Auth/RegisterScreen';
+import EditProfile from './screens/EditProfile';
 import NotFound from './screens/NotFound';
 
 const history = createBrowserHistory();
@@ -51,6 +52,7 @@ function App() {
                 <ProtectedRoute path="/Dashboard" Component={Dashboard} />
                 <ProtectedRoute path="/trip/:title" Component={ViewTrip} />
                 <ProtectedRoute exact path="/" Component={Dashboard} />
+                <ProtectedRoute path="/profile" Component={EditProfile} />
                 <Route component={NotFound} />
               </Switch>
             </Router>
