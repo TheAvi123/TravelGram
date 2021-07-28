@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Menu, MenuItem, Button, makeStyles, Divider} from '@material-ui/core';
 import MenuDrawer from './MenuDrawer';
 import ProfileDrawer from './ProfileDrawer';
 import { Link } from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import axios from "axios";
 
 const useStyles = makeStyles({
     root: {
@@ -41,7 +43,9 @@ export default function NavBar(props) {
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    const [user, setUser] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(true);
+
+    const user = useSelector((state) => state.get('auth').user);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -54,7 +58,7 @@ export default function NavBar(props) {
     return (
         <Box>
             <Box bgcolor="white" borderBottom={1} borderColor="primary.main">
-                {user &&
+                {loggedIn &&
                 <div className={classes.root}>
                     <MenuDrawer />
                     <Divider orientation='vertical' flexItem />
@@ -82,11 +86,11 @@ export default function NavBar(props) {
                         NEW TRIP
                     </Button>
                     <Box className={classes.accountButton}>
-                        <ProfileDrawer />
+                        <ProfileDrawer user={user}/>
                     </Box>
                 </div>
                 }
-                {!user &&
+                {!loggedIn &&
                     <Box className={classes.signInButtonContainer}>
                         <Button className={classes.signInButton} color="primary">Sign In</Button>
                     </Box>

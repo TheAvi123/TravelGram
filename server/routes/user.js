@@ -112,7 +112,11 @@ router.get('/profile/:id/', function (req, res, next) {
         res.send(data);
         console.log(`sending data for user ${data.first_name} with id ${data._id}`);
       })
-      .catch((err) => console.log(`Failed to get user with id ${userId}`));
+      .catch((err) => {
+          console.log("Failed to find user on DB.");
+          console.log(err);
+          res.status(400).send({ error: err });
+      });
 });
 
 // PUT Request - Edit User Info
@@ -146,6 +150,8 @@ router.put('/update', function (req, res, next) {
     User.findOneAndUpdate(
         {_id: userId},
         {$set: {
+                username: req.body.username,
+                password: req.body.password,
                 email: req.body.email,
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
@@ -155,11 +161,15 @@ router.put('/update', function (req, res, next) {
                 state: req.body.state,
                 street: req.body.street,
                 zip: req.body.zip,
-                phone: req.body.phone}},
-        {new: true},
+                phone: req.body.phone,
+                photo_id: req.body.photo_id,
+                trips: req.body.trips}},
+        {new: true, multi: false, omitUndefined: true},
         (err, doc) => {
             if(err) {
-                console.log("Failed to update user info");
+                console.log("Failed to update user info on DB.");
+                console.log(err);
+                res.status(400).send({ error: err });
             } else {
                 res.send(doc);
             }

@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
 // size ["small", "medium", "large"]
 // clickable [true, or false] (to enable profile snippet toggling)
 // userID ["string"] (to get pic and info)
+// tempImage ["url"] (for image upload preview)
 export default function ProfilePic(props) {
     const classes = useStyles();
 
@@ -35,13 +36,12 @@ export default function ProfilePic(props) {
 
     const id = props.userID;
 
-
     useEffect(() => {
-        axios.get(`http://localhost:3001/user/profile/${id}`)
-            .then(res => {
-                setUserInfo(res.data);
-                setLoading(false);
-            })
+            axios.get(`http://localhost:3001/user/profile/${id}`)
+                .then(res => {
+                    setUserInfo(res.data);
+                    setLoading(false);
+                })
     }, []);
 
     const toggleCard = (event) => {
@@ -52,12 +52,16 @@ export default function ProfilePic(props) {
         }
     }
 
-    let url = "https://firebasestorage.googleapis.com/v0/b/travelgram-158fa.appspot.com/o/880f9e38-80bf-4b41-bc95-a0016edd91a7.png?alt=media&token=76930592-38dc-46fd-b1fd-917fd66ca6bf";
     let pic;
-    if (props.clickable) {
-        pic = <Avatar src={url} className={classes[props.size]} style={{cursor: 'pointer'}} onClick={toggleCard}/>
+    if (props.tempImage) {
+        pic = <Avatar src={props.tempImage} className={classes[props.size]}/>
     } else {
-        pic = <Avatar src={url} className={classes[props.size]}/>
+        if (props.clickable) {
+            pic = <Avatar src={userInfo.photo_id} className={classes[props.size]} style={{cursor: 'pointer'}}
+                          onClick={toggleCard}/>
+        } else {
+            pic = <Avatar src={userInfo.photo_id} className={classes[props.size]}/>
+        }
     }
 
     let defaultPic = <Avatar className={classes[props.size]}/>;
@@ -66,14 +70,14 @@ export default function ProfilePic(props) {
         return (
             <Box className={classes.container}>
                 {defaultPic}
-                {cardVisibility && <ProfileCard onChange={setCardVisibility} info={userInfo}/>}
+                {cardVisibility && <ProfileCard onChange={setCardVisibility} info={userInfo} userID={id}/>}
             </Box>
         );
     } else {
         return (
             <Box className={classes.container}>
                 {pic}
-                {cardVisibility && <ProfileCard onChange={setCardVisibility} info={userInfo}/>}
+                {cardVisibility && <ProfileCard onChange={setCardVisibility} info={userInfo} userID={id}/>}
             </Box>
         );
     }

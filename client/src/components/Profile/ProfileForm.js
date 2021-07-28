@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, makeStyles, TextField, FormControl, InputLabel, OutlinedInput, Grid} from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '../../store/slices/authSlice';
+import {storeImages} from '../../services/storage';
+import axios from "axios";
 
 const useStyles = makeStyles({
     formContainer: {
@@ -31,7 +33,6 @@ export default function ProfileForm(props) {
 
     const dispatch = useDispatch();
 
-    const [changed, setChanged] = useState(false);
     const [userFirstName, setUserFirstName] = useState(props.userInfo.first_name);
     const [userLastName, setUserLastName] = useState(props.userInfo.last_name);
     const [userEmail, setUserEmail] = useState(props.userInfo.email);
@@ -44,57 +45,63 @@ export default function ProfileForm(props) {
     const [userCountry, setUserCountry] = useState(props.userInfo.country);
 
     const handleFirstNameChange = (event) => {
-        setChanged(true);
+        props.setChanged(true);
         setUserFirstName(event.target.value);
     };
 
     const handleLastNameChange = (event) => {
-        setChanged(true);
+        props.setChanged(true);
         setUserLastName(event.target.value);
     }
 
     const handleEmailChange = (event) => {
-        setChanged(true);
+        props.setChanged(true);
         setUserEmail(event.target.value);
     };
 
     const handleAboutChange = (event) => {
-        setChanged(true);
+        props.setChanged(true);
         setUserAbout(event.target.value);
     };
 
     const handlePhoneChange = (event) => {
-        setChanged(true);
+        props.setChanged(true);
         setUserPhone(event.target.value);
     };
 
     const handleAddressChange = (event) => {
-        setChanged(true);
+        props.setChanged(true);
         setUserAddress(event.target.value);
     };
 
     const handleCityChange = (event) => {
-        setChanged(true);
+        props.setChanged(true);
         setUserCity(event.target.value);
     };
 
     const handleStateChange = (event) => {
-        setChanged(true);
+        props.setChanged(true);
         setUserState(event.target.value);
     };
 
     const handleZipChange = (event) => {
-        setChanged(true);
+        props.setChanged(true);
         setUserZip(event.target.value);
     };
 
     const handleCountryChange = (event) => {
-        setChanged(true);
+        props.setChanged(true);
         setUserCountry(event.target.value);
     };
 
-    const handleSave = () => {
-        setChanged(false);
+    const handleSave = async () => {
+        props.setChanged(false);
+        let imageURL;
+        if(props.imageFiles) {
+            let images = await storeImages(props.imageFiles);
+            imageURL = images[0];
+        }
+
         let user = {
             first_name: userFirstName,
             last_name: userLastName,
@@ -106,7 +113,8 @@ export default function ProfileForm(props) {
             state: userState,
             zip: userZip,
             country: userCountry,
-            _id: props.userId
+            photo_id: imageURL,
+            _id: props.userId,
         };
         // axios.put(`http://localhost:3001/user/profile/${props.userId}`, user)
         //     .then((res) => {props.onChangeUserInfo(res.data)});
@@ -170,7 +178,7 @@ export default function ProfileForm(props) {
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Button className={classes.button} variant="contained" color="primary" disabled={!changed} onClick={handleSave} style={{maxWidth: '100px'}}>Save</Button>
+                <Button className={classes.button} variant="contained" color="primary" disabled={!props.changed} onClick={handleSave} style={{maxWidth: '100px'}}>Save</Button>
             </form>
     );
 }

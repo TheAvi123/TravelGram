@@ -37,10 +37,7 @@ function ProfileDrawer(props) {
 
     const dispatch = useDispatch();
 
-    const user = useSelector(state => state.get('auth').user);
-
     const [visibility, setVisibility] = useState(false);
-
 
     const toggleDrawer = () => {
         setVisibility(true);
@@ -58,11 +55,11 @@ function ProfileDrawer(props) {
     return (
         <div>
             <Box className={classes.accountContainer} onClick={toggleDrawer}>
-                <ProfilePic size="small" userID="60fcde5f6f567e4e1d872bca"/>
+                <ProfilePic size="small" tempImage={props.user.icon}/>
             </Box>
             <Drawer classes={{paper: classes.drawer}} variant="temporary" anchor="right" open={visibility} onClose={closeDrawer}>
                 <Box className={classes.drawerTop} bgcolor="primary.main">
-                    <h5 style={{marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 25, color: 'white'}}>{user.first_name}</h5>
+                    <h5 style={{marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 25, color: 'white'}}>{props.user.username}</h5>
                 </Box>
                 <Link to="/profile"><Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Profile</Button></Link>
                 <Divider />

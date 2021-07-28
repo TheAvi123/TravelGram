@@ -69,7 +69,7 @@ const UserSchema = new mongoose.Schema(
     },
     trips: {
       type: Array,
-      required: true,
+      required: false,
       default: [],
     },
   },

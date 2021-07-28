@@ -96,7 +96,7 @@ export default function ProfileCard(props) {
             <Box className={classes.card} onClick={(e) => e.stopPropagation()}>
                 <Box className={classes.top} bgcolor="primary.main"/>
                 <Box className={classes.pic}>
-                    <ProfilePic clickable={false} size="medium" userID="60fcde5f6f567e4e1d872bca"/>
+                    <ProfilePic clickable={false} size="medium" userID={props.userID}/>
                 </Box>
                 <Box className={classes.name}>
                     <h1>{userInfo.username}</h1>

@@ -82,17 +82,30 @@ export default function EditProfile(props) {
         photo_id: "",
         trips: [],
     });
+    const [selectedFiles, setSelectedFiles] = useState();
+    const [imageURL, setImageURL] = useState();
+    const [changed, setChanged] = useState(false);
+
 
     const user = useSelector((state) => state.get('auth').user);
-    const id = user.id;
+    let id = user.id;
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/user/profile/${id}`)
+        axios.get(`http://localhost:3001/user/profile/${user.id}`)
             .then(res => {
                 setUserInfo(res.data);
                 setLoading(false);
             });
     }, []);
+
+    const handleFileChange = (event) => {
+        var binaryData = [];
+        binaryData.push(event.target.files[0]);
+        setImageURL(window.URL.createObjectURL(new Blob(binaryData, {type: "application/zip"})));
+        let fileArray = Array.from(event.target.files ?? []);
+        setSelectedFiles(fileArray);
+        setChanged(true);
+    }
 
     if (loading) {
         return (<span>Loading...</span>);
@@ -106,18 +119,18 @@ export default function EditProfile(props) {
                                 <h1 style={{color: 'white'}}>Edit Profile</h1>
                             </Box>
                             <Box className={classes.picContainer}>
-                                <ProfilePic size="large" userInfo={userInfo} userID={id}/>
+                                <ProfilePic size="large" userInfo={userInfo} userID={id} tempImage={imageURL}/>
                                 <IconButton className={classes.editButton} component="label">
-                                    <input type="file" hidden/>
+                                    <input type="file" onChange={handleFileChange} hidden/>
                                     <EditIcon/>
                                 </IconButton>
                             </Box>
                             <h1 style={{color: 'white', marginTop: '15px'}}>{userInfo.username}</h1>
                         </Box>
-                        <ProfileForm userInfo={userInfo} onChangeUserInfo={setUserInfo} userId={id}/>
+                        <ProfileForm userInfo={userInfo} onChangeUserInfo={setUserInfo} userId={id} imageFiles={selectedFiles} changed={changed} setChanged={setChanged} />
                     </Box>
                 </Box>
-                <ProfilePic size="medium" clickable="true" userID={id}/>
+                <ProfilePic size="medium" clickable="true" userID={user.id}/>
             </div>
         );
     }
