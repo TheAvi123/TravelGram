@@ -1,24 +1,42 @@
 import React, {useState} from 'react';
-import {Button, IconButton, makeStyles, Drawer} from '@material-ui/core';
+import {Grid, Box, Button, Divider, makeStyles, Drawer} from '@material-ui/core';
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ProfilePic from '../Profile/ProfilePic';
+import { Link } from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from '../../store/slices/authSlice';
 
 const useStyles = makeStyles({
     drawer: {
         width: 250,
         top: '64px',
-        height: '20%',
+        height: '60%',
         backgroundColor: 'white',
         borderRadius: '20px 0px 0px 20px',
+    },
+    drawerTop: {
+        display: 'flex',
+        height: '20%',
+        align: 'flex-end',
     },
     link: {
         color: 'black',
         textDecoration: 'none',
+    },
+    accountContainer: {
+        position: 'inherit',
+        display: 'flex',
+        maxWidth: '30px',
+        justify: 'flex-end',
     },
 });
 
 function ProfileDrawer(props) {
 
     const classes = useStyles();
+
+    const dispatch = useDispatch();
+
     const [visibility, setVisibility] = useState(false);
 
     const toggleDrawer = () => {
@@ -29,18 +47,28 @@ function ProfileDrawer(props) {
         setVisibility(false);
     }
 
-
+    const logOut = () => {
+        dispatch(logout());
+        window.location = '/';
+    }
 
     return (
         <div>
-            <IconButton onClick={toggleDrawer} color="primary">
-                <AccountCircleIcon />
-            </IconButton>
+            <Box className={classes.accountContainer} onClick={toggleDrawer}>
+                <ProfilePic size="small" tempImage={props.user.icon}/>
+            </Box>
             <Drawer classes={{paper: classes.drawer}} variant="temporary" anchor="right" open={visibility} onClose={closeDrawer}>
-                <h5 style={{marginLeft: 10, marginTop: 15}}>User Name</h5>
-                <Button style={{justifyContent: "flex-start"}}>Profile</Button>
-                <Button style={{justifyContent: "flex-start"}}>Account Settings</Button>
-                <Button style={{justifyContent: "flex-start"}}>Site Settings</Button>
+                <Box className={classes.drawerTop} bgcolor="primary.main">
+                    <h5 style={{marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 25, color: 'white'}}>{props.user.username}</h5>
+                </Box>
+                <Link to="/profile"><Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Profile</Button></Link>
+                <Divider />
+                <Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Account Settings</Button>
+                <Divider />
+                <Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Site Settings</Button>
+                <Divider />
+                <Button style={{justifyContent: "flex-start", color: "red"}} onClick={logOut}>Log Out</Button>
+                <Divider />
             </Drawer>
         </div>
 

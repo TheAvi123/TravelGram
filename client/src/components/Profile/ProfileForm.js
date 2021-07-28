@@ -1,6 +1,9 @@
-import React, {useState} from 'react';
-import {Box, Button, makeStyles, TextField, FormControl, InputLabel, Input, OutlinedInput, Grid} from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
+import React, {useEffect, useState} from 'react';
+import {Button, makeStyles, TextField, FormControl, InputLabel, OutlinedInput, Grid} from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { updateUser } from '../../store/slices/authSlice';
+import {storeImages} from '../../services/storage';
+import axios from "axios";
 
 const useStyles = makeStyles({
     formContainer: {
@@ -16,7 +19,8 @@ const useStyles = makeStyles({
         fullWidth: 'true',
     },
     button: {
-        marginTop: '40px',
+        marginTop: '30px',
+        marginLeft: '10px',
         color: 'white',
     },
 
@@ -27,59 +31,95 @@ const useStyles = makeStyles({
 export default function ProfileForm(props) {
     const classes = useStyles();
 
-    const [userFirstName, setUserFirstName] = useState("John");
-    const [userLastName, setUserLastName] = useState("Doe");
-    const [userEmail, setUserEmail] = useState("JohnDoe@hotmail.com");
-    const [userAbout, setUserAbout] = useState("I am a mysterious person.");
-    const [userPhone, setUserPhone] = useState("604-123-4567");
-    const [userAddress, setUserAddress] = useState("1234 Easy St.");
-    const [userCity, setUserCity] = useState("Vancouver");
-    const [userState, setUserState] = useState("British Columbia");
-    const [userZip, setUserZip] = useState("123456");
-    const [userCountry, setUserCountry] = useState("Canada");
+    const dispatch = useDispatch();
 
+    const [userFirstName, setUserFirstName] = useState(props.userInfo.first_name);
+    const [userLastName, setUserLastName] = useState(props.userInfo.last_name);
+    const [userEmail, setUserEmail] = useState(props.userInfo.email);
+    const [userAbout, setUserAbout] = useState(props.userInfo.about);
+    const [userPhone, setUserPhone] = useState(props.userInfo.phone);
+    const [userAddress, setUserAddress] = useState(props.userInfo.street);
+    const [userCity, setUserCity] = useState(props.userInfo.city);
+    const [userState, setUserState] = useState(props.userInfo.state);
+    const [userZip, setUserZip] = useState(props.userInfo.zip);
+    const [userCountry, setUserCountry] = useState(props.userInfo.country);
 
     const handleFirstNameChange = (event) => {
-      setUserFirstName(event.target.value);
+        props.setChanged(true);
+        setUserFirstName(event.target.value);
     };
 
     const handleLastNameChange = (event) => {
+        props.setChanged(true);
         setUserLastName(event.target.value);
     }
 
     const handleEmailChange = (event) => {
+        props.setChanged(true);
         setUserEmail(event.target.value);
     };
 
     const handleAboutChange = (event) => {
+        props.setChanged(true);
         setUserAbout(event.target.value);
     };
 
     const handlePhoneChange = (event) => {
+        props.setChanged(true);
         setUserPhone(event.target.value);
     };
 
     const handleAddressChange = (event) => {
+        props.setChanged(true);
         setUserAddress(event.target.value);
     };
 
     const handleCityChange = (event) => {
+        props.setChanged(true);
         setUserCity(event.target.value);
     };
 
     const handleStateChange = (event) => {
+        props.setChanged(true);
         setUserState(event.target.value);
     };
 
     const handleZipChange = (event) => {
+        props.setChanged(true);
         setUserZip(event.target.value);
     };
 
     const handleCountryChange = (event) => {
+        props.setChanged(true);
         setUserCountry(event.target.value);
     };
 
+    const handleSave = async () => {
+        props.setChanged(false);
+        let imageURL;
+        if(props.imageFiles) {
+            let images = await storeImages(props.imageFiles);
+            imageURL = images[0];
+        }
 
+        let user = {
+            first_name: userFirstName,
+            last_name: userLastName,
+            email: userEmail,
+            about: userAbout,
+            phone: userPhone,
+            street: userAddress,
+            city: userCity,
+            state: userState,
+            zip: userZip,
+            country: userCountry,
+            photo_id: imageURL,
+            _id: props.userId,
+        };
+        // axios.put(`http://localhost:3001/user/profile/${props.userId}`, user)
+        //     .then((res) => {props.onChangeUserInfo(res.data)});
+        dispatch(updateUser(user));
+    };
 
     return (
             <form className={classes.formContainer} noValidate autoComplete="off">
@@ -138,7 +178,7 @@ export default function ProfileForm(props) {
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Button className={classes.button} variant="contained" color="primary" style={{maxWidth: '150px'}}>Save Changes</Button>
+                <Button className={classes.button} variant="contained" color="primary" disabled={!props.changed} onClick={handleSave} style={{maxWidth: '100px'}}>Save</Button>
             </form>
     );
 }

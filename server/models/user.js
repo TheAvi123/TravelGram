@@ -39,6 +39,30 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    phone: {
+      type: String,
+      required: false,
+    },
+    street: {
+      type: String,
+      required: false,
+    },
+    city: {
+      type: String,
+      required: false,
+    },
+    state: {
+      type: String,
+      required: false,
+    },
+    zip: {
+      type: String,
+      required: false,
+    },
+    country: {
+      type: String,
+      required: false,
+    },
     photo_id: {
       type: String,
       required: false,
@@ -49,15 +73,15 @@ const UserSchema = new mongoose.Schema(
       default: [],
     },
   },
-  {
-    timestamps: true,
-    toJSON: {
-      transform(doc, ret) {
-        ret.id = ret._id;
-        delete ret._id;
+    {
+      timestamps: true,
+      toJSON: {
+        transform(doc, ret) {
+          ret.id = ret._id;
+          delete ret._id;
+        },
       },
-    },
-  }
+    }
 );
 
 const User = mongoose.model('User', UserSchema);

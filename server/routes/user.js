@@ -104,4 +104,76 @@ router.post('/register', (req, res) => {
   });
 });
 
+// GET Request - Get User Info by ID
+router.get('/profile/:id/', function (req, res, next) {
+  const userId = req.params.id;
+  User.findOne({_id: userId})
+      .then((data) => {
+        res.send(data);
+        console.log(`sending data for user ${data.first_name} with id ${data._id}`);
+      })
+      .catch((err) => {
+          console.log("Failed to find user on DB.");
+          console.log(err);
+          res.status(400).send({ error: err });
+      });
+});
+
+// PUT Request - Edit User Info
+// router.put('/profile/:id/', function (req, res, next) {
+//   const userId = req.params.id;
+//   User.findOneAndUpdate(
+//       {_id: userId},
+//       {$set: {
+//           email: req.body.email,
+//           first_name: req.body.first_name,
+//           last_name: req.body.last_name,
+//           about: req.body.about,
+//           city: req.body.city,
+//           country: req.body.country,
+//           state: req.body.state,
+//           street: req.body.street,
+//           zip: req.body.zip,
+//           phone: req.body.phone}},
+//       {new: true},
+//       (err, doc) => {
+//         if(err) {
+//           console.log("Failed to update user info");
+//         } else {
+//           res.send(doc);
+//         }
+//       });
+// });
+
+router.put('/update', function (req, res, next) {
+    const userId = req.body._id;
+    User.findOneAndUpdate(
+        {_id: userId},
+        {$set: {
+                username: req.body.username,
+                password: req.body.password,
+                email: req.body.email,
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
+                about: req.body.about,
+                city: req.body.city,
+                country: req.body.country,
+                state: req.body.state,
+                street: req.body.street,
+                zip: req.body.zip,
+                phone: req.body.phone,
+                photo_id: req.body.photo_id,
+                trips: req.body.trips}},
+        {new: true, multi: false, omitUndefined: true},
+        (err, doc) => {
+            if(err) {
+                console.log("Failed to update user info on DB.");
+                console.log(err);
+                res.status(400).send({ error: err });
+            } else {
+                res.send(doc);
+            }
+        });
+});
+
 module.exports = router;

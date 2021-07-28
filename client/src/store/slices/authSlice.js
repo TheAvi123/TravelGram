@@ -20,6 +20,7 @@ export const login = createAsyncThunk('user/login', async (params) => {
           id: user.id,
           username: user.username,
           trips: user.trips,
+          icon: user.photo_id,
         },
         error: false
       };
@@ -62,11 +63,18 @@ export const updateUser = createAsyncThunk('user/update', async (params) => {
   if (params.password) {
     encoded[ 'password' ] = Buffer.from(params.password, 'base64');
   }
-  const response = await axios.post(url + '/user/update', { ...encoded, ...params })
+  const response = await axios.put(url + '/user/update', { ...encoded, ...params })
     .then(({ data }) => {
       return {
-        // TODO: edit so that "user" gets what it needs
-        user: data,
+        user: {
+          username: data.username,
+          first_name: data.first_name,
+          last_name: data.last_name,
+          email: data.email,
+          phone: data.phone,
+          icon: data.photo_id,
+          id: data.id
+        },
         error: false
       };
     })
