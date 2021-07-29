@@ -20,12 +20,12 @@ const useStyles = makeStyles({
   },
 });
 
-const TripSearchBar = ({ searchInput, onInputChange }) => {
+const TripSearchBar = ({ searchInput, onInputChange, customStyle }) => {
   const classes = useStyles();
 
   return (
-    <Box className={classes.container}>
-      <FormControl variant='outlined'>
+    <Box className={customStyle || classes.container}>
+      <FormControl className={customStyle ? `${customStyle}--content` : ''} variant='outlined'>
         <InputLabel htmlFor='search-bar'>Title, Dates, Location</InputLabel>
         <OutlinedInput
           id='search-bar-input'

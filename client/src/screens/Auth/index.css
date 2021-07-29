@@ -1,0 +1,24 @@
+div.auth--root {
+  max-width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: none;
+}
+
+div.auth--root.register {
+  margin: 5% auto;
+}
+
+div.auth--root.login {
+  margin: 10% auto;
+}
+
+.auth--root .auth--switch {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  text-align: center;
+}

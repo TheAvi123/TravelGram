@@ -1,0 +1,66 @@
+.dash--wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.dash--top-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.dash--search .dash--search--content {
+  width: 400px;
+}
+
+.dash--search .dash--search--content label {
+  background-color: white;
+  padding: 0 10px;
+}
+
+.dash--title {
+  margin: 60px 0;
+  text-align: center;
+  font-size: 30px;
+}
+
+.dash--top-menu .dash--create-trip {
+  padding: 14px 60px;
+  background-color: rgba(61, 184, 218, 0.6);
+}
+
+.dash--wrapper .MuiPaper-elevation1 {
+  box-shadow: 0px 2px 5px 0px rgb(61, 184, 218, 60%);
+}
+
+.dash--wrapper .dash--trip-card {
+  max-width: 300px;
+  min-height: 300px;
+  max-height: 400px;
+  padding: 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dash--wrapper .dash--trip-card .MuiCardActions-root {
+  width: 100%;
+}
+
+.dash--wrapper .dash--trip-card .MuiCardActions-root button {
+  width: 100%;
+}
+
+@media only screen and (max-width: 746px) {
+  .dash--top-menu  {
+    flex-direction: column;
+  }
+
+  .dash--search .dash--search--content {
+    margin-bottom: 20px;
+  }
+}

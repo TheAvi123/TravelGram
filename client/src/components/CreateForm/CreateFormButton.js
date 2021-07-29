@@ -63,7 +63,8 @@ const CreateFormButton = ({
             onClick(true);
             setShowForm(true);
           }}
-          style={{ maxWidth: '200px', margin: '30px auto' }}>
+          className={formType === 'trip' ? 'dash--create-trip' : ''}
+          style={formType === 'trip' ? {} : { maxWidth: '200px', margin: '30px auto' }}>
           {formType === 'trip'
             ? 'Create Trip'
             : formType === 'tripitem'

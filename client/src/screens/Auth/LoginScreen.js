@@ -4,19 +4,8 @@ import { useDispatch } from 'react-redux';
 import { Button, Card, CardActions } from '@material-ui/core';
 import AuthForm from '../../components/AuthForm';
 import { login } from '../../store/slices/authSlice';
-import { makeStyles } from '@material-ui/core/styles';
 import { USERNAME, PASSWORD } from './fieldNames';
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 500,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '20% auto',
-    flexDirection: 'column',
-  },
-});
+import './index.css';
 
 function Login() {
   const [fields, updateFields] = useState({
@@ -24,10 +13,9 @@ function Login() {
     [PASSWORD]: '',
   });
   const dispatch = useDispatch();
-  const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card className="auth--root login">
       <AuthForm
         submitButton="Login"
         fields={fields}
@@ -35,7 +23,7 @@ function Login() {
         onSubmit={() => dispatch(login(fields)).then(() => window.location = '/').catch(err => alert(err))}
       />
       <CardActions>
-        <div style={{ textAlign: 'center' }}>
+        <div className="auth--switch">
           Don't have an account yet?{' '}
           <Link to="/register">
             <Button>Register</Button>

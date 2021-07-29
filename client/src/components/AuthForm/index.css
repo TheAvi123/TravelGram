@@ -1,0 +1,37 @@
+.auth--root .auth--form-group {
+  width: 250px;
+  position: relative;
+}
+
+.auth--root .auth--form-control {
+  margin-bottom: 10px;
+}
+
+.auth--root .auth--eye-wrapper {
+  position: absolute;
+  right: 0;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.auth--root.register .auth--eye-wrapper {
+  top: 255px;
+}
+
+.auth--root.login .auth--eye-wrapper {
+  top: 82px;
+}
+
+.auth--root .auth--eye-wrapper:hover {
+  cursor: pointer;
+  color: rgba(61, 184, 218, 0.6);
+}
+
+.auth--root .auth--unhide {
+  color: #3DB8DA;
+}
+
+.auth--root .auth--button {
+  background-color: rgba(61, 184, 218, 0.5);
+  margin-top: 20px;
+}

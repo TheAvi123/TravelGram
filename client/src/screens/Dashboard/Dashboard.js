@@ -3,9 +3,8 @@ import axios from 'axios';
 import TripSearchBar from '../../components/SearchBar/TripSearchBar';
 import Feed from '../../components/Feed/Feed';
 import { Box } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-import { getTrips } from '../../store/slices/tripSlice';
 import CreateFormButton from '../../components/CreateForm/CreateFormButton';
+import './index.css';
 
 const Dashboard = () => {
   const [trips, setTrips] = useState([]);
@@ -22,8 +21,6 @@ const Dashboard = () => {
   const handleSearchTitle = (e) => {
     setSearchTitle(e.target.value);
   };
-
-  // const dispatch = useDispatch();
 
   useEffect(() => {
     axios
@@ -50,21 +47,27 @@ const Dashboard = () => {
   };
 
   return (
-    <Box>
-      <TripSearchBar
-        searchInput={searchTitle}
-        onInputChange={handleSearchTitle}
-      />
-      <Box display='flex' justifyContent='space-around'>
-        <CreateFormButton
-          formType='trip'
-          onSuccess={handleSubmit}
-          // onError={null}
-          // onClose={null}
-          tripId={null}
-          onClick={() => {}}
+    <Box className="dash--wrapper">
+      <div className="dash--top-menu">
+        <TripSearchBar
+          searchInput={searchTitle}
+          onInputChange={handleSearchTitle}
+          customStyle="dash--search"
         />
-      </Box>
+        <Box display="flex" justifyContent="space-around">
+          <CreateFormButton
+            formType="trip"
+            onSuccess={handleSubmit}
+            // onError={null}
+            // onClose={null}
+            tripId={null}
+            onClick={() => { }}
+          />
+        </Box>
+      </div>
+      <div className="dash--title">
+        Public Trips To Explore
+      </div>
       <Feed
         trips={trips}
         count={pageCount}

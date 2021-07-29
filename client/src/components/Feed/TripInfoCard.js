@@ -29,7 +29,7 @@ const TripInfoCard = ({ trip }) => {
     cardImageIndex = Math.floor(Math.random() * (trip.images.length - 1));
   }
   return (
-    <Card style={{ maxWidth: '300px', maxHeight: '400px', padding: '10px' }}>
+    <Card className="dash--trip-card">
       <CardActionArea>
         <Typography gutterBottom variant='h5' component='h2'>
           {trip.title}
