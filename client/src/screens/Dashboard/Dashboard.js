@@ -3,9 +3,24 @@ import axios from 'axios';
 import TripSearchBar from '../../components/SearchBar/TripSearchBar';
 import Feed from '../../components/Feed/Feed';
 import { Box } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-import { getTrips } from '../../store/slices/tripSlice';
 import CreateFormButton from '../../components/CreateForm/CreateFormButton';
+import { makeStyles } from '@material-ui/core/styles';
+import theme from '../../theme';
+
+
+const useStyles = makeStyles({
+	dashRoot: {
+		height: '100%',
+		display: 'flex',
+    flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+		background: 'radial-gradient(at top left, ' + theme.palette.primary.main + ', transparent 60%), ' + 
+					'radial-gradient(at top right, ' + theme.palette.primary.light + ', transparent 70%), ' + 
+					'radial-gradient(at bottom left, ' + theme.palette.secondary.light + ', transparent 70%), ' + 
+					'radial-gradient(at bottom right, ' + theme.palette.secondary.main + ', transparent 90%)'
+	}
+});
 
 const Dashboard = () => {
   const [trips, setTrips] = useState([]);
@@ -14,6 +29,8 @@ const Dashboard = () => {
   const [pageCount, setPageCount] = useState(0);
   const [pageSize, setPageSize] = useState(12);
   const [tripUpdate, setTripUpdate] = useState({});
+
+  const classes = useStyles();
 
   const handlePageChange = (e, page) => {
     setPage(page);
@@ -50,7 +67,7 @@ const Dashboard = () => {
   };
 
   return (
-    <Box>
+    <Box className={classes.dashRoot}>
       <TripSearchBar
         searchInput={searchTitle}
         onInputChange={handleSearchTitle}

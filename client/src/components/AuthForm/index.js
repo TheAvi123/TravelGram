@@ -1,38 +1,96 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { Button, FormGroup, FormControl, FormControlLabel, Input, InputLabel, Checkbox } from '@material-ui/core';
+import { Button, TextField, FormControlLabel, Checkbox, makeStyles, Typography } from '@material-ui/core';
+import theme from '../../theme';
 
-export default function AuthForm({submitButton, fields, onChange, onSubmit}) {
+export default function AuthForm({ buttonText, fields, onChange, onSubmit }) {
+
   const [showPassword, toggleShowPassword] = useState(false);
+
+  const useStyles = makeStyles({
+    root: {
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    },
+    title: {
+      background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ' 30%, ' + theme.palette.secondary.main + ')',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      alignSelf: 'center',
+      fontWeight: 900,
+      fontSize: 32,
+      marginBottom: '5%'
+    },
+    input: {
+      width: '100%',
+      marginBottom: '5%',
+    },
+    showpw: {
+      color: showPassword ? theme.palette.primary.main : 'rgba(255, 255, 255, 0.7)',
+      alignSelf: 'center',
+      marginBottom: '5%',
+    },
+    showbox: {
+    },
+    submitButton: {
+      padding: '3% 0%',
+      fontSize: '1em',
+      color: theme.palette.black,
+      background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
+      '&:hover': {
+        color: theme.palette.white,
+        background: 'linear-gradient(160deg, ' + theme.palette.primary.dark + ', ' + theme.palette.secondary.dark + ')'
+      }
+    }
+  });
+
+  const classes = useStyles();
+
   return (
-    <FormGroup onSubmit={e => e.preventDefault()}>
+    <form className={classes.root} 
+          onSubmit={e => e.preventDefault()}
+          noValidate autoComplete="off">
+      <Typography className={classes.title}>
+        TravelGram
+      </Typography>
       {Object.keys(fields).map(key => {
         const isPassword = key.toLowerCase().includes('password');
         return (
-          <FormControl key={key}>
-            <InputLabel htmlFor={key}>{key}</InputLabel>
-            <Input id={key} name={key} type={isPassword && !showPassword ? 'password' : 'text'} onChange={e => onChange({[key]: e.target.value})} value={fields[key]}></Input>
-          </FormControl>
+          <TextField 
+            className={classes.input}
+            id={key} name={key} required
+            type={isPassword && !showPassword ? 'password' : 'text'}
+            onChange={e => onChange({ [key]: e.target.value })}
+            variant="outlined" 
+            color="primary"
+            label={key} 
+          />
         )
       })}
-      <FormControl>
-        <FormControlLabel
+      <div className={classes.showpw}>
+        <FormControlLabel 
           control={
-            <Checkbox
-              checked={showPassword}
+            <Checkbox 
+              className={classes.showbox}
+              checked={showPassword} color="primary"
               onChange={() => toggleShowPassword(!showPassword)}
             />
           }
           label='Show password'
         />
-      </FormControl>
-      <Button onClick={() => onSubmit()}>{submitButton}</Button>
-    </FormGroup>
+      </div>
+      <Button className={classes.submitButton}
+              onClick={() => onSubmit()} fullWidth>
+        {buttonText}
+      </Button>
+    </form>
   );
 }
 
 AuthForm.propTypes = {
-  submitButton: PropTypes.string.isRequired,
+  buttonText: PropTypes.string.isRequired,
   fields: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired

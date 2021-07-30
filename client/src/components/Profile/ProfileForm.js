@@ -1,32 +1,51 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import {Button, makeStyles, TextField, FormControl, InputLabel, OutlinedInput, Grid} from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '../../store/slices/authSlice';
-import {storeImages} from '../../services/storage';
-import axios from "axios";
+import { storeImages } from '../../services/storage';
+import theme from '../../theme';
 
 const useStyles = makeStyles({
-    formContainer: {
+    formRoot: {
+        width: '100%',
+        marginTop: "5%",
+    },
+    mainContainer: {
         display: 'flex',
         flexDirection: 'column',
-        width: '80%',
-        backgroundColor: 'white',
-        marginTop: "20px",
+    },
+    nameContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    locationContainer: {
+        display: 'flex',
+        flexDirection: 'row',
     },
     field: {
-        margin: '10px',
-        marginTop: '20px',
-        fullWidth: 'true',
+        flexGrow: 1,
+        marginBottom: "2%"
     },
-    button: {
-        marginTop: '30px',
-        marginLeft: '10px',
-        color: 'white',
+    rightField: {
+        flexGrow: 1,
+        marginLeft: "2%",
+        marginBottom: "2%"
     },
-
-
+    saveButton: {
+        padding: '1% 0%',
+        fontSize: '1em',
+        color: theme.palette.black,
+        background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
+        '&:hover': {
+          color: theme.palette.white,
+          background: 'linear-gradient(160deg, ' + theme.palette.primary.dark + ', ' + theme.palette.secondary.dark + ')'
+        }
+    },
+    disabledButton: {
+        color: 'grey !important',
+        background: 'linear-gradient(160deg, ' + theme.palette.primary.desat + ', ' + theme.palette.secondary.desat + ')'
+    }
 });
-
 
 export default function ProfileForm(props) {
     const classes = useStyles();
@@ -116,69 +135,71 @@ export default function ProfileForm(props) {
             photo_id: imageURL,
             _id: props.userId,
         };
-        // axios.put(`http://localhost:3001/user/profile/${props.userId}`, user)
-        //     .then((res) => {props.onChangeUserInfo(res.data)});
+
         dispatch(updateUser(user));
     };
 
     return (
-            <form className={classes.formContainer} noValidate autoComplete="off">
-                <Grid container>
-                    <Grid item xs={4}>
-                        <FormControl className={classes.field} variant="outlined">
-                            <InputLabel htmlFor="profile-first-name">First Name</InputLabel>
-                            <OutlinedInput id="profile-first-name" value={userFirstName} onChange={handleFirstNameChange} label="First Name" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <FormControl className={classes.field} variant="outlined">
-                            <InputLabel htmlFor="profile-last-name">Last Name</InputLabel>
-                            <OutlinedInput id="profile-last-name" value={userLastName} onChange={handleLastNameChange} label="Last Name" />
-                        </FormControl>
-                    </Grid>
-                </Grid>
-                <FormControl className={classes.field} variant="outlined">
+        <form className={classes.formRoot} noValidate autoComplete="off">
+            <div className={classes.mainContainer}> 
+                <div className={classes.nameContainer}>
+                    <FormControl className={classes.field} variant="outlined">
+                        <InputLabel htmlFor="profile-first-name">First Name</InputLabel>
+                        <OutlinedInput id="profile-first-name" value={userFirstName} onChange={handleFirstNameChange} label="First Name" />
+                    </FormControl>
+                    <FormControl className={classes.rightField} variant="outlined">
+                        <InputLabel htmlFor="profile-last-name">Last Name</InputLabel>
+                        <OutlinedInput id="profile-last-name" value={userLastName} onChange={handleLastNameChange} label="Last Name" />
+                    </FormControl>
+                </div>
+
+                <FormControl className={classes.field} variant="outlined" fullWidth>
                     <InputLabel htmlFor="profile-email">Email</InputLabel>
                     <OutlinedInput id="profile-email" value={userEmail} onChange={handleEmailChange} label="Email" />
                 </FormControl>
-                <TextField className={classes.field} variant="outlined" id="user-about" label="About You" multiline rows={5} value={userAbout} onChange={handleAboutChange} />
-                <FormControl className={classes.field} variant="outlined">
+
+                <FormControl className={classes.field} variant="outlined" fullWidth>
                     <InputLabel htmlFor="profile-phone-number">Phone Number</InputLabel>
                     <OutlinedInput id="profile-phone-number" value={userPhone} onChange={handlePhoneChange} label="Phone Number" />
                 </FormControl>
-                <FormControl className={classes.field} variant="outlined">
-                    <InputLabel htmlFor="profile-street-address">Street Address</InputLabel>
-                    <OutlinedInput id="profile-street-address" value={userAddress} onChange={handleAddressChange} label="Street Address" />
-                </FormControl>
-                <Grid container>
-                    <Grid item xs={4}>
-                        <FormControl className={classes.field} variant="outlined">
-                            <InputLabel htmlFor="profile-city">City</InputLabel>
-                            <OutlinedInput id="profile-city" value={userCity} onChange={handleCityChange} label="City" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <FormControl className={classes.field} variant="outlined">
-                            <InputLabel htmlFor="profile-state">State / Province</InputLabel>
-                            <OutlinedInput id="profile-state" value={userState} onChange={handleStateChange} label="State / Province" />
-                        </FormControl>
-                    </Grid>
-                </Grid>
-                <Grid container>
-                    <Grid item xs={4}>
-                        <FormControl className={classes.field} variant="outlined">
-                            <InputLabel htmlFor="profile-zip">Zip Code / Postal Code</InputLabel>
-                            <OutlinedInput id="profile-zip" value={userZip} onChange={handleZipChange} label="Zip Code / Postal Code" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <FormControl className={classes.field} variant="outlined">
-                            <InputLabel htmlFor="profile-country">Country</InputLabel>
-                            <OutlinedInput id="profile-country" value={userCountry} onChange={handleCountryChange} label="Country" />
-                        </FormControl>
-                    </Grid>
-                </Grid>
-                <Button className={classes.button} variant="contained" color="primary" disabled={!props.changed} onClick={handleSave} style={{maxWidth: '100px'}}>Save</Button>
-            </form>
+
+                <TextField className={classes.field} variant="outlined"
+                           id="user-about" label="About You" fullWidth
+                           multiline rows={3} value={userAbout} 
+                           onChange={handleAboutChange} 
+                />
+
+                <div className={classes.locationContainer}>
+                    <FormControl className={classes.field} variant="outlined" style={{flexGrow: 8}}>
+                        <InputLabel htmlFor="profile-street-address">Street Address</InputLabel>
+                        <OutlinedInput id="profile-street-address" value={userAddress} onChange={handleAddressChange} label="Street Address" />
+                    </FormControl>
+                    <FormControl className={classes.rightField} variant="outlined" style={{flexGrow: 0}}>
+                        <InputLabel htmlFor="profile-zip">Postal Code</InputLabel>
+                        <OutlinedInput id="profile-zip" value={userZip} onChange={handleZipChange} label="Postal Code" />
+                    </FormControl>
+                </div>
+
+                <div className={classes.locationContainer}>
+                    <FormControl className={classes.field} variant="outlined">
+                        <InputLabel htmlFor="profile-city">City</InputLabel>
+                        <OutlinedInput id="profile-city" value={userCity} onChange={handleCityChange} label="City" />
+                    </FormControl>
+                    <FormControl className={classes.rightField} variant="outlined">
+                        <InputLabel htmlFor="profile-state">State / Province</InputLabel>
+                        <OutlinedInput id="profile-state" value={userState} onChange={handleStateChange} label="State / Province" />
+                    </FormControl>
+                    <FormControl className={classes.rightField} variant="outlined">
+                        <InputLabel htmlFor="profile-country">Country</InputLabel>
+                        <OutlinedInput id="profile-country" value={userCountry} onChange={handleCountryChange} label="Country" />
+                    </FormControl>
+                </div>
+
+                <Button classes={{root: classes.saveButton, disabled: classes.disabledButton}} variant="contained"
+                        disabled={!props.changed} onClick={handleSave}>
+                    SAVE CHANGES
+                </Button>
+            </div>
+        </form>
     );
 }

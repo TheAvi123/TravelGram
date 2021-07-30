@@ -5,6 +5,7 @@ import ProfileDrawer from './ProfileDrawer';
 import { Link } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import axios from "axios";
+import theme from '../../theme';
 
 const useStyles = makeStyles({
     root: {
@@ -14,6 +15,7 @@ const useStyles = makeStyles({
         alignItems: 'center',
         height: '40px',
         justifyContent: 'flex-start',
+        backgroundColor: theme.palette.background
     },
     accountButton: {
         display: 'flex',
