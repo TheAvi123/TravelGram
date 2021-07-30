@@ -15,10 +15,9 @@ const useStyles = makeStyles((theme) => ({
 const CreateFormButton = ({
   formType,
   onSuccess,
-  // onError,
-  // onClose,
   tripId,
   onClick,
+  disabled,
 }) => {
   const [showForm, setShowForm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -63,6 +62,7 @@ const CreateFormButton = ({
             onClick(true);
             setShowForm(true);
           }}
+          disabled={disabled}
           style={{ maxWidth: '200px', margin: '30px auto' }}>
           {formType === 'trip'
             ? 'Create Trip'

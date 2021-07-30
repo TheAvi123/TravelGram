@@ -18,7 +18,13 @@ const useStyles = makeStyles({
   },
 });
 
-const DraggableSchedule = ({ cards, selectedCards, onDragDrop, title }) => {
+const DraggableSchedule = ({
+  cards,
+  selectedCards,
+  onDragDrop,
+  title,
+  disabled,
+}) => {
   const classes = useStyles();
   function handleDragDrop(result) {
     console.log('handle drag drop');
@@ -59,6 +65,7 @@ const DraggableSchedule = ({ cards, selectedCards, onDragDrop, title }) => {
                     description={card.description}
                     startTime={card.startTime}
                     selected={isSelected}
+                    disabled={disabled}
                   />
                 );
               })}

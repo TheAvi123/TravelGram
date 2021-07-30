@@ -3,7 +3,6 @@ import axios from 'axios';
 import TripSearchBar from '../../components/SearchBar/TripSearchBar';
 import Feed from '../../components/Feed/Feed';
 import { Box } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
 import { getTrips } from '../../store/slices/tripSlice';
 import CreateFormButton from '../../components/CreateForm/CreateFormButton';
 
@@ -59,8 +58,6 @@ const Dashboard = () => {
         <CreateFormButton
           formType='trip'
           onSuccess={handleSubmit}
-          // onError={null}
-          // onClose={null}
           tripId={null}
           onClick={() => {}}
         />
