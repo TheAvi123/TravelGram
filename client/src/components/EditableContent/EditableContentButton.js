@@ -32,8 +32,11 @@ const EditableContentButton = ({
 }) => {
   const [showContent, setShowContent] = useState(false);
   const classes = useStyles();
-  console.log(content);
-  const [value, setValue] = useState(content || '');
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    setValue(content);
+  }, [content]);
 
   const toggleShowContent = () => {
     onClick(!showContent);

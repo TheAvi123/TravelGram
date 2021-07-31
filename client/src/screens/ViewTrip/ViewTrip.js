@@ -105,8 +105,6 @@ const ViewTripPage = (props) => {
           `http://localhost:3001/trip/${tripId}`
         );
         const tripInfo = tripInfoRes.data;
-        console.log('fetched trip:');
-        console.log(tripInfo);
         setTrip(tripInfo);
         const isOwner =
           tripInfo.owner === currentUser ||
@@ -146,12 +144,8 @@ const ViewTripPage = (props) => {
 
   const handleEdit = async (trip) => {
     try {
-      console.log('trip before edit:');
-      console.log(trip);
       const res = await axios.get(`http://localhost:3001/trip/${tripId}`);
       const newTrip = res.data;
-      console.log('trip after edit:');
-      console.log(newTrip);
       setTrip(newTrip);
     } catch (err) {
       console.log(err);
