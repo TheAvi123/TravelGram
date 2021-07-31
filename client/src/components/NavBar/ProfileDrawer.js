@@ -59,7 +59,7 @@ function ProfileDrawer(props) {
     return (
         <div>
             <Box className={classes.accountContainer} onClick={toggleDrawer}>
-                <ProfilePic size="small" tempImage={props.user.icon}/>
+                <ProfilePic size="small" userID={props.user.id}/>
             </Box>
             <Drawer classes={{paper: classes.drawer}} variant="temporary" anchor="right" open={visibility} onClose={closeDrawer}>
                 <Box className={classes.drawerTop} bgcolor="primary.main">

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CreateFormButton from '../../components/CreateForm/CreateFormButton';
 import TripSearchBar from '../../components/SearchBar/TripSearchBar';
 import Feed from '../../components/Feed/Feed';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import theme from '../../theme';
+import CreateFormButton from '../../components/CreateForm/CreateFormButton';
 
 const useStyles = makeStyles({
     dashRoot: {
@@ -88,8 +88,6 @@ const Dashboard = () => {
                     <CreateFormButton
                         formType='trip'
                         onSuccess={handleSubmit}
-                        // onError={null}
-                        // onClose={null}
                         tripId={null}
                         onClick={() => { }}
                     />

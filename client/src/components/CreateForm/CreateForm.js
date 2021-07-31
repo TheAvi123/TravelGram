@@ -27,7 +27,8 @@ import TripItemTagList from './helpers/TripItemTagList';
 import TripItems from './helpers/TripItems';
 import axios from 'axios';
 import { storeImages } from '../../services/storage';
-import { Alert } from '@material-ui/lab';
+import { Alert, useTabContext } from '@material-ui/lab';
+import { useSelector } from 'react-redux';
 
 const maxTitleChars = 30;
 const maxDescrChars = 300;
@@ -122,10 +123,13 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
 
   const classes = useStyles();
 
+  const currentUser = useSelector((state) => state.get('auth').user).username;
+
   useEffect(() => {
     axios.get('http://localhost:3001/user').then(
       (res) => {
-        setUsers(res.data);
+        const users = res.data;
+        setUsers(users);
       },
       (err) => {
         const errorMsg = err.response.data;
@@ -147,12 +151,14 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
       startTime,
       endTime,
       images,
-      ...(formType === 'trip' && { selectedUsers }),
+      ...(formType === 'trip' && { owner: currentUser }),
+      ...(formType === 'trip' && { collaborators: selectedUsers }),
       ...(formType === 'trip' && { activities: [] }),
       ...(formType === 'tripitem' && { address }),
       ...(formType === 'tripitem' && { coordinates }),
       ...(formType === 'tripitem' && { selectedTripItem }),
     };
+    console.log(data);
     const url =
       formType === 'trip'
         ? `http://localhost:3001/trip`

@@ -21,7 +21,11 @@ const TripSchema = new mongoose.Schema(
     images: {
       type: [String],
     },
-    selectedUsers: {
+    owner: {
+      type: String,
+      required: true,
+    },
+    collaborators: {
       type: [String],
     },
     activities: [

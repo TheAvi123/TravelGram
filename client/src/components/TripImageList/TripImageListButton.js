@@ -32,6 +32,7 @@ const TripImageListButton = ({
   onClick,
   shownButtonName,
   hiddenButtonName,
+  disabled,
 }) => {
   const classes = useStyles();
   const [showImageList, setShowImageList] = useState(false);
@@ -52,7 +53,8 @@ const TripImageListButton = ({
       <Button className={classes.button}
         variant='contained'
         onClick={toggleShowImageList}
-        style={{ minWidth: '200px', margin: '20px'}}>
+        style={{ minWidth: '200px', margin: '20px'}}
+        disabled={disabled}>
         {showImageList ? hiddenButtonName : shownButtonName}
       </Button>
       {showImageList && (

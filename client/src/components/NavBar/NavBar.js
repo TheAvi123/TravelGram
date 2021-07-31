@@ -49,7 +49,8 @@ export default function NavBar(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [loggedIn, setLoggedIn] = useState(true);
 
-    const user = useSelector((state) => state.get('auth').user);
+    let user = useSelector((state) => state.get('auth').user);
+    if(!user.id && localStorage.getItem('user')) user = JSON.parse(localStorage.getItem('user'));
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);

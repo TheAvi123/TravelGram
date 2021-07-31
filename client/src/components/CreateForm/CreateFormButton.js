@@ -27,8 +27,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateFormButton = ({ formType, onSuccess, tripId, onClick }) => {
-
+const CreateFormButton = ({
+  formType,
+  onSuccess,
+  tripId,
+  onClick,
+  disabled,
+}) => {
   const [showForm, setShowForm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -67,7 +72,9 @@ const CreateFormButton = ({ formType, onSuccess, tripId, onClick }) => {
           onClick={() => {
             onClick(true);
             setShowForm(true);
-          }}>
+          }}
+          disabled={disabled}
+          >
           {formType === 'trip'
             ? 'Create New Trip'
             : formType === 'tripitem'

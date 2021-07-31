@@ -16,7 +16,14 @@ import './DraggableCard.css';
 import theme from '../../theme';
 
 
-const DraggableCard = ({ index, title, description, startTime, selected }) => {
+const DraggableCard = ({
+  index,
+  title,
+  description,
+  startTime,
+  selected,
+  disabled,
+}) => {
   const useStyles = makeStyles((theme) => ({
     oppositeContent: {
       // TODO: adjust this value accordingly
@@ -48,7 +55,11 @@ const DraggableCard = ({ index, title, description, startTime, selected }) => {
 
   const style = useStyles();
   return (
-    <Draggable key={title} draggableId={title} index={index}>
+    <Draggable
+      key={title}
+      draggableId={title}
+      index={index}
+      isDragDisabled={disabled}>
       {(provided) => (
         <TimelineItem
           className='timeline-item'

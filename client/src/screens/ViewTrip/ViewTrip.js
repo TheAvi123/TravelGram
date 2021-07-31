@@ -8,15 +8,14 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // Component Imports
 import Map from '../../components/TripMap/Map';
-import TripSchedule from '../../components/Trip/TripSchedule';
 import CreateFormButton from '../../components/CreateForm/CreateFormButton';
 import DraggableSchedule from './DraggableSchedule';
-import ActivityPopup from '../../components/Trip/ActivityPopup';
 import TripImageListButton from '../../components/TripImageList/TripImageListButton';
 import EditableContentButton from '../../components/EditableContent/EditableContentButton';
 import CreateTemplatePopup from './CreateTemplatePopup';
 import { Alert } from '@material-ui/lab';
 import theme from '../../theme';
+import { useSelector } from 'react-redux';
 
 // Styling Imports
 import './Resizer.css';
@@ -27,10 +26,10 @@ const useStyles = makeStyles({
         height: '100%',
         width: '100%',
         overflow: 'hidden', //TODO Change to Scroll
-        background: 'radial-gradient(at top left, ' + theme.palette.primary.dark + ', transparent 60%), ' + 
-					'radial-gradient(at top right, ' + theme.palette.primary.main + ', transparent 70%), ' + 
-					'radial-gradient(at bottom left, ' + theme.palette.secondary.main + ', transparent 70%), ' + 
-					'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)'
+        background: 'radial-gradient(at top left, ' + theme.palette.primary.dark + ', transparent 60%), ' +
+            'radial-gradient(at top right, ' + theme.palette.primary.main + ', transparent 70%), ' +
+            'radial-gradient(at bottom left, ' + theme.palette.secondary.main + ', transparent 70%), ' +
+            'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)'
     },
     rightPanel: {
         maxHeight: '500px !important',
@@ -90,11 +89,14 @@ const ViewTripPage = (props) => {
         lng: -123.120735,
     }); // TODO: fetch user's location
 
-    const [markers, setMarkers] = useState([]);
+    const tripId = props.location.state;
+    const [trip, setTrip] = useState({});
+    const currentUser = useSelector((state) => state.get('auth').user).username;
+    const [isOwner, setIsOwner] = useState(false);
 
+    const [markers, setMarkers] = useState([]);
     const [showActivityPopup, setShowActivityPopup] = useState(false);
     const [selectedActivity, setSelectedActivity] = useState(null);
-    const trip = props.location.state;
     const [activities, setActivities] = useState([]);
     const [selectedActivities, setSelectedActivities] = useState([]);
     const [showAboutButton, setShowAboutButton] = useState(true);
@@ -105,14 +107,23 @@ const ViewTripPage = (props) => {
     const [templateError, setTemplateError] = useState('');
     const [deleteError, setDeleteError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [tripUpdate, setTripUpdate] = useState({});
 
     const classes = useStyles();
 
     useEffect(() => {
         const fetchActivities = async () => {
             setIsLoading(true);
-            const tripId = trip.id;
             try {
+                const tripInfoRes = await axios.get(
+                    `http://localhost:3001/trip/${tripId}`
+                );
+                const tripInfo = tripInfoRes.data;
+                setTrip(tripInfo);
+                const isOwner =
+                    tripInfo.owner === currentUser ||
+                    tripInfo.collaborators.includes(currentUser);
+                setIsOwner(isOwner);
                 const res = await axios.get(
                     `http://localhost:3001/trip/${tripId}/activity`
                 );
@@ -127,7 +138,7 @@ const ViewTripPage = (props) => {
             }
         };
         fetchActivities();
-    }, [trip.id]);
+    }, [currentUser, tripId, tripUpdate]);
 
     // Component Functions
     const togglePopup = (theActivity) => {
@@ -143,6 +154,17 @@ const ViewTripPage = (props) => {
         setActivities((activities) => [data, ...activities]);
         setMarkers((markerCoordinates) => [...markerCoordinates, data.coordinates]);
         setCenter(data.coordinates);
+    };
+
+    const handleEdit = async (trip) => {
+        try {
+            const res = await axios.get(`http://localhost:3001/trip/${tripId}`);
+            const newTrip = res.data;
+            setTrip(newTrip);
+        } catch (err) {
+            console.log(err);
+        }
+        setTripUpdate(trip);
     };
 
     const handleFileRemoved = (fileToRemove) => {
@@ -228,7 +250,7 @@ const ViewTripPage = (props) => {
             );
             const trip = res.data;
             const tripTitle = res.data.title;
-            history.push({ pathname: `/trip/${tripTitle}`, state: trip });
+            history.push({ pathname: `/trip/${tripTitle}`, state: trip.id });
         } catch (err) {
             const errorMsg = err.response.data;
             setTemplateError(errorMsg);
@@ -247,21 +269,21 @@ const ViewTripPage = (props) => {
                     <Box className={classes.buttonContainer}>
                         {showAboutButton && (
                             <EditableContentButton
-                                style={{flexGrow: 1}}
+                                style={{ flexGrow: 1 }}
                                 buttonName={'About this trip'}
                                 content={trip.description}
-                                readOnly={true}
+                                readOnly={!isOwner}
                                 onClick={handleAboutButtonClick}
+                                tripId={trip.id}
+                                onEdit={handleEdit}
                             />
                         )}
 
-                        {showActivityFormButton && (
+                        {showActivityFormButton && isOwner && (
                             <CreateFormButton
-                                style={{flexGrow: 1}}
+                                style={{ flexGrow: 1 }}
                                 formType='tripitem'
                                 onSuccess={handleSubmit}
-                                // onError={null}
-                                // onClose={null}
                                 tripId={trip.id}
                                 onClick={handleActivityFormButtonClick}
                             />
@@ -269,7 +291,7 @@ const ViewTripPage = (props) => {
 
                         {showImagesButton && (
                             <TripImageListButton
-                                style={{flexGrow: 1}}
+                                style={{ flexGrow: 1 }}
                                 shownButtonName={'View Images'}
                                 hiddenButtonName={'Hide Images'}
                                 images={trip.images}
@@ -284,6 +306,7 @@ const ViewTripPage = (props) => {
                         selectedCards={selectedActivities}
                         onDragDrop={setActivities}
                         title={trip.title}
+                        disabled={!isOwner}
                     />
 
                     {activitiesError ? (
@@ -317,15 +340,17 @@ const ViewTripPage = (props) => {
                             {'Use as Template'}
                         </Button>
 
-                        <Button
-                            variant='contained'
-                            onClick={handleDeleteTrip}
-                            style={{
-                                margin: '20px auto',
-                                backgroundColor: '#fa345f',
-                            }}>
-                            {'Delete Trip'}
-                        </Button>
+                        {isOwner && (
+                            <Button
+                                variant='contained'
+                                onClick={handleDeleteTrip}
+                                style={{
+                                    margin: '20px auto',
+                                    backgroundColor: '#fa345f',
+                                }}>
+                                {'Delete Trip'}
+                            </Button>
+                        )}
                     </Box>
                 </Box>
 
