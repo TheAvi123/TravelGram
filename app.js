@@ -34,6 +34,7 @@ mongoose.connect(
 app.use('/', indexRouter);
 app.use('/trip', tripRouter);
 app.use('/user', usersRouter);
+app.get('/*', (req, res) => { res.sendFile(path.join(__dirname, './client/build', 'index.html')); });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
