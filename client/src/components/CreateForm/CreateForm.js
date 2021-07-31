@@ -307,7 +307,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
                   }
                 />
                 <TextField
-                  id='datetime-local-start'
+                  id='datetime-local-end'
                   label='End Time'
                   type='datetime-local'
                   defaultValue={endTime}

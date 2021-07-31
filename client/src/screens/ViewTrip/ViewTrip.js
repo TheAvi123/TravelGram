@@ -167,9 +167,17 @@ const ViewTripPage = (props) => {
         setTripUpdate(trip);
     };
 
-    const handleFileRemoved = (fileToRemove) => {
-        // setSelectedFiles((files) => files.filter((file) => file !== fileToRemove));
-        console.log(fileToRemove);
+    const handleFileRemoved = async (fileToRemove) => {
+        const newImages = trip.images.filter((image) => image !== fileToRemove);
+        try {
+          const res = await axios.patch(`/trip/${tripId}`, {
+            images: newImages,
+          });
+          const newTrip = res.data;
+          setTrip(newTrip);
+        } catch (err) {
+          console.log('couldnt remove the image!');
+        }
     };
 
     const handleAboutButtonClick = (shown) => {
