@@ -1,45 +1,138 @@
-const darkTheme = [
+const tgTheme = [
     {
-        "featureType": "all",
-        "elementType": "labels",
+        "featureType": "administrative",
+        "elementType": "geometry.fill",
         "stylers": [
             {
-                "visibility": "on"
+                "color": "#7f2200"
+            },
+            {
+                "visibility": "off"
             }
         ]
     },
     {
-        "featureType": "all",
+        "featureType": "administrative",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#87ae79"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
         "elementType": "labels.text.fill",
         "stylers": [
             {
-                "saturation": 36
-            },
-            {
-                "color": "#000000"
-            },
-            {
-                "lightness": 40
+                "color": "#495421"
             }
         ]
     },
     {
-        "featureType": "all",
+        "featureType": "administrative",
         "elementType": "labels.text.stroke",
         "stylers": [
+            {
+                "color": "#ffffff"
+            },
             {
                 "visibility": "on"
             },
             {
-                "color": "#000000"
-            },
-            {
-                "lightness": 16
+                "weight": 4.1
             }
         ]
     },
     {
-        "featureType": "all",
+        "featureType": "administrative.neighborhood",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#abce83"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#769E72"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#7B8758"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "color": "#EBF4A4"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            },
+            {
+                "color": "#8dab68"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#5B5B3F"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "color": "#ABCE83"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
         "elementType": "labels.icon",
         "stylers": [
             {
@@ -48,131 +141,11 @@ const darkTheme = [
         ]
     },
     {
-        "featureType": "administrative",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#000000"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "color": "#000000"
-            },
-            {
-                "lightness": 17
-            },
-            {
-                "weight": 1.2
-            }
-        ]
-    },
-    {
-        "featureType": "administrative.country",
-        "elementType": "labels.text.fill",
-        "stylers": [
-            {
-                "color": "#e5c163"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative.locality",
-        "elementType": "labels.text.fill",
-        "stylers": [
-            {
-                "color": "#c4c4c4"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative.neighborhood",
-        "elementType": "labels.text.fill",
-        "stylers": [
-            {
-                "color": "#e5c163"
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
+        "featureType": "road.highway",
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#000000"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#000000"
-            },
-            {
-                "lightness": 21
-            },
-            {
-                "visibility": "on"
-            }
-        ]
-    },
-    {
-        "featureType": "poi.business",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "visibility": "on"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#e5c163"
-            },
-            {
-                "lightness": "0"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "labels.text.fill",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "labels.text.stroke",
-        "stylers": [
-            {
-                "color": "#e5c163"
+                "color": "#EBF4A4"
             }
         ]
     },
@@ -181,37 +154,7 @@ const darkTheme = [
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#000000"
-            },
-            {
-                "lightness": 18
-            }
-        ]
-    },
-    {
-        "featureType": "road.arterial",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#575757"
-            }
-        ]
-    },
-    {
-        "featureType": "road.arterial",
-        "elementType": "labels.text.fill",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            }
-        ]
-    },
-    {
-        "featureType": "road.arterial",
-        "elementType": "labels.text.stroke",
-        "stylers": [
-            {
-                "color": "#2c2c2c"
+                "color": "#9BBF72"
             }
         ]
     },
@@ -220,31 +163,16 @@ const darkTheme = [
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#000000"
-            },
-            {
-                "lightness": 16
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "labels.text.fill",
-        "stylers": [
-            {
-                "color": "#999999"
+                "color": "#A4C67D"
             }
         ]
     },
     {
         "featureType": "transit",
-        "elementType": "geometry",
+        "elementType": "all",
         "stylers": [
             {
-                "color": "#000000"
-            },
-            {
-                "lightness": 19
+                "visibility": "off"
             }
         ]
     },
@@ -253,13 +181,12 @@ const darkTheme = [
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#000000"
+                "visibility": "on"
             },
             {
-                "lightness": 17
+                "color": "#aee2e0"
             }
         ]
     }
-];
-
-export default darkTheme;
+]
+export default tgTheme;

@@ -34,6 +34,7 @@
     "react-geocode": "^0.2.3",
     "react-google-autocomplete": "^2.4.0",
     "react-google-maps": "^9.4.5",
+    "react-masonry-css": "^1.0.16",
     "react-places-autocomplete": "^7.3.0",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",

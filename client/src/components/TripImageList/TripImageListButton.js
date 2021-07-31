@@ -11,7 +11,20 @@ import {
 import Expand from 'react-expand-animated';
 import TripImageList from './TripImageList';
 
-const useStyles = makeStyles({});
+const useStyles = makeStyles((theme) => ({
+  button: {
+    width: 0,
+    minWidth: '100%',
+    height: '100%',
+    fontSize: '1em',
+    color: theme.palette.black,
+    background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
+    '&:hover': {
+      color: theme.palette.white,
+      background: 'linear-gradient(160deg, ' + theme.palette.primary.dark + ', ' + theme.palette.secondary.dark + ')'
+    }
+  },
+}));
 
 const TripImageListButton = ({
   images,
@@ -36,10 +49,10 @@ const TripImageListButton = ({
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Button
+      <Button className={classes.button}
         variant='contained'
         onClick={toggleShowImageList}
-        style={{ maxWidth: '200px', margin: '30px auto' }}>
+        style={{ minWidth: '200px', margin: '20px'}}>
         {showImageList ? hiddenButtonName : shownButtonName}
       </Button>
       {showImageList && (

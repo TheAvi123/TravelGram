@@ -19,12 +19,13 @@ const Layout = props => {
 
   const classes = useStyles();
   const url = useLocation();
-  const isAuth = url.pathname.includes('login') || url.pathname.includes('register')
+  const isAuth = url.pathname.includes('login') || url.pathname.includes('register');
+  const isDark = url.pathname.includes('profile') || url.pathname.includes('trip');
   
   return (
     <div className={classes.layout}>
       {/* {!isAuth && <TitleBar/>} */}
-      {!isAuth && <NavBar/>}
+      {!isAuth && <NavBar darkMode={isDark}/>}
       <div className={classes.content}>
         {props.children}
       </div>

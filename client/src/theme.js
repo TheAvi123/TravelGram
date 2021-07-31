@@ -22,7 +22,7 @@ const theme = createTheme({
         padding: '2%',
         boxShadow: '5px 5px 20px rgba(0, 0, 0, 0.5)',
         borderRadius: 8
-    }
+    },
 });
 
 export default theme;

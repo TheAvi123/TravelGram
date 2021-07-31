@@ -19,6 +19,18 @@ const useStyles = makeStyles((theme) => ({
     right: '10px',
     padding: '0px',
   },
+  button: {
+    width: 0,
+    minWidth: '100%',
+    height: '100%',
+    fontSize: '1em',
+    color: theme.palette.black,
+    background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
+    '&:hover': {
+      color: theme.palette.white,
+      background: 'linear-gradient(160deg, ' + theme.palette.primary.dark + ', ' + theme.palette.secondary.dark + ')'
+    }
+  },
 }));
 
 const EditableContentButton = ({ buttonName, content, readOnly, onClick }) => {
@@ -39,10 +51,10 @@ const EditableContentButton = ({ buttonName, content, readOnly, onClick }) => {
         alignItems: 'center',
       }}>
       {!showContent && (
-        <Button
+        <Button className={classes.button}
           variant='contained'
           onClick={toggleShowContent}
-          style={{ maxWidth: '200px', margin: '30px auto' }}>
+          style={{ minWidth: '200px', margin: '20px'}}>
           {buttonName}
         </Button>
       )}

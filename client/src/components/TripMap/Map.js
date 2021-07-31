@@ -22,7 +22,7 @@ export class MapContainer extends React.Component {
       <div style={this.props.style}>
         <Map
           google={this.props.google}
-          zoom={11}
+          zoom={8}
           // style={mapStyles}
           options={{
             styles: darkTheme,

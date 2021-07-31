@@ -49,7 +49,7 @@ function App() {
               <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <ProtectedRoute path="/Dashboard" Component={Dashboard} />
+                <ProtectedRoute path="/dashboard" Component={Dashboard} />
                 <ProtectedRoute path="/trip/:title" Component={ViewTrip} />
                 <ProtectedRoute exact path="/" Component={Dashboard} />
                 <ProtectedRoute path="/profile" Component={EditProfile} />

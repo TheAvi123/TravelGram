@@ -7,41 +7,43 @@ import {useSelector} from 'react-redux';
 import axios from "axios";
 import theme from '../../theme';
 
-const useStyles = makeStyles({
-    root: {
-        position: 'sticky; top: 0px;',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        height: '40px',
-        justifyContent: 'flex-start',
-        backgroundColor: theme.palette.background
-    },
-    accountButton: {
-        display: 'flex',
-        marginLeft: 'auto',
-        marginRight: '15px',
-        cursor: 'pointer',
-    },
-    signInButtonContainer: {
-        position: 'sticky; top: 0px;',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        height: '40px',
-        justifyContent: 'flex-end',
-
-    },
-    signInButton: {
-        marginRight: '20px',
-    },
-    links: {
-        marginLeft: '20px',
-        cursor: 'pointer',
-    }
-});
-
 export default function NavBar(props) {
+
+    const useStyles = makeStyles({
+        root: {
+            position: 'sticky',
+            top: '0px',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+            justifyContent: 'flex-start',
+            backgroundColor: props.darkMode ? theme.palette.background : theme.palette.primary.dark
+        },
+        accountButton: {
+            display: 'flex',
+            marginLeft: 'auto',
+            marginRight: '15px',
+            cursor: 'pointer',
+        },
+        signInButtonContainer: {
+            position: 'sticky',
+            top: '0px',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+            justifyContent: 'flex-end',
+    
+        },
+        signInButton: {
+            marginRight: '20px',
+        },
+        links: {
+            marginLeft: '20px',
+            cursor: 'pointer',
+        }
+    });
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);

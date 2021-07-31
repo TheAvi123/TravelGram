@@ -13,6 +13,8 @@ import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineDot from '@material-ui/lab/TimelineDot';
 
 import './DraggableCard.css';
+import theme from '../../theme';
+
 
 const DraggableCard = ({ index, title, description, startTime, selected }) => {
   const useStyles = makeStyles((theme) => ({
@@ -22,11 +24,11 @@ const DraggableCard = ({ index, title, description, startTime, selected }) => {
     },
     paper: {
       padding: '6px 16px',
-      background: 'linear-gradient(45deg, #fff44f 30%, #ffae42 90%)',
+      background: theme.palette.background,
       border: 0,
       borderRadius: 5,
       boxShadow: '0 3px 5px 2px rgba(13, 59, 95, .3)',
-      color: 'black',
+      color: 'white',
     },
     selectedPaper: {
       padding: '6px 16px',
@@ -37,10 +39,10 @@ const DraggableCard = ({ index, title, description, startTime, selected }) => {
       color: 'black',
     },
     secondaryTail: {
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.background,
     },
     timeline_part: {
-      background: '#fff44f',
+      background: theme.palette.background,
     },
   }));
 

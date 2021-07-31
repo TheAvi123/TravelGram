@@ -13,26 +13,22 @@ const useStyles = makeStyles({
     mainContainer: {
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'center',
     },
-    nameContainer: {
+    subContainer: {
         display: 'flex',
         flexDirection: 'row',
-    },
-    locationContainer: {
-        display: 'flex',
-        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
     },
     field: {
         flexGrow: 1,
-        marginBottom: "2%"
-    },
-    rightField: {
-        flexGrow: 1,
-        marginLeft: "2%",
-        marginBottom: "2%"
+        margin: '1.5%'
     },
     saveButton: {
         padding: '1% 0%',
+        margin: '2%',
+        width: '100%',
         fontSize: '1em',
         color: theme.palette.black,
         background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
@@ -142,63 +138,75 @@ export default function ProfileForm(props) {
     return (
         <form className={classes.formRoot} noValidate autoComplete="off">
             <div className={classes.mainContainer}> 
-                <div className={classes.nameContainer}>
+                <div className={classes.subContainer}>
                     <FormControl className={classes.field} variant="outlined">
                         <InputLabel htmlFor="profile-first-name">First Name</InputLabel>
                         <OutlinedInput id="profile-first-name" value={userFirstName} onChange={handleFirstNameChange} label="First Name" />
                     </FormControl>
-                    <FormControl className={classes.rightField} variant="outlined">
+                    <FormControl className={classes.field} variant="outlined">
                         <InputLabel htmlFor="profile-last-name">Last Name</InputLabel>
                         <OutlinedInput id="profile-last-name" value={userLastName} onChange={handleLastNameChange} label="Last Name" />
                     </FormControl>
                 </div>
 
-                <FormControl className={classes.field} variant="outlined" fullWidth>
-                    <InputLabel htmlFor="profile-email">Email</InputLabel>
-                    <OutlinedInput id="profile-email" value={userEmail} onChange={handleEmailChange} label="Email" />
-                </FormControl>
+                <div className={classes.subContainer}>
+                    <FormControl className={classes.field} variant="outlined" fullWidth>
+                        <InputLabel htmlFor="profile-email">Email</InputLabel>
+                        <OutlinedInput id="profile-email" value={userEmail} onChange={handleEmailChange} label="Email" />
+                    </FormControl>
+                </div>
 
-                <FormControl className={classes.field} variant="outlined" fullWidth>
-                    <InputLabel htmlFor="profile-phone-number">Phone Number</InputLabel>
-                    <OutlinedInput id="profile-phone-number" value={userPhone} onChange={handlePhoneChange} label="Phone Number" />
-                </FormControl>
+                <div className={classes.subContainer}>
+                    <FormControl className={classes.field} variant="outlined" fullWidth>
+                        <InputLabel htmlFor="profile-phone-number">Phone Number</InputLabel>
+                        <OutlinedInput id="profile-phone-number" value={userPhone} onChange={handlePhoneChange} label="Phone Number" />
+                    </FormControl>
+                </div>
+                
+                <div className={classes.subContainer}>
+                    <TextField className={classes.field} variant="outlined"
+                               id="user-about" label="About You" fullWidth
+                               multiline rows={3} value={userAbout} 
+                               onChange={handleAboutChange} 
+                    />
+                </div>
 
-                <TextField className={classes.field} variant="outlined"
-                           id="user-about" label="About You" fullWidth
-                           multiline rows={3} value={userAbout} 
-                           onChange={handleAboutChange} 
-                />
-
-                <div className={classes.locationContainer}>
-                    <FormControl className={classes.field} variant="outlined" style={{flexGrow: 8}}>
+                <div className={classes.subContainer}>
+                    <FormControl className={classes.field} variant="outlined">
                         <InputLabel htmlFor="profile-street-address">Street Address</InputLabel>
                         <OutlinedInput id="profile-street-address" value={userAddress} onChange={handleAddressChange} label="Street Address" />
                     </FormControl>
-                    <FormControl className={classes.rightField} variant="outlined" style={{flexGrow: 0}}>
+                </div>
+
+                <div className={classes.subContainer}>
+                    <FormControl className={classes.field} variant="outlined">
+                        <InputLabel htmlFor="profile-city">City</InputLabel>
+                        <OutlinedInput id="profile-city" value={userCity} onChange={handleCityChange} label="City" />
+                    </FormControl>
+                    <FormControl className={classes.field} variant="outlined">
+                        <InputLabel htmlFor="profile-state">State / Province</InputLabel>
+                        <OutlinedInput id="profile-state" value={userState} onChange={handleStateChange} label="State / Province" />
+                    </FormControl>
+                </div>
+                
+                <div className={classes.subContainer}>
+                    <FormControl className={classes.field} variant="outlined" style={{flexGrow: 10}}>
+                        <InputLabel htmlFor="profile-country">Country</InputLabel>
+                        <OutlinedInput id="profile-country" value={userCountry} onChange={handleCountryChange} label="Country" />
+                    </FormControl>
+                    <FormControl className={classes.field} variant="outlined" style={{flexGrow: 1}}>
                         <InputLabel htmlFor="profile-zip">Postal Code</InputLabel>
                         <OutlinedInput id="profile-zip" value={userZip} onChange={handleZipChange} label="Postal Code" />
                     </FormControl>
                 </div>
 
-                <div className={classes.locationContainer}>
-                    <FormControl className={classes.field} variant="outlined">
-                        <InputLabel htmlFor="profile-city">City</InputLabel>
-                        <OutlinedInput id="profile-city" value={userCity} onChange={handleCityChange} label="City" />
-                    </FormControl>
-                    <FormControl className={classes.rightField} variant="outlined">
-                        <InputLabel htmlFor="profile-state">State / Province</InputLabel>
-                        <OutlinedInput id="profile-state" value={userState} onChange={handleStateChange} label="State / Province" />
-                    </FormControl>
-                    <FormControl className={classes.rightField} variant="outlined">
-                        <InputLabel htmlFor="profile-country">Country</InputLabel>
-                        <OutlinedInput id="profile-country" value={userCountry} onChange={handleCountryChange} label="Country" />
-                    </FormControl>
-                </div>
 
-                <Button classes={{root: classes.saveButton, disabled: classes.disabledButton}} variant="contained"
-                        disabled={!props.changed} onClick={handleSave}>
-                    SAVE CHANGES
-                </Button>
+                <div className={classes.subContainer}>
+                    <Button classes={{root: classes.saveButton, disabled: classes.disabledButton}} variant="contained"
+                            disabled={!props.changed} onClick={handleSave}>
+                        SAVE CHANGES
+                    </Button>
+                </div>
             </div>
         </form>
     );

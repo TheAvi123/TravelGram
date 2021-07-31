@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 					'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)'
 	},
 	card: {
-		minWidth: '25%',
+		minWidth: '20%',
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
