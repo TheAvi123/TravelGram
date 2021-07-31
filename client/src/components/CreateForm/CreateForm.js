@@ -56,14 +56,8 @@ const useStyles = makeStyles((theme) => ({
     padding: '16px',
     position: 'relative',
   },
-  closeIcon: {
-    position: 'absolute',
-    top: '2px',
-    right: '10px',
-    padding: '0px',
-  },
   formControl: {
-    margin: '10px auto',
+    margin: '5px auto',
     variant: 'outlined',
   },
   popupContainer: {
@@ -79,6 +73,26 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 10,
     overflowY: 'scroll',
   },
+  button: {
+    color: theme.palette.black,
+    background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
+    '&:hover': {
+      color: theme.palette.white,
+      background: 'linear-gradient(160deg, ' + theme.palette.primary.dark + ', ' + theme.palette.secondary.dark + ')'
+    }
+  },
+  cancelButton: {
+    color: theme.palette.black,
+    background:'#fa345f',
+    '&:hover': {
+      color: theme.palette.white,
+      background: '#80162d'
+    }
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row'
+  }
 }));
 
 const initializeStartEndTime = () => {
@@ -244,13 +258,6 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
       {showForm && (
         <form onSubmit={handleFormSubmit}>
           <Paper className={classes.form}>
-            <IconButton
-              className={classes.closeIcon}
-              aria-label='close form picture'
-              component='span'
-              onClick={handleClosed}>
-              <CloseIcon />
-            </IconButton>
             <FormControl fullWidth className={classes.formControl}>
               <OutlinedInput
                 id='title'
@@ -395,15 +402,23 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
                 />
               ) : null)}
 
-            <FormControl fullWidth className={classes.formControl}>
-              <Button fullWidth variant='contained' type='submit'>
-                {formType === 'trip'
-                  ? 'Create Trip!'
-                  : formType === 'tripitem'
-                  ? 'Create Trip Item!'
-                  : ''}
-              </Button>
-            </FormControl>
+            <div className={classes.buttonContainer}>
+              <FormControl className={classes.formControl}>
+                <Button fullWidth className={classes.button} variant='contained' type='submit'>
+                  {formType === 'trip'
+                    ? 'Create Trip!'
+                    : formType === 'tripitem'
+                    ? 'Create Trip Item!'
+                    : ''}
+                </Button>
+              </FormControl>
+
+              <FormControl className={classes.formControl}>
+                <Button className={classes.cancelButton} variant='contained' onClick={handleClosed}>
+                  Cancel
+                </Button>
+              </FormControl>
+            </div>
           </Paper>
         </form>
       )}

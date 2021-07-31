@@ -18,7 +18,13 @@ export default function NavBar(props) {
             alignItems: 'center',
             height: '40px',
             justifyContent: 'flex-start',
-            backgroundColor: props.darkMode ? theme.palette.background : theme.palette.primary.dark
+            background: props.darkMode ? theme.palette.background : 'radial-gradient(at top left, ' + theme.palette.primary.dark + ', transparent 60%), ' +
+            'radial-gradient(at top right, ' + theme.palette.primary.main + ', transparent 70%), ' +
+            'radial-gradient(at bottom left, ' + theme.palette.secondary.main + ', transparent 70%), ' +
+            'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)',
+            backgroundAttachment: 'fixed',
+            backgroundPosition: 'center',
+            backgroundSize: 'cover'
         },
         accountButton: {
             display: 'flex',
