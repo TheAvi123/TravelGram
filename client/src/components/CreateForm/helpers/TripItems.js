@@ -10,12 +10,12 @@ const TripItems = {
   accommodation: {
     id: 'Accommodation',
     icon: <Home />,
-    color: '#757ce8',
+    color: '#FF5E45',
   },
   reservation: {
     id: 'Reservation',
     icon: <QueryBuilder />,
-    color: 'green',
+    color: '#67F588',
   },
   activity: {
     id: 'Activity',
@@ -30,7 +30,7 @@ const TripItems = {
   other: {
     id: 'Other',
     icon: <CardTravel />,
-    color: 'red',
+    color: '#6299F5',
   },
 };
 
