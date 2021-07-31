@@ -189,7 +189,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
 
   const handleFileSelected = async (e) => {
     const fileArray = Array.from(e.target.files ?? []);
-    setSelectedFiles(fileArray);
+    setSelectedFiles((selectedFiles) => [...selectedFiles, ...fileArray]);
   };
 
   const handleFileRemoved = (fileToRemove) => {
@@ -290,7 +290,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
             <FormControl fullWidth className={classes.formControl}>
               <Box display='flex' justifyContent='space-evenly'>
                 <TextField
-                  id='datetime-local'
+                  id='datetime-local-start'
                   label='Start Time'
                   type='datetime-local'
                   defaultValue={startTime}
@@ -300,7 +300,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
                   }
                 />
                 <TextField
-                  id='datetime-local'
+                  id='datetime-local-end'
                   label='End Time'
                   type='datetime-local'
                   defaultValue={endTime}

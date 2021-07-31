@@ -18,11 +18,21 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     fontSize: '1em',
     color: theme.palette.black,
-    background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
+    background:
+      'linear-gradient(160deg, ' +
+      theme.palette.primary.main +
+      ', ' +
+      theme.palette.secondary.main +
+      ')',
     '&:hover': {
       color: theme.palette.white,
-      background: 'linear-gradient(160deg, ' + theme.palette.primary.dark + ', ' + theme.palette.secondary.dark + ')'
-    }
+      background:
+        'linear-gradient(160deg, ' +
+        theme.palette.primary.dark +
+        ', ' +
+        theme.palette.secondary.dark +
+        ')',
+    },
   },
 }));
 
@@ -33,6 +43,7 @@ const TripImageListButton = ({
   shownButtonName,
   hiddenButtonName,
   disabled,
+  isOwner,
 }) => {
   const classes = useStyles();
   const [showImageList, setShowImageList] = useState(false);
@@ -50,10 +61,11 @@ const TripImageListButton = ({
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Button className={classes.button}
+      <Button
+        className={classes.button}
         variant='contained'
         onClick={toggleShowImageList}
-        style={{ minWidth: '200px', margin: '20px'}}
+        style={{ minWidth: '200px', margin: '20px' }}
         disabled={disabled}>
         {showImageList ? hiddenButtonName : shownButtonName}
       </Button>
@@ -63,6 +75,7 @@ const TripImageListButton = ({
             images={images}
             onRemove={onRemove}
             onClose={toggleShowImageList}
+            isOwner={isOwner}
           />
         </Expand>
       )}
