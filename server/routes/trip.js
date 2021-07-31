@@ -1,6 +1,7 @@
 const express = require('express');
 const Trip = require('../models/trip');
 const Activity = require('../models/activity');
+const User = require('../models/user');
 
 var router = express.Router();
 
@@ -9,11 +10,25 @@ router.post('/', async (req, res) => {
   const trip = new Trip(req.body);
   try {
     const savedTrip = await trip.save();
+    console.log('START');
     console.log({ savedTrip });
+    console.log('END');
     res.status(200).send(savedTrip);
   } catch (err) {
     console.log(err);
     res.status(500).send('Trip could not be created!');
+  }
+});
+
+// edit a trip
+router.patch('/:id', async (req, res) => {
+  const tripId = req.params.id;
+  try {
+    console.log(req.body);
+    const trip = await Trip.findByIdAndUpdate(tripId, req.body);
+    res.send(trip);
+  } catch (err) {
+    res.status(500).send('Trip could not be edited!');
   }
 });
 
@@ -30,6 +45,18 @@ router.post('/:id/activity', async (req, res, next) => {
   } catch (err) {
     console.log(err);
     res.status(500).send('Activity could not created!');
+  }
+});
+
+// get trip by id
+router.get('/:id', async function (req, res, next) {
+  const tripId = req.params.id;
+  try {
+    const trip = await Trip.findById(tripId);
+    res.status(200).send(trip);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Trip could not be found!');
   }
 });
 

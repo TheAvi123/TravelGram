@@ -44,14 +44,14 @@ const TripInfoCard = ({ trip }) => {
             image={trip.images[cardImageIndex]}
           />
         )}
-        {trip.selectedUsers.length > 0 && (
-          <UserList usernames={trip.selectedUsers} onUserRemoved={null} />
+        {trip.collaborators.length > 0 && (
+          <UserList usernames={trip.collaborators} onUserRemoved={null} />
         )}
       </CardActionArea>
       <CardActions>
         <Button
           onClick={() =>
-            history.push({ pathname: `/trip/${trip.title}`, state: trip })
+            history.push({ pathname: `/trip/${trip.title}`, state: trip.id })
           }>
           View Trip
         </Button>

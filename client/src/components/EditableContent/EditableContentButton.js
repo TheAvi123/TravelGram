@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, IconButton, Button, Paper, TextField } from '@material-ui/core';
 import Expand from 'react-expand-animated';
 import CloseIcon from '@material-ui/icons/Close';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,13 +22,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditableContentButton = ({ buttonName, content, readOnly, onClick }) => {
+const EditableContentButton = ({
+  buttonName,
+  content,
+  readOnly,
+  onClick,
+  tripId,
+  onEdit,
+}) => {
   const [showContent, setShowContent] = useState(false);
   const classes = useStyles();
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    setValue(content);
+  }, [content]);
 
   const toggleShowContent = () => {
     onClick(!showContent);
     setShowContent((showContent) => !showContent);
+  };
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleEdit = async () => {
+    try {
+      const res = await axios.patch(`http://localhost:3001/trip/${tripId}`, {
+        description: value,
+      });
+      onEdit(res.data);
+    } catch (err) {
+      const errorMsg = err.response.data;
+    }
+    toggleShowContent();
   };
 
   return (
@@ -54,17 +83,16 @@ const EditableContentButton = ({ buttonName, content, readOnly, onClick }) => {
                 className={classes.closeIcon}
                 aria-label='close content'
                 component='span'
-                onClick={toggleShowContent}>
+                onClick={readOnly ? toggleShowContent : handleEdit}>
                 <CloseIcon />
               </IconButton>
               <TextField
                 type='text'
                 label={buttonName}
-                defaultValue={content}
                 inputProps={{ readOnly }}
-                multiline
-                rows={5}
                 fullWidth
+                value={value}
+                onChange={handleChange}
               />
             </Paper>
           </Box>
