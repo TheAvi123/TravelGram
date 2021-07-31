@@ -53,7 +53,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         axios
-            .get('http://localhost:3001/trip', {
+            .get('/trip', {
                 params: { page, pageSize, searchTitle },
             })
             .then(

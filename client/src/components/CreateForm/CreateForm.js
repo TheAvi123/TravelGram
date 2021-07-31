@@ -126,7 +126,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
   const currentUser = useSelector((state) => state.get('auth').user).username;
 
   useEffect(() => {
-    axios.get('http://localhost:3001/user').then(
+    axios.get('/user').then(
       (res) => {
         const users = res.data;
         setUsers(users);
@@ -161,8 +161,8 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
     console.log(data);
     const url =
       formType === 'trip'
-        ? `http://localhost:3001/trip`
-        : `http://localhost:3001/trip/${tripId}/activity`;
+        ? `/trip`
+        : `/trip/${tripId}/activity`;
     try {
       const res = await axios.post(url, data);
       onSuccess(res.data);

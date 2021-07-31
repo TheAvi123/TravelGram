@@ -61,7 +61,7 @@ const EditableContentButton = ({
 
   const handleEdit = async () => {
     try {
-      const res = await axios.patch(`http://localhost:3001/trip/${tripId}`, {
+      const res = await axios.patch(`/trip/${tripId}`, {
         description: value,
       });
       onEdit(res.data);
