@@ -58,9 +58,9 @@ const Feed = ({ trips, count, page, onPageChange }) => {
                     </Grid>
                 ))}
             </Grid> */}
-            <Box className={classes.pagination}>
+            {trips.length && <Box className={classes.pagination}>
                 <Pagination count={count} page={page} onChange={onPageChange} />
-            </Box>
+            </Box>}
         </Box>
     );
 };

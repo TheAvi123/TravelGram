@@ -33,6 +33,7 @@ const TripImageListButton = ({
   shownButtonName,
   hiddenButtonName,
   disabled,
+  isOwner,
 }) => {
   const classes = useStyles();
   const [showImageList, setShowImageList] = useState(false);
@@ -63,6 +64,7 @@ const TripImageListButton = ({
             images={images}
             onRemove={onRemove}
             onClose={toggleShowImageList}
+            isOwner={isOwner}
           />
         </Expand>
       )}

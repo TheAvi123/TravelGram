@@ -25,7 +25,7 @@ router.patch('/:id', async (req, res) => {
   const tripId = req.params.id;
   try {
     console.log(req.body);
-    const trip = await Trip.findByIdAndUpdate(tripId, req.body);
+    const trip = await Trip.findByIdAndUpdate(tripId, req.body, { new: true });
     res.send(trip);
   } catch (err) {
     res.status(500).send('Trip could not be edited!');

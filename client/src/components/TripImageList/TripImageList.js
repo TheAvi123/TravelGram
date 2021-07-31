@@ -37,7 +37,7 @@ const useStyles = makeStyles({
   },
 });
 
-const TripImageList = ({ images, onRemove }) => {
+const TripImageList = ({ images, onRemove, isOwner }) => {
   const classes = useStyles();
 
   return (
@@ -45,13 +45,13 @@ const TripImageList = ({ images, onRemove }) => {
       {images.map((img, i) => {
         return (
           <Card className={classes.cardContainer} key={i}>
-            <IconButton
+            {isOwner && <IconButton
               className={classes.icon}
               aria-label='remove picture'
               component='span'
-              onClick={() => onRemove(img)}>
+              onClick={isOwner ? () => onRemove(img) : null}>
               <CloseIcon />
-            </IconButton>
+            </IconButton>}
             <CardMedia className={classes.media} component='img' image={img} />
           </Card>
         );
