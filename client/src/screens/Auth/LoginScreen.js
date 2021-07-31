@@ -1,49 +1,80 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Button, Card, CardActions } from '@material-ui/core';
+import { Card, CardActions, Typography } from '@material-ui/core';
 import AuthForm from '../../components/AuthForm';
 import { login } from '../../store/slices/authSlice';
 import { makeStyles } from '@material-ui/core/styles';
 import { USERNAME, PASSWORD } from './fieldNames';
+import theme from '../../theme';
 
 const useStyles = makeStyles({
-  root: {
-    maxWidth: 500,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '20% auto',
-    flexDirection: 'column',
-  },
+	loginRoot: {
+		height: '100%',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		background: 'radial-gradient(at top left, ' + theme.palette.primary.dark + ', transparent 60%), ' + 
+					'radial-gradient(at top right, ' + theme.palette.primary.main + ', transparent 70%), ' + 
+					'radial-gradient(at bottom left, ' + theme.palette.secondary.main + ', transparent 70%), ' + 
+					'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)'
+	},
+	card: {
+		minWidth: '20%',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		padding: theme.defaults.padding,
+		boxShadow: theme.defaults.boxShadow,
+		borderRadius: theme.defaults.borderRadius,
+		backgroundColor: theme.palette.background
+	},
+	switchDiv: {
+		marginTop: '5%'
+	},
+	switchText: {
+		color: theme.palette.white,
+		fontSize: '0.8em'
+	},
+	switchLink: {
+		color: theme.palette.secondary.main,
+		fontSize: '0.8em',
+		fontFamily: 'Roboto',
+		textDecoration: 'none',
+		'&:hover': {
+			color: theme.palette.secondary.dark
+		}
+	}
 });
 
 function Login() {
-  const [fields, updateFields] = useState({
-    [USERNAME]: '',
-    [PASSWORD]: '',
-  });
-  const dispatch = useDispatch();
-  const classes = useStyles();
+	const [fields, updateFields] = useState({
+		[USERNAME]: '',
+		[PASSWORD]: '',
+	});
+	const dispatch = useDispatch();
+	const classes = useStyles();
 
-  return (
-    <Card className={classes.root}>
-      <AuthForm
-        submitButton="Login"
-        fields={fields}
-        onChange={(event) => updateFields({ ...fields, ...event })}
-        onSubmit={() => dispatch(login(fields)).then(() => window.location = '/').catch(err => alert(err))}
-      />
-      <CardActions>
-        <div style={{ textAlign: 'center' }}>
-          Don't have an account yet?{' '}
-          <Link to="/register">
-            <Button>Register</Button>
-          </Link>
-        </div>
-      </CardActions>
-    </Card>
-  );
+	return (
+		<div className={classes.loginRoot}>
+			<Card className={classes.card}>
+				<AuthForm 
+					buttonText="Login"
+					fields={fields}
+					onChange={(event) => updateFields({ ...fields, ...event })}
+					onSubmit={() => dispatch(login(fields)).then(() => window.location = '/').catch(err => alert(err))}
+				/>
+				<CardActions className={classes.switchDiv}>
+					<Typography className={classes.switchText}>
+						New to TravelGram?
+					</Typography>
+					<Link to="/register" className={classes.switchLink}>
+						Sign up!
+					</Link>
+				</CardActions>
+			</Card>
+		</div>
+	);
 }
 
 export default Login;

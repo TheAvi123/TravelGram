@@ -1,64 +1,63 @@
 import React, {useState, useEffect} from 'react';
-import {Box,  makeStyles, IconButton} from '@material-ui/core';
+import {Box, Card,  makeStyles, IconButton, Typography} from '@material-ui/core';
 import ProfilePic from '../components/Profile/ProfilePic';
 import ProfileForm from '../components/Profile/ProfileForm';
 import EditIcon from "@material-ui/icons/Edit";
 import axios from "axios";
 import {useSelector} from "react-redux";
+import theme from '../theme';
 
 const useStyles = makeStyles({
-    screen: {
+    profileRoot: {
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        position: 'relative',
-        alignContent: 'center',
+        justifyContent: 'center',
         alignItems: 'center',
-        justify: 'center',
-
+        background: 'radial-gradient(at top left, ' + theme.palette.primary.dark + ', transparent 60%), ' + 
+                    'radial-gradient(at top right, ' + theme.palette.primary.main + ', transparent 70%), ' + 
+                    'radial-gradient(at bottom left, ' + theme.palette.secondary.main + ', transparent 70%), ' + 
+                    'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)'
     },
-    container: {
-        position: 'relative',
+    card: {
+        margin: '3%',
+        minWidth: '40%',
         display: 'flex',
         flexDirection: 'column',
-        height: '1050px',
-        width: '60%',
-        border: '1px solid',
-        borderColor: '#3DB8DA',
-        borderRadius: '20px',
-        marginTop: '30px',
-        marginBottom: '50px',
-        alignContent: 'center',
+        justifyContent: 'center',
         alignItems: 'center',
+        padding: theme.defaults.padding,
+		boxShadow: theme.defaults.boxShadow,
+		borderRadius: theme.defaults.borderRadius,
+        backgroundColor: theme.palette.background
     },
     title: {
-        position: 'relative',
-        marginTop: '25px',
-        marginLeft: '5%',
-        marginRight: 'auto',
+        background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        alignSelf: 'center',
+        fontWeight: 900,
+        fontSize: '2em',
     },
-    editButton: {
+    username: {
+        fontSize: '1.5em',
+        fontWeight: 500,
+    },
+    picture: {
+        position: 'relative',
+        margin: theme.defaults.padding
+    },
+    editPicture: {
         position: 'absolute',
         bottom: '0',
         right: '0',
         zIndex: '1',
-        backgroundColor: 'white',
-    },
-    picContainer: {
-        position: 'relative',
-        display: 'flex',
-        width: '160px',
-    },
-    topContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        width: "100%",
-        justify: "center",
-        alignContent: 'center',
-        alignItems: 'center',
-        borderRadius: "20px 20px 0px 0px",
-        height: 'auto',
-        paddingBottom: '20px',
-        marginTop: '-1px',
+        background: theme.palette.primary.main,
+        color: theme.palette.background,
+        '&:hover': {
+            background: theme.palette.primary.dark,
+            color: theme.palette.white
+        }
     },
 });
 
@@ -66,6 +65,9 @@ export default function EditProfile(props) {
     const classes = useStyles();
 
     const [loading, setLoading] = useState(true);
+    const [selectedFiles, setSelectedFiles] = useState();
+    const [imageURL, setImageURL] = useState();
+    const [changed, setChanged] = useState(false);
     const [userInfo, setUserInfo] = useState({
         username: "",
         email: "",
@@ -82,19 +84,20 @@ export default function EditProfile(props) {
         photo_id: "",
         trips: [],
     });
-    const [selectedFiles, setSelectedFiles] = useState();
-    const [imageURL, setImageURL] = useState();
-    const [changed, setChanged] = useState(false);
-
 
     const user = useSelector((state) => state.get('auth').user);
     let id = user.id;
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/user/profile/${user.id}`)
+        axios.get(`http://localhost:3001/user/profile/${user.id}/`)
             .then(res => {
                 setUserInfo(res.data);
-                setLoading(false);
+                // setTimeout(function() {
+                    setLoading(false);
+                // }, 500);
+            }).catch(err => {
+                console.log("TEST DEBUG");
+                console.log(err);
             });
     }, []);
 
@@ -108,30 +111,34 @@ export default function EditProfile(props) {
     }
 
     if (loading) {
-        return (<span>Loading...</span>);
+        return (
+            <Box className={classes.profileRoot}>
+                <Card className={classes.card}>
+                    <Typography className={classes.title}>LOADING...</Typography>
+                </Card>
+            </Box>
+        );
     } else {
         return (
-            <div>
-                <Box className={classes.screen}>
-                    <Box className={classes.container}>
-                        <Box className={classes.topContainer} bgcolor="primary.main" align="center">
-                            <Box className={classes.title}>
-                                <h1 style={{color: 'white'}}>Edit Profile</h1>
-                            </Box>
-                            <Box className={classes.picContainer}>
-                                <ProfilePic size="large" userInfo={userInfo} userID={id} tempImage={imageURL}/>
-                                <IconButton className={classes.editButton} component="label">
-                                    <input type="file" onChange={handleFileChange} hidden/>
-                                    <EditIcon/>
-                                </IconButton>
-                            </Box>
-                            <h1 style={{color: 'white', marginTop: '15px'}}>{userInfo.username}</h1>
-                        </Box>
-                        <ProfileForm userInfo={userInfo} onChangeUserInfo={setUserInfo} userId={id} imageFiles={selectedFiles} changed={changed} setChanged={setChanged} />
+            <Box className={classes.profileRoot}>
+                <Card className={classes.card}>
+                    <Typography className={classes.title}>EDIT PROFILE</Typography>
+                    <Box className={classes.picture}>
+                        <ProfilePic size="large" userInfo={userInfo} userID={id} tempImage={imageURL}/>
+                        <IconButton className={classes.editPicture} component="label">
+                            <input type="file" onChange={handleFileChange} hidden/>
+                            <EditIcon/>
+                        </IconButton>
                     </Box>
-                </Box>
-                <ProfilePic size="medium" clickable="true" userID={user.id}/>
-            </div>
+                    <Typography className={classes.username}>{userInfo.username}</Typography>
+                    <ProfileForm 
+                        userInfo={userInfo} 
+                        onChangeUserInfo={setUserInfo} 
+                        userId={id} imageFiles={selectedFiles} 
+                        changed={changed} setChanged={setChanged}
+                    />
+                </Card>
+            </Box>
         );
     }
 }

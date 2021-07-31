@@ -3,10 +3,10 @@ import TravelGram from '../images/TravelGram.png';
 
 const useStyles = makeStyles({
     root: {
-        position: 'relative',
+        flexGrow: 0,
         width: '100%',
         display: 'flex',
-        height: '150px',
+        height: '120px',
         cursor: 'pointer',
         backgroundColor: '#3DB8DA',
         alignItems: 'flex-end',

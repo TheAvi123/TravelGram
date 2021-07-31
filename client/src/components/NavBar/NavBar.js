@@ -5,47 +5,52 @@ import ProfileDrawer from './ProfileDrawer';
 import { Link } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import axios from "axios";
-
-const useStyles = makeStyles({
-    root: {
-        position: 'sticky; top: 0px;',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        height: '40px',
-        justifyContent: 'flex-start',
-    },
-    accountButton: {
-        display: 'flex',
-        marginLeft: 'auto',
-        marginRight: '15px',
-        cursor: 'pointer',
-    },
-    signInButtonContainer: {
-        position: 'sticky; top: 0px;',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        height: '40px',
-        justifyContent: 'flex-end',
-
-    },
-    signInButton: {
-        marginRight: '20px',
-    },
-    links: {
-        marginLeft: '20px',
-        cursor: 'pointer',
-    }
-});
+import theme from '../../theme';
 
 export default function NavBar(props) {
+
+    const useStyles = makeStyles({
+        root: {
+            position: 'sticky',
+            top: '0px',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+            justifyContent: 'flex-start',
+            backgroundColor: props.darkMode ? theme.palette.background : theme.palette.primary.dark
+        },
+        accountButton: {
+            display: 'flex',
+            marginLeft: 'auto',
+            marginRight: '15px',
+            cursor: 'pointer',
+        },
+        signInButtonContainer: {
+            position: 'sticky',
+            top: '0px',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            height: '40px',
+            justifyContent: 'flex-end',
+    
+        },
+        signInButton: {
+            marginRight: '20px',
+        },
+        links: {
+            marginLeft: '20px',
+            cursor: 'pointer',
+        }
+    });
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [loggedIn, setLoggedIn] = useState(true);
 
-    const user = useSelector((state) => state.get('auth').user);
+    let user = useSelector((state) => state.get('auth').user);
+    if(!user.id && localStorage.getItem('user')) user = JSON.parse(localStorage.getItem('user'));
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);

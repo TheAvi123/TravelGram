@@ -1,51 +1,42 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
-} from '@material-ui/core';
+import { FormControl, OutlinedInput, InputAdornment, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    margin: '40px',
-    maxWidth: '50%',
+  form: {
+    width: '0',
+    minWidth: '100%'
   },
+  input: {
+    padding: 0,
+  }
 });
 
 const TripSearchBar = ({ searchInput, onInputChange }) => {
+
   const classes = useStyles();
 
   return (
-    <Box className={classes.container}>
-      <FormControl variant='outlined'>
-        <InputLabel htmlFor='search-bar'>Title, Dates, Location</InputLabel>
-        <OutlinedInput
-          id='search-bar-input'
-          value={searchInput}
-          onChange={onInputChange}
-          startAdornment={
-            <InputAdornment position='start'>
-              <IconButton
-                aria-label='search-icon'
-                onClick={null}
-                onMouseDown={null}
-                edge='end'>
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          }
-          labelWidth={60}
-        />
-      </FormControl>
-    </Box>
+    <FormControl className={classes.form}>
+      <OutlinedInput className={classes.input}
+        id='search-bar-input'
+        value={searchInput}
+        placeholder="Search..."
+        onChange={onInputChange}
+        startAdornment={
+          <InputAdornment position='start'>
+            <IconButton
+              aria-label='search-icon'
+              onClick={null}
+              onMouseDown={null}
+              edge='end'>
+              <SearchIcon />
+            </IconButton>
+          </InputAdornment>
+        }
+      />
+    </FormControl>
   );
 };
 

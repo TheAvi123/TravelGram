@@ -3,22 +3,31 @@ import {Box, Avatar, makeStyles} from '@material-ui/core';
 import avatar from '../../images/avatar.jpg';
 import ProfileCard from './ProfileCard'
 import axios from "axios";
+import theme from '../../theme';
 
 const useStyles = makeStyles(theme => ({
     large: {
         height: '150px',
         width: '150px',
+        borderColor: 'black',
+        borderWidth: '10px'
     },
     medium: {
         height: '100px',
         width: '100px',
+        borderColor: 'black',
+        borderWidth: '10px'
     },
     small: {
       height: '30px',
       width: '30px',
+      borderColor: 'black',
+      borderWidth: '10px'
     },
     container: {
       position: 'inherit',
+      borderColor: 'black',
+      borderWidth: '10px'
     },
 }));
 
@@ -54,13 +63,14 @@ export default function ProfilePic(props) {
 
     let pic;
     if (props.tempImage) {
-        pic = <Avatar src={props.tempImage} className={classes[props.size]}/>
+        pic = <Avatar src={props.tempImage} className={classes[props.size]}
+                      style={{border: '6px solid black'}}/>
     } else {
         if (props.clickable) {
             pic = <Avatar src={userInfo.photo_id} className={classes[props.size]} style={{cursor: 'pointer'}}
-                          onClick={toggleCard}/>
+                          onClick={toggleCard} style={{border: '6px solid black'}}/>
         } else {
-            pic = <Avatar src={userInfo.photo_id} className={classes[props.size]}/>
+            pic = <Avatar src={userInfo.photo_id} className={classes[props.size]} style={{border: '6px solid black'}}/>
         }
     }
 

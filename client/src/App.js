@@ -4,7 +4,6 @@ import { createBrowserHistory } from 'history';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router/immutable';
 import { ThemeProvider } from '@material-ui/core/styles';
-
 import configureStore from './store';
 import { localLogin } from './store/slices/authSlice';
 import Layout from './components/Layout';
@@ -15,6 +14,7 @@ import Login from './screens/Auth/LoginScreen';
 import Register from './screens/Auth/RegisterScreen';
 import EditProfile from './screens/EditProfile';
 import NotFound from './screens/NotFound';
+import '@fontsource/roboto';
 
 const history = createBrowserHistory();
 const store = configureStore(history);
@@ -49,7 +49,7 @@ function App() {
               <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <ProtectedRoute path="/Dashboard" Component={Dashboard} />
+                <ProtectedRoute path="/dashboard" Component={Dashboard} />
                 <ProtectedRoute path="/trip/:title" Component={ViewTrip} />
                 <ProtectedRoute exact path="/" Component={Dashboard} />
                 <ProtectedRoute path="/profile" Component={EditProfile} />

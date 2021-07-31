@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
        width: 250,
        top: '20px',
        height: '90%',
-       backgroundColor: 'white',
+       backgroundColor: theme.palette.background,
        borderRadius: '0px 20px 20px 0px',
    },
     topSpace: {
@@ -44,7 +44,7 @@ function MenuDrawer(props) {
             <Drawer classes={{paper: classes.drawer}} variant="temporary" open={visibility} onClose={closeDrawer}>
                 <div className={classes.topSpace}></div>
                 <Divider />
-                <Link to="/Dashboard">
+                <Link to="/dashboard">
                     <Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Dashboard</Button>
                 </Link>
                 <Divider />

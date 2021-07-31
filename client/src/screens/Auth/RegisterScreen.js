@@ -1,52 +1,83 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Button, Card, CardActions } from '@material-ui/core';
+import { Card, CardActions, Typography } from '@material-ui/core';
 import AuthForm from '../../components/AuthForm';
 import { register } from '../../store/slices/authSlice';
 import { makeStyles } from '@material-ui/core/styles';
 import { USERNAME, PASSWORD, EMAIL, FIRST_NAME, LAST_NAME } from './fieldNames';
+import theme from '../../theme';
 
 const useStyles = makeStyles({
-  root: {
-    maxWidth: 500,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '20% auto',
-    flexDirection: 'column',
-  },
+    registerRoot: {
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+		background: 'radial-gradient(at top left, ' + theme.palette.primary.dark + ', transparent 60%), ' + 
+					'radial-gradient(at top right, ' + theme.palette.primary.main + ', transparent 70%), ' + 
+					'radial-gradient(at bottom left, ' + theme.palette.secondary.main + ', transparent 70%), ' + 
+					'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)'
+    },
+    card: {
+        minWidth: '25%',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		padding: theme.defaults.padding,
+		boxShadow: theme.defaults.boxShadow,
+		borderRadius: theme.defaults.borderRadius,
+		backgroundColor: theme.palette.background
+    },
+	switchDiv: {
+		marginTop: '5%'
+	},
+	switchText: {
+		color: theme.palette.white,
+		fontSize: '0.8em'
+	},
+	switchLink: {
+		color: theme.palette.secondary.main,
+		fontSize: '0.8em',
+		fontFamily: 'Roboto',
+		textDecoration: 'none',
+		'&:hover': {
+			color: theme.palette.secondary.dark
+		}
+	}
 });
 
 function Register() {
-  const [fields, updateFields] = useState({
-    [USERNAME]: '',
-    [FIRST_NAME]: '',
-    [LAST_NAME]: '',
-    [EMAIL]: '',
-    [PASSWORD]: '',
-  });
-  const dispatch = useDispatch();
-  const classes = useStyles();
+    const [fields, updateFields] = useState({
+        [USERNAME]: '',
+        [FIRST_NAME]: '',
+        [LAST_NAME]: '',
+        [EMAIL]: '',
+        [PASSWORD]: '',
+    });
+    const dispatch = useDispatch();
+    const classes = useStyles();
 
-  return (
-    <Card className={classes.root}>
-      <AuthForm
-        submitButton="Register"
-        fields={fields}
-        onChange={(event) => updateFields({ ...fields, ...event })}
-        onSubmit={() => dispatch(register(fields)).then(() => window.location = '/').catch(err => alert(err))}
-      />
-      <CardActions>
-        <div style={{ textAlign: 'center' }}>
-          Have an account already?{' '}
-          <Link to="/login">
-            <Button>Login</Button>
-          </Link>
+    return (
+        <div className={classes.registerRoot}>
+            <Card className={classes.card}>
+                <AuthForm
+                    buttonText="Register"
+                    fields={fields}
+                    onChange={(event) => updateFields({ ...fields, ...event })}
+                    onSubmit={() => dispatch(register(fields)).then(() => window.location = '/').catch(err => alert(err))}
+                />
+                <CardActions className={classes.switchDiv}>
+					<Typography className={classes.switchText}>
+                    Have an acccount already?
+					</Typography>
+					<Link to="/login" className={classes.switchLink}>
+                        Log in.
+					</Link>
+				</CardActions>
+            </Card>
         </div>
-      </CardActions>
-    </Card>
-  );
+    );
 }
 
 export default Register;

@@ -6,9 +6,24 @@ import Expand from 'react-expand-animated';
 import CreateForm from './CreateForm';
 
 const useStyles = makeStyles((theme) => ({
+  createForm: {
+    width: '100%',
+    height: '100%',
+  },
+  formButton: {
+    width: 0,
+    minWidth: '100%',
+    height: '100%',
+    fontSize: '1em',
+    color: theme.palette.black,
+    background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
+    '&:hover': {
+      color: theme.palette.white,
+      background: 'linear-gradient(160deg, ' + theme.palette.primary.dark + ', ' + theme.palette.secondary.dark + ')'
+    }
+  },
   formMessage: {
     width: '100%',
-    marginTop: '10px',
   },
 }));
 
@@ -23,6 +38,8 @@ const CreateFormButton = ({
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [formMessage, setFormMessage] = useState('');
+
+  const classes = useStyles();
 
   const handleSuccess = (data) => {
     setFormMessage(`Success: ${data.title} is created!`);
@@ -48,29 +65,22 @@ const CreateFormButton = ({
   };
 
   return (
-    <Box
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      {!showForm && (
-        <Button
+    <Box className={classes.createForm}>
+      {!showForm && <Button
+          className={classes.formButton}
           variant='contained'
           onClick={() => {
             onClick(true);
             setShowForm(true);
           }}
           disabled={disabled}
-          style={{ maxWidth: '200px', margin: '30px auto' }}>
+          >
           {formType === 'trip'
-            ? 'Create Trip'
+            ? 'Create New Trip'
             : formType === 'tripitem'
             ? 'Add Trip Item'
             : ''}
-        </Button>
-      )}
+      </Button>}
       {showSuccess && <Alert severity='success'>{formMessage}</Alert>}
       {showError && <Alert severity='error'>{formMessage}</Alert>}
       {showForm && (
