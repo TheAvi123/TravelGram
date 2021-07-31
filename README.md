@@ -1,6 +1,9 @@
-# Project Description
+# Project Summary
 
-Our application is a trip planning and sharing web application for people who want to plan and organize trips collaboratively in real-time with other users, and share their trip plans with others. Our application allows users to create trips by adding certain information such as the timeframe of the trip, and several trip elements such as places to visit, activities, reservations, and more, through an intuitive drag and drop interface.
+TravelGram is a trip planning and sharing web application for people who want to plan and organize trips collaboratively in real-time with other users, and share their trip plans with others. Our application allows users to create trips by adding certain information such as the timeframe of the trip, and several trip elements such as places to visit, activities, reservations, and more, through an intuitive drag and drop interface. 
+
+# Project Details
+
 The application will be using data such as user information (username, email, password), trip information (trip name, description, trip dates, trip destinations, other users as collaborators), and trip elements (activity name, description, image, date of visit, location). Using this data, a user will be able to register and login, and create and edit trips. They will also able to add and edit destinations for each trip, and add collaborators to their trips. They should be able to see all their destinations on their respective trips.
 Some additional functionality that we could include is a popularity system that allows users to rate and comment on other trips, and find trips based on related tags and popularity.
 
