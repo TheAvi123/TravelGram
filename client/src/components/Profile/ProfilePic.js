@@ -46,7 +46,7 @@ export default function ProfilePic(props) {
     const id = props.userID;
 
     useEffect(() => {
-            axios.get(`http://localhost:3001/user/profile/${id}`)
+            axios.get(`/user/profile/${id}`)
                 .then(res => {
                     setUserInfo(res.data);
                     setLoading(false);

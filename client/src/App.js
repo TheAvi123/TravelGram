@@ -29,14 +29,16 @@ function ProtectedRoute({ Component, ...props }) {
   /* If user does not exist in store, try to get user data from local storage */
   if (!isLoggedIn && localStorage.getItem('user')) {
     store.dispatch(localLogin());
+    return (<Route {...props} render={() => <Component {...props} />} />);
+  } else {
+    return (
+      /* If user is logged in, proceed with original component; otherwise redirect to login page */
+      <Route
+        {...props}
+        render={() => isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />}
+      />
+    );
   }
-  return (
-    /* If user is logged in, proceed with original component; otherwise redirect to login page */
-    <Route
-      {...props}
-      render={() => isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />}
-    />
-  );
 }
 
 function App() {

@@ -116,7 +116,7 @@ const ViewTripPage = (props) => {
             setIsLoading(true);
             try {
                 const tripInfoRes = await axios.get(
-                    `http://localhost:3001/trip/${tripId}`
+                    `/trip/${tripId}`
                 );
                 const tripInfo = tripInfoRes.data;
                 setTrip(tripInfo);
@@ -125,7 +125,7 @@ const ViewTripPage = (props) => {
                     tripInfo.collaborators.includes(currentUser);
                 setIsOwner(isOwner);
                 const res = await axios.get(
-                    `http://localhost:3001/trip/${tripId}/activity`
+                    `/trip/${tripId}/activity`
                 );
                 const activites = res.data;
                 const markers = activites.map((activity) => activity.coordinates);
@@ -158,7 +158,7 @@ const ViewTripPage = (props) => {
 
     const handleEdit = async (trip) => {
         try {
-            const res = await axios.get(`http://localhost:3001/trip/${tripId}`);
+            const res = await axios.get(`/trip/${tripId}`);
             const newTrip = res.data;
             setTrip(newTrip);
         } catch (err) {
@@ -230,7 +230,7 @@ const ViewTripPage = (props) => {
     const handleDeleteTrip = async () => {
         const tripId = trip.id;
         try {
-            const res = await axios.delete(`http://localhost:3001/trip/${tripId}`);
+            const res = await axios.delete(`/trip/${tripId}`);
             console.log('successfully deleted trip');
             history.push({ pathname: '/' });
         } catch (err) {
@@ -245,7 +245,7 @@ const ViewTripPage = (props) => {
         const activities = { activities: trip.activities };
         try {
             const res = await axios.patch(
-                `http://localhost:3001/trip/${tripId}/activity`,
+                `/trip/${tripId}/activity`,
                 activities
             );
             const trip = res.data;

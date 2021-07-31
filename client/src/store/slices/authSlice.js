@@ -2,14 +2,12 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL } from '../../screens/Auth/fieldNames';
 
-const url = 'http://localhost:3001';
-
 export const login = createAsyncThunk('user/login', async (params) => {
   const encoded = {
     username: params[ USERNAME ],
     password: Buffer.from(params[ PASSWORD ], 'base64')
   };
-  const response = await axios.post(url + '/user/login', { ...encoded })
+  const response = await axios.post('/user/login', { ...encoded })
     .then(({ data }) => {
       const user = data[ 0 ];
       return {
@@ -39,7 +37,7 @@ export const register = createAsyncThunk('user/register', async (params) => {
     first_name: params[ FIRST_NAME ],
     last_name: params[ LAST_NAME ]
   };
-  const response = await axios.post(url + '/user/register', { ...encoded })
+  const response = await axios.post('/user/register', { ...encoded })
     .then(({ data }) => {
       return {
         error: false,
@@ -63,7 +61,7 @@ export const updateUser = createAsyncThunk('user/update', async (params) => {
   if (params.password) {
     encoded[ 'password' ] = Buffer.from(params.password, 'base64');
   }
-  const response = await axios.put(url + '/user/update', { ...encoded, ...params })
+  const response = await axios.put('/user/update', { ...encoded, ...params })
     .then(({ data }) => {
       return {
         user: {

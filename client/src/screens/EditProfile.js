@@ -89,7 +89,7 @@ export default function EditProfile(props) {
     let id = user.id;
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/user/profile/${user.id}/`)
+        axios.get(`/user/profile/${user.id}/`)
             .then(res => {
                 setUserInfo(res.data);
                 // setTimeout(function() {
