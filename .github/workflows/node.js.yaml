@@ -2,9 +2,9 @@ name: Node.js CI/CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [ release ]
   pull_request:
-    branches: [ main ]
+    branches: [ release ]
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
     # install server dependencies
     - run: npm install
     # install client dependencies
-    - run: cd client && npm install && npm run build && cd ../
+    - run: cd client && npm install --legacy-peer-deps && CI='' npm run build && cd ../
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         MONGODB_USER: ${{ secrets.MONGODB_USER }}
@@ -66,5 +66,5 @@ jobs:
     - name: Add Heroku remote
       run: heroku git:remote --app travelgram455
     - name: Push to Heroku
-      run: git push heroku master
+      run: git push heroku release:master
       # from here on, heroku handles the deployment itself
