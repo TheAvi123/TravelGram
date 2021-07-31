@@ -26,7 +26,7 @@ jobs:
     # install server dependencies
     - run: npm install
     # install client dependencies
-    - run: cd client && npm install --legacy-peer-deps && npm run build && cd ../
+    - run: cd client && npm install --legacy-peer-deps && CI='' npm run build && cd ../
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         MONGODB_USER: ${{ secrets.MONGODB_USER }}
