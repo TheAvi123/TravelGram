@@ -8,99 +8,106 @@ import theme from '../../theme';
 import CreateFormButton from '../../components/CreateForm/CreateFormButton';
 
 const useStyles = makeStyles({
-    dashRoot: {
-        height: '100%',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        background: theme.palette.background
-    },
-    actionContainer: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row'
-    },
-    searchBar: {
-        flexGrow: 5,
-        margin: '24px'
-    },
-    newTripButton: {
-        flexGrow: 1,
-        margin: '24px 24px 24px 0px'
-    }
+  dashRoot: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: theme.palette.background,
+  },
+  actionContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  searchBar: {
+    flexGrow: 5,
+    margin: '24px',
+  },
+  newTripButton: {
+    flexGrow: 1,
+    margin: '24px 24px 24px 0px',
+  },
 });
 
 const Dashboard = () => {
+  const [trips, setTrips] = useState([]);
+  const [searchTitle, setSearchTitle] = useState('');
+  const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(0);
+  const [pageSize, setPageSize] = useState(20);
+  const [tripUpdate, setTripUpdate] = useState({});
+  const [showSearchBar, setShowSearchBar] = useState(true);
 
-    const [trips, setTrips] = useState([]);
-    const [searchTitle, setSearchTitle] = useState('');
-    const [page, setPage] = useState(1);
-    const [pageCount, setPageCount] = useState(0);
-    const [pageSize, setPageSize] = useState(20);
-    const [tripUpdate, setTripUpdate] = useState({});
+  const classes = useStyles();
 
-    const classes = useStyles();
+  const handlePageChange = (e, page) => {
+    setPage(page);
+  };
 
-    const handlePageChange = (e, page) => {
-        setPage(page);
-    };
+  const handleSearchTitle = (e) => {
+    setSearchTitle(e.target.value);
+  };
 
-    const handleSearchTitle = (e) => {
-        setSearchTitle(e.target.value);
-    };
+  const handleTripFormButtonClick = (shown) => {
+    setShowSearchBar(!shown);
+  };
 
-    useEffect(() => {
-        axios
-            .get('/trip', {
-                params: { page, pageSize, searchTitle },
-            })
-            .then(
-                (res) => {
-                    console.log('got data from backend: ');
-                    console.log(res.data);
-                    const { trips, pageCount } = res.data;
-                    setTrips(trips);
-                    setPageCount(pageCount);
-                },
-                (err) => {
-                    console.log('error: ');
-                    console.log(err);
-                }
-            );
-    }, [page, pageSize, searchTitle, tripUpdate]);
+  useEffect(() => {
+    axios
+      .get('/trip', {
+        params: { page, pageSize, searchTitle },
+      })
+      .then(
+        (res) => {
+          console.log('got data from backend: ');
+          console.log(res.data);
+          const { trips, pageCount } = res.data;
+          setTrips(trips);
+          setPageCount(pageCount);
+        },
+        (err) => {
+          console.log('error: ');
+          console.log(err);
+        }
+      );
+  }, [page, pageSize, searchTitle, tripUpdate]);
 
-    const handleSubmit = (data) => {
-        setTripUpdate(data);
-    };
+  const handleSubmit = (data) => {
+    setTripUpdate(data);
+  };
 
-    return (
-        <div className={classes.dashRoot}>
-            <Box className={classes.actionContainer}>
-                <Box className={classes.searchBar}>
-                    <TripSearchBar
-                        onInputChange={handleSearchTitle}
-                        searchInput={searchTitle}
-                    />
-                </Box>
-                <Box className={classes.newTripButton}>
-                    <CreateFormButton
-                        formType='trip'
-                        onSuccess={handleSubmit}
-                        tripId={null}
-                        onClick={() => { }}
-                    />
-                </Box>
-            </Box>
-            <Feed
-                trips={trips}
-                count={pageCount}
-                page={page}
-                onPageChange={handlePageChange}
+  return (
+    <div className={classes.dashRoot}>
+      <Box className={classes.actionContainer}>
+        {showSearchBar && (
+          <Box className={classes.searchBar}>
+            <TripSearchBar
+              onInputChange={handleSearchTitle}
+              searchInput={searchTitle}
             />
-        </div>
-    );
+          </Box>
+        )}
+
+        <Box className={classes.newTripButton}>
+          <CreateFormButton
+            formType='trip'
+            onSuccess={handleSubmit}
+            tripId={null}
+            onClick={handleTripFormButtonClick}
+          />
+        </Box>
+      </Box>
+      <Feed
+        trips={trips}
+        count={pageCount}
+        page={page}
+        onPageChange={handlePageChange}
+      />
+    </div>
+  );
 };
 
 export default Dashboard;

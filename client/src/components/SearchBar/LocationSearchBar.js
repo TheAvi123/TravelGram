@@ -63,7 +63,12 @@ const LocationSearchBar = ({ address, onLocationChange, onLocationSelect }) => {
 
                 {suggestions.map((suggestion) => {
                   const style = {
-                    backgroundColor: suggestion.active ? '#41b6e6' : '#fff',
+                    backgroundColor:
+                      'linear-gradient(160deg, ' +
+                      '#85C4FF' +
+                      ', ' +
+                      '#B8FF99' +
+                      ')',
                     cursor: 'pointer',
                   };
                   return (
