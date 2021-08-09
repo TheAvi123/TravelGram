@@ -44,9 +44,7 @@ function MenuDrawer(props) {
             <Drawer classes={{paper: classes.drawer}} variant="temporary" open={visibility} onClose={closeDrawer}>
                 <div className={classes.topSpace}></div>
                 <Divider />
-                <Link to="/dashboard">
-                    <Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Dashboard</Button>
-                </Link>
+                <Button component={Link} to="/dashboard" style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Dashboard</Button>
                 <Divider />
                 <Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>My Trips</Button>
                 <Divider />

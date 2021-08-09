@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     },
     drawerTop: {
         display: 'flex',
-        height: '25%',
+        height: '20%',
         align: 'flex-end',
     },
     link: {
@@ -63,10 +63,9 @@ function ProfileDrawer(props) {
             </Box>
             <Drawer classes={{paper: classes.drawer}} variant="temporary" anchor="right" open={visibility} onClose={closeDrawer}>
                 <Box className={classes.drawerTop} bgcolor="primary.main">
-                    <ProfilePic size="medium" clickable="true" userID={user.id}/>
-                    <h5 style={{marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 25, color: 'white'}}>{props.user.username}</h5>
+                    <h3 style={{marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 30, color: 'white'}}>{props.user.username}</h3>
                 </Box>
-                <Link to="/profile"><Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Profile</Button></Link>
+                <Button component={Link} to="/profile" style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Profile</Button>
                 <Divider />
                 <Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Account Settings</Button>
                 <Divider />

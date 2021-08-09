@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import {Button, makeStyles, TextField, FormControl, InputLabel, OutlinedInput, Grid} from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import {Button, makeStyles, TextField, FormControl, InputLabel, OutlinedInput, Grid, Box} from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../store/slices/authSlice';
 import { storeImages } from '../../services/storage';
 import theme from '../../theme';
+import {Alert} from "@material-ui/lab";
 
 const useStyles = makeStyles({
     formRoot: {
@@ -47,6 +48,7 @@ export default function ProfileForm(props) {
     const classes = useStyles();
 
     const dispatch = useDispatch();
+    const userStore = useSelector((state) => state.get('auth').user);
 
     const [userFirstName, setUserFirstName] = useState(props.userInfo.first_name);
     const [userLastName, setUserLastName] = useState(props.userInfo.last_name);
@@ -58,6 +60,9 @@ export default function ProfileForm(props) {
     const [userState, setUserState] = useState(props.userInfo.state);
     const [userZip, setUserZip] = useState(props.userInfo.zip);
     const [userCountry, setUserCountry] = useState(props.userInfo.country);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [formMessage, setFormMessage] = useState('');
 
     const handleFirstNameChange = (event) => {
         props.setChanged(true);
@@ -131,8 +136,23 @@ export default function ProfileForm(props) {
             photo_id: imageURL,
             _id: props.userId,
         };
-
         dispatch(updateUser(user));
+
+        if (userStore.error) {
+            setFormMessage("Error updating profile");
+            setShowError(true);
+            const timer = setTimeout(() => {
+                setShowError(false);
+                clearTimeout(timer);
+            }, 3000);
+        } else {
+            setFormMessage(`User profile is successfully updated!`);
+            setShowSuccess(true);
+            const timer = setTimeout(() => {
+                setShowSuccess(false);
+                clearTimeout(timer);
+            }, 3000);
+        }
     };
 
     return (
@@ -208,6 +228,8 @@ export default function ProfileForm(props) {
                     </Button>
                 </div>
             </div>
+            {showSuccess && <Alert severity='success'>{formMessage}</Alert>}
+            {showError && <Alert severity='error'>{formMessage}</Alert>}
         </form>
     );
 }
