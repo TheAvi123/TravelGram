@@ -107,7 +107,6 @@ export default function NavBar(props) {
                     </Box>
                 }
             </Box>
-            {/* <Button onClick={() => setUser(!user)}>Toggle login test</Button> */}
         </Box>
     );
 }

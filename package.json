@@ -18,5 +18,6 @@
     "morgan": "~1.9.1",
     "nodemon": "^2.0.7",
     "validator": "^13.6.0"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }

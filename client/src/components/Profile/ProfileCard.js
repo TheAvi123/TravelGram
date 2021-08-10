@@ -49,6 +49,7 @@ const useStyles = makeStyles({
         position: 'relative',
         width: '100%',
         marginTop: '10px',
+        color: 'black',
     },
     email: {
         display: 'flex',
@@ -57,8 +58,6 @@ const useStyles = makeStyles({
         overFlow: 'hidden',
         textOverflow: 'ellipsis',
         width: '100%',
-        paddingLeft: '20px',
-        paddingRight: '20px',
         color: 'blue',
     },
     address: {
@@ -69,8 +68,6 @@ const useStyles = makeStyles({
         color: 'grey',
         fontSize: 'small',
         marginTop: '5px',
-        paddingLeft: '20px',
-        paddingRight: '20px',
     },
     about: {
         display: 'flex',
@@ -79,8 +76,7 @@ const useStyles = makeStyles({
         width: '100%',
         fontSize: 'small',
         marginTop: '20px',
-        paddingLeft: '50px',
-        paddingRight: '50px',
+        color: 'black',
     },
 });
 
