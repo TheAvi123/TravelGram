@@ -3,13 +3,6 @@ import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 
 import darkTheme from './MapStyle';
 
-// const mapStyles = {
-//     top: '0px',
-//     bottom: '0px',
-//     left: '0px',
-//     right: '0px'
-// };
-
 export class MapContainer extends React.Component {
   _mapLoaded(mapProps, map) {
     map.setOptions({
@@ -23,7 +16,6 @@ export class MapContainer extends React.Component {
         <Map
           google={this.props.google}
           zoom={8}
-          // style={mapStyles}
           options={{
             styles: darkTheme,
           }}

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Avatar, Typography } from '@material-ui/core';
 
-// TODO: onUserRemoved is an OPTIONAL parameter! check for its existence before calling it!
 const UserList = ({ usernames, onUserRemoved }) => {
   return (
     <Box display='flex' flexWrap='wrap' justifyContent='flex-start'>

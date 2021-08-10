@@ -15,62 +15,67 @@ import TimelineDot from '@material-ui/lab/TimelineDot';
 import './TripCard.css';
 
 export default function TripCard(props) {
+  const useStyles = makeStyles((theme) => ({
+    oppositeContent: {
+      flex: 0.05,
+    },
+    paper: {
+      padding: '6px 16px',
+      background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+      border: 0,
+      borderRadius: 5,
+      boxShadow: '0 3px 5px 2px rgba(13, 59, 95, .3)',
+      color: 'white',
+    },
+    secondaryTail: {
+      backgroundColor: theme.palette.secondary.main,
+    },
+    timeline_part: {
+      background: '#2196F3',
+    },
+  }));
 
-    // Component Styling
-    const useStyles = makeStyles((theme) => ({
-        oppositeContent: {
-            // TODO: adjust this value accordingly
-            flex: 0.05
-        },
-        paper: {
-            padding: '6px 16px',
-            background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-            border: 0,
-            borderRadius: 5,
-            boxShadow: '0 3px 5px 2px rgba(13, 59, 95, .3)',
-            color: 'white'
-        },
-        secondaryTail: {
-            backgroundColor: theme.palette.secondary.main,
-        },
-        timeline_part: {
-            background: "#2196F3"
-        }
-    }));
+  const style = useStyles();
 
-    const style = useStyles();
-
-    // Return Component
-    return (
-        <Draggable key={props.card.name} draggableId={props.card.name} index={props.index}>
-            {(provided) => (
-                <TimelineItem className="timeline-item"
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}>
-                    <TimelineOppositeContent className={style.oppositeContent}>
-                        <Typography variant="body2" color="textSecondary">
-                            {props.card.time.toString()}
-                        </Typography>
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                        <TimelineDot className={style.timeline_part}/>
-                        <TimelineConnector className={style.timeline_part}/>
-                    </TimelineSeparator>
-                    <TimelineContent>
-                        <Paper elevation={10} className={style.paper} onClick={(e) => { props.openPopup(props.card) }}>
-                            <Typography variant="h6" component="h1">
-                                {props.card.name}
-                            </Typography>
-                            {props.description == '' ? null :
-                                <Typography className="cardDescription">
-                                    {props.card.description}
-                                </Typography>
-                            }
-                        </Paper>
-                    </TimelineContent>
-                </TimelineItem>
-            )}
-        </Draggable>
-    );
-};
+  return (
+    <Draggable
+      key={props.card.name}
+      draggableId={props.card.name}
+      index={props.index}>
+      {(provided) => (
+        <TimelineItem
+          className='timeline-item'
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}>
+          <TimelineOppositeContent className={style.oppositeContent}>
+            <Typography variant='body2' color='textSecondary'>
+              {props.card.time.toString()}
+            </Typography>
+          </TimelineOppositeContent>
+          <TimelineSeparator>
+            <TimelineDot className={style.timeline_part} />
+            <TimelineConnector className={style.timeline_part} />
+          </TimelineSeparator>
+          <TimelineContent>
+            <Paper
+              elevation={10}
+              className={style.paper}
+              onClick={(e) => {
+                props.openPopup(props.card);
+              }}>
+              <Typography variant='h6' component='h1'>
+                {props.card.name}
+              </Typography>
+              {props.description == '' ? null : (
+                <Typography className='cardDescription'>
+                  {props.card.description}
+                </Typography>
+              )}
+            </Paper>
+          </TimelineContent>
+        </TimelineItem>
+      )}
+    </Draggable>
+  );
+}

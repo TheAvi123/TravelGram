@@ -279,8 +279,7 @@ const ViewTripPage = (props) => {
     try {
       const res = await axios.patch(`/trip/${tripId}/activity`, activities);
       const trip = res.data;
-      const tripTitle = res.data.title;
-      history.push({ pathname: `/trip/${tripTitle}`, state: trip.id });
+      history.push({ pathname: `/trip/view/${trip.id}`, state: trip.id });
     } catch (err) {
       const errorMsg = err.response.data;
       setTemplateError(errorMsg);
@@ -393,9 +392,6 @@ const ViewTripPage = (props) => {
           />
         </Box>
       </SplitPane>
-      {/* {showActivityPopup && (
-        <ActivityPopup card={selectedActivity} closePopup={togglePopup} />
-      )} */}
       {showTemplatePopup && (
         <Box className={classes.popupOuter}>
           <Box className={classes.popupInner}>
@@ -403,7 +399,6 @@ const ViewTripPage = (props) => {
               onSuccess={handleCreateTemplate}
               onError={() => setShowTemplatePopup(false)}
               onClose={() => setShowTemplatePopup(false)}
-              // tripId={trip.id}
             />
           </Box>
         </Box>

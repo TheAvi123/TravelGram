@@ -44,13 +44,11 @@ const useStyles = makeStyles((theme) => ({
   },
   tripContainer: {
     maxWidth: '80%',
-    maxHeight: '80%',
     margin: '20px auto',
     backgroundColor: 'rgb(3, 14, 24)',
   },
   itemContainer: {
     maxWidth: '80%',
-    maxHeight: '80%',
     margin: '20px auto',
     backgroundColor: 'rgb(3, 14, 24)',
   },
