@@ -19,7 +19,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'client', 'build')));
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 mongoose.connect(
   `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PWD}@travelgram-cluster0.bk2k0.mongodb.net/Travelgram-db1?retryWrites=true&w=majority`,
@@ -34,7 +34,7 @@ mongoose.connect(
 app.use('/', indexRouter);
 app.use('/trip', tripRouter);
 app.use('/user', usersRouter);
-// app.get('/*', (req, res) => { res.sendFile(path.join(__dirname, './client/build', 'index.html')); });
+app.get('/*', (req, res) => { res.sendFile(path.join(__dirname, './client/build', 'index.html')); });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
