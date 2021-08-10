@@ -11,24 +11,24 @@ Some additional functionality that we could include is a popularity system that 
 
 Minimum Requirements:
 
-- Add, edit, delete, view trip information, such as title, description, duration, and trip elements representing activities, reservations…
-- Visualize the trip elements via a map interface
-- Add other users as collaborators to a trip, so that each collaborator can make changes on the trip
-- Basic user authentication functionality
+- Add, edit, delete, view trip information, such as title, description, duration, and trip elements representing activities, reservations… (Completed)
+- Visualize the trip elements via a map interface (Completed)
+- Add other users as collaborators to a trip, so that each collaborator can make changes on the trip (Completed)
+- Basic user authentication functionality (Completed)
 
 Standard Requirements:
 
-- Users can publish their created trips so all other users can view them, and use them as templates when creating their own trips
-- Users can add comments and attachments to their trip elements for the trip collaborators to see
-- Changes and updates done by one user should be reflected in real-time for all members of the trip.
+- Users can publish their created trips so all other users can view them, and use them as templates when creating their own trips (Completed)
+- Users can add attachments to their trip elements for the trip collaborators to see (Completed)
+- Changes and updates done by one user should be reflected in real-time for all members of the trip. (Not Completed)
 
 Stretch Requirements:
 
-- Search for published trips using parameters such as locations, activities, tags, etc.
-- Popularity system that allows users to rate and comment on other trips.
-- Functionality to allow users to keep track of trip expenses and distribute costs among all travellers.
-- Automatic recommendations for trip routes based on activities and locations.
-- Integrations with travel-related applications such as Airbnb, Booking.com, etc.
+- Search for published trips using parameters such as locations, activities, tags, etc. (Not Completed)
+- Popularity system that allows users to rate and comment on other trips. (Not Completed)
+- Functionality to allow users to keep track of trip expenses and distribute costs among all travellers. (Not Completed)
+- Automatic recommendations for trip routes based on activities and locations. (Not Completed)
+- Integrations with travel-related applications such as Airbnb, Booking.com, etc. (Not Completed)
 
 # Task Breakdown
 
