@@ -8,8 +8,8 @@ import './TripScreen.css';
 export default function TripScreen() {
 
     // Component Hooks
-    const [showPopup, setShowPopup] = useState(false);
-    const [selectedCard, setSelectedCard] = useState(null);
+    const [ showPopup, setShowPopup ] = useState(false);
+    const [ selectedCard, setSelectedCard ] = useState(null);
 
     // Component Functions
     const togglePopup = (openedCard) => {
@@ -25,8 +25,8 @@ export default function TripScreen() {
     return (
         <div className="trip-screen">
             <div className="background"></div>
-            <TripSchedule openPopup={togglePopup}/>
-            {showPopup && <ActivityPopup card={selectedCard} closePopup={togglePopup}/>}
+            <TripSchedule openPopup={togglePopup} />
+            {showPopup && <ActivityPopup card={selectedCard} closePopup={togglePopup} />}
         </div>
     );
 };

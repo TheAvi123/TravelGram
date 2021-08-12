@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, IconButton, Button } from '@material-ui/core';
+import { Box, Button } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Expand from 'react-expand-animated';
 import CreateForm from './CreateForm';
@@ -86,14 +86,13 @@ const CreateFormButton = ({
       {showButton && (
         <Button
           className={classes.formButton}
-          variant='contained'
+          variant="contained"
           onClick={() => {
             onClick(true);
             setShowButton(false);
             setShowForm(true);
           }}
           disabled={disabled}>
-          {/* style={{font-size: (formType === 'trip' ? '1.5em' : null)}} */}
           {formType === 'trip'
             ? 'Create New Trip'
             : formType === 'tripitem'
@@ -101,8 +100,8 @@ const CreateFormButton = ({
               : ''}
         </Button>
       )}
-      {showSuccess && <Alert variant="outlined" severity='success'>{formMessage}</Alert>}
-      {showError && <Alert variant="outlined" severity='error'>{formMessage}</Alert>}
+      {showSuccess && <Alert variant="outlined" severity="success">{formMessage}</Alert>}
+      {showError && <Alert variant="outlined" severity="error">{formMessage}</Alert>}
       {showForm && (
         <Expand open={showForm} duration={400}>
           <CreateForm

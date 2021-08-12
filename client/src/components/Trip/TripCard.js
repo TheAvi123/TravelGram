@@ -44,12 +44,12 @@ export default function TripCard(props) {
       index={props.index}>
       {(provided) => (
         <TimelineItem
-          className='timeline-item'
+          className="timeline-item"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}>
           <TimelineOppositeContent className={style.oppositeContent}>
-            <Typography variant='body2' color='textSecondary'>
+            <Typography variant="body2" color="textSecondary">
               {props.card.time.toString()}
             </Typography>
           </TimelineOppositeContent>
@@ -64,11 +64,11 @@ export default function TripCard(props) {
               onClick={(e) => {
                 props.openPopup(props.card);
               }}>
-              <Typography variant='h6' component='h1'>
+              <Typography variant="h6" component="h1">
                 {props.card.name}
               </Typography>
               {props.description == '' ? null : (
-                <Typography className='cardDescription'>
+                <Typography className="cardDescription">
                   {props.card.description}
                 </Typography>
               )}

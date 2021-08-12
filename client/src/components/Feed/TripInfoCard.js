@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Typography,
@@ -8,7 +8,7 @@ import {
   CardMedia,
   CardActions,
 } from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import UserList from '../CreateForm/helpers/UserList';
 import theme from '../../theme';
 
@@ -51,20 +51,20 @@ const TripInfoCard = ({ trip }) => {
   }
   return (
     <Card className={classes.card}>
-      <Typography gutterBottom variant='h5' component='h2'>
-        <Box fontSize='1.5em' margin='2%'>
+      <Typography gutterBottom variant="h5" component="h2">
+        <Box fontSize="1.5em" margin="2%">
           {trip.title.toUpperCase()}
         </Box>
       </Typography>
-      <Typography color='textSecondary'>
-        <Box fontSize='1em' margin='2%'>
+      <Typography color="textSecondary">
+        <Box fontSize="1em" margin="2%">
           {startDate} - {endDate}
         </Box>
       </Typography>
       {trip.images.length > 0 && (
         <CardMedia
           className={classes.cardMedia}
-          component='img'
+          component="img"
           image={trip.images[cardImageIndex]}
         />
       )}
@@ -76,7 +76,7 @@ const TripInfoCard = ({ trip }) => {
           onClick={() =>
             history.push({ pathname: `/trip/view/${trip.id}`, state: trip.id })
           }>
-          <Box fontSize='1.5em'>
+          <Box fontSize="1.5em">
             View Trip
           </Box>
         </Button>

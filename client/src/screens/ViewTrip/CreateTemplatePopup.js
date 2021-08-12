@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, IconButton, Button } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import CreateForm from '../../components/CreateForm/CreateForm';
 
@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateTemplatePopup = ({ onSuccess, onError, onClose }) => {
-  const [showForm, setShowForm] = useState(true);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [showInfo, setShowInfo] = useState(true);
-  const [formMessage, setFormMessage] = useState('');
+  const [ showForm, setShowForm ] = useState(true);
+  const [ showSuccess, setShowSuccess ] = useState(false);
+  const [ showError, setShowError ] = useState(false);
+  const [ showInfo, setShowInfo ] = useState(true);
+  const [ formMessage, setFormMessage ] = useState('');
 
   const classes = useStyles();
 
@@ -51,15 +51,15 @@ const CreateTemplatePopup = ({ onSuccess, onError, onClose }) => {
   return (
     <Box className={classes.popupContainer}>
       {showInfo && (
-        <Alert severity='info'>
+        <Alert severity="info">
           We are pre-populating your trip with activities
         </Alert>
       )}
-      {showSuccess && <Alert variant="outlined" severity='success'>{formMessage}</Alert>}
-      {showError && <Alert variant="outlined" severity='error'>{formMessage}</Alert>}
+      {showSuccess && <Alert variant="outlined" severity="success">{formMessage}</Alert>}
+      {showError && <Alert variant="outlined" severity="error">{formMessage}</Alert>}
       {showForm && (
         <CreateForm
-          formType='trip'
+          formType="trip"
           onSuccess={handleSuccess}
           onError={handleError}
           onClose={onClose}

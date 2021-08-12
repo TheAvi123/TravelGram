@@ -5,7 +5,7 @@ import theme from '../../theme';
 
 export default function AuthForm({ buttonText, fields, onChange, onSubmit }) {
 
-  const [showPassword, toggleShowPassword] = useState(false);
+  const [ showPassword, toggleShowPassword ] = useState(false);
 
   const useStyles = makeStyles({
     root: {
@@ -50,44 +50,49 @@ export default function AuthForm({ buttonText, fields, onChange, onSubmit }) {
   const classes = useStyles();
 
   return (
-    <form className={classes.root} 
-          onSubmit={e => e.preventDefault()}
-          noValidate autoComplete="off">
+    <form className={classes.root}
+      onSubmit={e => {
+        e.preventDefault();
+        if (e.key === 'Enter') {
+          onSubmit();
+        }
+      }}
+      noValidate
+      autoComplete="off">
       <Typography className={classes.title}>
-        <Box letterSpacing={theme.defaults.letterSpacing}> 
+        <Box letterSpacing={theme.defaults.letterSpacing}>
           TRAVELGRAM
         </Box>
       </Typography>
       {Object.keys(fields).map(key => {
         const isPassword = key.toLowerCase().includes('password');
         return (
-          <TextField 
+          <TextField
             className={classes.input}
             id={key} name={key} required
             type={isPassword && !showPassword ? 'password' : 'text'}
-            onChange={e => onChange({ [key]: e.target.value })}
-            variant="outlined" 
+            onChange={e => onChange({ [ key ]: e.target.value })}
+            variant="outlined"
             color="primary"
-            label={key} 
+            label={key}
           />
         )
       })}
       <div className={classes.showpw}>
-        <FormControlLabel 
+        <FormControlLabel
           control={
-            <Checkbox 
+            <Checkbox
               className={classes.showbox}
               checked={showPassword} color="primary"
               onChange={() => toggleShowPassword(!showPassword)}
             />
           }
-          label='Show password'
+          label="Show password"
         />
       </div>
-      {/* <Typography> </Typography> */}
       <Button className={classes.submitButton}
-              onClick={() => onSubmit()} fullWidth>
-         {buttonText}
+        onClick={() => onSubmit()} fullWidth>
+        {buttonText}
       </Button>
     </form>
   );

@@ -24,7 +24,11 @@ export const login = createAsyncThunk('user/login', async (params) => {
       };
     })
     .catch(error => {
-      return { error: error.message || error };
+      let msg = error.message || error;
+      if (!encoded.username) msg = 'Username cannot be empty';
+      else if (!params[ PASSWORD ]) msg = 'Password cannot be empty';
+      else if (msg.toLowerCase().includes('cannot read property')) msg = 'A user with the provided credentials was not found';
+      return { error: msg };
     });
   return response;
 });
@@ -51,7 +55,9 @@ export const register = createAsyncThunk('user/register', async (params) => {
       };
     })
     .catch(error => {
-      return { error: error.message || error };
+      let msg = error.message || error;
+      if (!encoded.username || !encoded.email || !params[ PASSWORD ] || !encoded.first_name || !encoded.last_name) msg = 'All fields are required.';
+      return { error: msg };
     });
   return response;
 });

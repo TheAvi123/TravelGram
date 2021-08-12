@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   InputAdornment,
   Paper,
@@ -12,22 +12,16 @@ import {
   TextField,
 } from '@material-ui/core';
 import 'date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
 import ImageIcon from '@material-ui/icons/Image';
 import ImageList from './helpers/ImageList';
 import UserList from './helpers/UserList';
-import CloseIcon from '@material-ui/icons/Close';
 import UserSearchBar from '../SearchBar/UserSearchBar';
 import LocationSearchBar from '../SearchBar/LocationSearchBar';
 import TripItemTagList from './helpers/TripItemTagList';
 import TripItems from './helpers/TripItems';
 import axios from 'axios';
 import { storeImages } from '../../services/storage';
-import { Alert, useTabContext } from '@material-ui/lab';
+import { Alert } from '@material-ui/lab';
 import { useSelector } from 'react-redux';
 
 const maxTitleChars = 30;
@@ -266,7 +260,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
           <Paper className={classes.form}>
             <FormControl fullWidth className={classes.formControl}>
               <OutlinedInput
-                id='title'
+                id="title"
                 value={title}
                 inputProps={{
                   maxLength: maxTitleChars,
@@ -274,16 +268,16 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
                 required
                 onChange={(e) => checkTitle(e.target.value)}
                 endAdornment={
-                  <InputAdornment position='end'>
+                  <InputAdornment position="end">
                     {titleChars}/{maxTitleChars}
                   </InputAdornment>
                 }
-                placeholder='Title'
+                placeholder="Title"
               />
             </FormControl>
             <FormControl fullWidth className={classes.formControl}>
               <OutlinedInput
-                id='description'
+                id="description"
                 value={description}
                 inputProps={{
                   maxLength: maxDescrChars,
@@ -293,19 +287,19 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
                 rows={6}
                 onChange={(e) => checkDescription(e.target.value)}
                 endAdornment={
-                  <InputAdornment position='end'>
+                  <InputAdornment position="end">
                     {descrChars}/{maxDescrChars}
                   </InputAdornment>
                 }
-                placeholder='Description'
+                placeholder="Description"
               />
             </FormControl>
             <FormControl fullWidth className={classes.formControl}>
-              <Box display='flex' justifyContent='space-evenly'>
+              <Box display="flex" justifyContent="space-evenly">
                 <TextField
-                  id='datetime-local-start'
-                  label='Start Time'
-                  type='datetime-local'
+                  id="datetime-local-start"
+                  label="Start Time"
+                  type="datetime-local"
                   defaultValue={startTime}
                   style={{ margin: '10px' }}
                   onChange={(time) =>
@@ -313,9 +307,9 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
                   }
                 />
                 <TextField
-                  id='datetime-local-end'
-                  label='End Time'
-                  type='datetime-local'
+                  id="datetime-local-end"
+                  label="End Time"
+                  type="datetime-local"
                   defaultValue={endTime}
                   style={{ margin: '10px' }}
                   onChange={(time) => setEndTime(time.nativeEvent.target.value)}
@@ -326,7 +320,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
             {formType === 'tripitem' ? (
               <Box>
                 {showActivityWarning && (
-                  <Alert variant="outlined" severity='warning'>
+                  <Alert variant="outlined" severity="warning">
                     Please choose an activity type!
                   </Alert>
                 )}
@@ -347,23 +341,23 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
             ) : null}
 
             <FormControl fullWidth className={classes.formControl}>
-              <Box display='flex' justifyContent='space-between'>
-                <Box display='flex'>
+              <Box display="flex" justifyContent="space-between">
+                <Box display="flex">
                   <input
-                    accept='image/*'
-                    id='icon-button-file'
-                    type='file'
+                    accept="image/*"
+                    id="icon-button-file"
+                    type="file"
                     multiple
                     onChange={handleFileSelected}
                     style={{ display: 'none' }}
                   />
-                  <label htmlFor='icon-button-file'>
-                    <IconButton aria-label='add attachments' component='span'>
+                  <label htmlFor="icon-button-file">
+                    <IconButton aria-label="add attachments" component="span">
                       <ImageIcon />
                     </IconButton>
                   </label>
                 </Box>
-                <Button variant='contained' onClick={toggleSearchBar}>
+                <Button variant="contained" onClick={toggleSearchBar}>
                   {showSearchBar
                     ? 'Hide Search Bar'
                     : formType === 'trip'
@@ -391,7 +385,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
               (formType === 'trip' ? (
                 <Box>
                   {collaboratorsError && (
-                    <Alert variant="outlined" severity='warning'>{collaboratorsError}</Alert>
+                    <Alert variant="outlined" severity="warning">{collaboratorsError}</Alert>
                   )}
                   <UserSearchBar
                     searchInput={userSearchInput}
@@ -413,8 +407,8 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
                 <Button
                   fullWidth
                   className={classes.button}
-                  variant='contained'
-                  type='submit'>
+                  variant="contained"
+                  type="submit">
                   {formType === 'trip'
                     ? 'Create Trip!'
                     : formType === 'tripitem'
@@ -426,7 +420,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
               <FormControl className={classes.formControl}>
                 <Button
                   className={classes.cancelButton}
-                  variant='contained'
+                  variant="contained"
                   onClick={handleClosed}>
                   Cancel
                 </Button>

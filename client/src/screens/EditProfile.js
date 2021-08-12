@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import {Box, Card,  makeStyles, IconButton, Typography} from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Box, Card, makeStyles, IconButton, Typography } from '@material-ui/core';
 import ProfilePic from '../components/Profile/ProfilePic';
 import ProfileForm from '../components/Profile/ProfileForm';
-import EditIcon from "@material-ui/icons/Edit";
-import axios from "axios";
-import {useSelector} from "react-redux";
+import EditIcon from '@material-ui/icons/Edit';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 import theme from '../theme';
 
 const useStyles = makeStyles({
@@ -14,10 +14,10 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        background: 'radial-gradient(at top left, ' + theme.palette.primary.dark + ', transparent 60%), ' + 
-                    'radial-gradient(at top right, ' + theme.palette.primary.main + ', transparent 70%), ' + 
-                    'radial-gradient(at bottom left, ' + theme.palette.secondary.main + ', transparent 70%), ' + 
-                    'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)'
+        background: 'radial-gradient(at top left, ' + theme.palette.primary.dark + ', transparent 60%), ' +
+            'radial-gradient(at top right, ' + theme.palette.primary.main + ', transparent 70%), ' +
+            'radial-gradient(at bottom left, ' + theme.palette.secondary.main + ', transparent 70%), ' +
+            'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)'
     },
     card: {
         margin: '3%',
@@ -27,8 +27,8 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         alignItems: 'center',
         padding: theme.defaults.padding,
-		boxShadow: theme.defaults.boxShadow,
-		borderRadius: theme.defaults.borderRadius,
+        boxShadow: theme.defaults.boxShadow,
+        borderRadius: theme.defaults.borderRadius,
         backgroundColor: theme.palette.background
     },
     title: {
@@ -64,11 +64,11 @@ const useStyles = makeStyles({
 export default function EditProfile(props) {
     const classes = useStyles();
 
-    const [loading, setLoading] = useState(true);
-    const [selectedFiles, setSelectedFiles] = useState();
-    const [imageURL, setImageURL] = useState();
-    const [changed, setChanged] = useState(false);
-    const [userInfo, setUserInfo] = useState({
+    const [ loading, setLoading ] = useState(true);
+    const [ selectedFiles, setSelectedFiles ] = useState();
+    const [ imageURL, setImageURL ] = useState();
+    const [ changed, setChanged ] = useState(false);
+    const [ userInfo, setUserInfo ] = useState({
         username: "",
         email: "",
         password: "",
@@ -92,9 +92,7 @@ export default function EditProfile(props) {
         axios.get(`/user/profile/${user.id}/`)
             .then(res => {
                 setUserInfo(res.data);
-                // setTimeout(function() {
-                    setLoading(false);
-                // }, 500);
+                setLoading(false);
             }).catch(err => {
                 console.log("TEST DEBUG");
                 console.log(err);
@@ -103,8 +101,8 @@ export default function EditProfile(props) {
 
     const handleFileChange = (event) => {
         var binaryData = [];
-        binaryData.push(event.target.files[0]);
-        setImageURL(window.URL.createObjectURL(new Blob(binaryData, {type: "application/zip"})));
+        binaryData.push(event.target.files[ 0 ]);
+        setImageURL(window.URL.createObjectURL(new Blob(binaryData, { type: "application/zip" })));
         let fileArray = Array.from(event.target.files ?? []);
         setSelectedFiles(fileArray);
         setChanged(true);
@@ -124,17 +122,17 @@ export default function EditProfile(props) {
                 <Card className={classes.card}>
                     <Typography className={classes.title}>EDIT PROFILE</Typography>
                     <Box className={classes.picture}>
-                        <ProfilePic size="large" userInfo={userInfo} userID={id} tempImage={imageURL}/>
+                        <ProfilePic size="large" userInfo={userInfo} userID={id} tempImage={imageURL} />
                         <IconButton className={classes.editPicture} component="label">
-                            <input type="file" onChange={handleFileChange} hidden/>
-                            <EditIcon/>
+                            <input type="file" onChange={handleFileChange} hidden />
+                            <EditIcon />
                         </IconButton>
                     </Box>
                     <Typography className={classes.username}>{userInfo.username}</Typography>
-                    <ProfileForm 
-                        userInfo={userInfo} 
-                        onChangeUserInfo={setUserInfo} 
-                        userId={id} imageFiles={selectedFiles} 
+                    <ProfileForm
+                        userInfo={userInfo}
+                        onChangeUserInfo={setUserInfo}
+                        userId={id} imageFiles={selectedFiles}
                         changed={changed} setChanged={setChanged}
                     />
                 </Card>
