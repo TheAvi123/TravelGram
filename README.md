@@ -34,11 +34,7 @@ Stretch Requirements:
 
 # Above and Beyond
 
-Our application is integrated with a variety of interesting technologies. Firstly, we used a Google Maps API wrapper component for visualizing the trip activities,
-and a Google Maps Location API component for creating an autocompleted location search. We also used browsers’ navigator API to fetch the current user’s location,
-and create the trip map based on that. In order to store trip images and attachments, we integrated our app with Firebase Storage, and created an interface to interact
-with the Firebase Storage API. We also made use of a tool called Storybook while developing our components, which allowed us to build and test our React components in
-an isolated way as we were developing them. We’ve also set up a Redux store in our app to manage data in a central place and make it available to the whole component tree.
+Our application is integrated with a variety of interesting technologies. Firstly, we used a Google Maps API wrapper component for visualizing the trip activities, and a Google Maps Location API component for creating an autocompleted location search. We also used browsers’ navigator API to fetch the current user’s location, and create the trip map based on that. In order to store trip images and attachments, we integrated our app with Firebase Storage, and created an interface to interact with the Firebase Storage API. We also made use of a tool called Storybook while developing our components, which allowed us to build and test our React components in an isolated way as we were developing them. We’ve also set up a Redux store in our app to manage data in a central place and make it available to the whole component tree.
 
 # Next Steps
 
