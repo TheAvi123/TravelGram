@@ -1,4 +1,4 @@
-import {Box, Menu, MenuItem, Button, makeStyles, useTheme} from '@material-ui/core';
+import { Box, makeStyles } from '@material-ui/core';
 import TravelGram from '../images/TravelGram.png';
 
 const useStyles = makeStyles({

@@ -45,12 +45,12 @@ const useStyles = makeStyles({
 });
 
 function Register() {
-    const [fields, updateFields] = useState({
-        [USERNAME]: '',
-        [FIRST_NAME]: '',
-        [LAST_NAME]: '',
-        [EMAIL]: '',
-        [PASSWORD]: '',
+    const [ fields, updateFields ] = useState({
+        [ USERNAME ]: '',
+        [ FIRST_NAME ]: '',
+        [ LAST_NAME ]: '',
+        [ EMAIL ]: '',
+        [ PASSWORD ]: '',
     });
     const dispatch = useDispatch();
     const classes = useStyles();

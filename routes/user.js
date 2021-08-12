@@ -130,16 +130,16 @@ router.post('/register', (req, res) => {
 router.get('/profile/:id/', function (req, res, next) {
   const userId = req.params.id;
   console.log("HIT");
-  User.findOne({_id: userId})
-      .then((data) => {
-        res.send(data);
-        console.log(`sending data for user ${data.first_name} with id ${data._id}`);
-      })
-      .catch((err) => {
-          console.log("Failed to find user on DB.");
-          console.log(err);
-          res.status(400).send({ error: err });
-      });
+  User.findOne({ _id: userId })
+    .then((data) => {
+      res.send(data);
+      console.log(`sending data for user ${data.first_name} with id ${data._id}`);
+    })
+    .catch((err) => {
+      console.log("Failed to find user on DB.");
+      console.log(err);
+      res.status(400).send({ error: err });
+    });
 });
 
 // // PUT Request - Edit User Info

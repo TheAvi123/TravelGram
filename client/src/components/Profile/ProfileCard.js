@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {Box, Button, makeStyles, Grid, Typography} from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import axios from "axios";
+import React from 'react';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import ProfilePic from './ProfilePic';
 
 const useStyles = makeStyles({
     background: {
         display: 'flex',
-        justifyContent:'center',
+        justifyContent: 'center',
         position: 'fixed',
         top: '0px',
         left: '0px',
@@ -37,7 +35,7 @@ const useStyles = makeStyles({
         justifyContent: 'center',
     },
     pic: {
-        display:'flex',
+        display: 'flex',
         justifyContent: 'center',
         position: 'relative',
         marginTop: '-50px',
@@ -90,9 +88,9 @@ export default function ProfileCard(props) {
     return (
         <Box className={classes.background} onClick={() => props.onChange(false)}>
             <Box className={classes.card} onClick={(e) => e.stopPropagation()}>
-                <Box className={classes.top} bgcolor="primary.main"/>
+                <Box className={classes.top} bgcolor="primary.main" />
                 <Box className={classes.pic}>
-                    <ProfilePic clickable={false} size="medium" userID={props.userID}/>
+                    <ProfilePic clickable={false} size="medium" userID={props.userID} />
                 </Box>
                 <Box className={classes.name}>
                     <h1>{userInfo.username}</h1>

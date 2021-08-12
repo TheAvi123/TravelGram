@@ -20,17 +20,17 @@ const TripSearchBar = ({ searchInput, onInputChange }) => {
   return (
     <FormControl className={classes.form}>
       <OutlinedInput className={classes.input}
-        id='search-bar-input'
+        id="search-bar-input"
         value={searchInput}
         placeholder="Search..."
         onChange={onInputChange}
         startAdornment={
-          <InputAdornment position='start'>
+          <InputAdornment position="start">
             <IconButton
-              aria-label='search-icon'
+              aria-label="search-icon"
               onClick={null}
               onMouseDown={null}
-              edge='end'>
+              edge="end">
               <SearchIcon />
             </IconButton>
           </InputAdornment>

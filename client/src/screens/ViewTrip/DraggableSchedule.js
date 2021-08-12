@@ -1,9 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import Typography from '@material-ui/core/Typography';
 import Timeline from '@material-ui/lab/Timeline';
-import { Box, Paper } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import DraggableCard from './DraggableCard';
@@ -29,10 +29,10 @@ const DraggableSchedule = ({
   function handleDragDrop(result) {
     console.log('handle drag drop');
     const cardList = Array.from(cards);
-    const newTime = cardList[result.destination.index].time;
-    cardList[result.destination.index].time =
-      cardList[result.source.index].time;
-    const [reorderedItem] = cardList.splice(result.source.index, 1);
+    const newTime = cardList[ result.destination.index ].time;
+    cardList[ result.destination.index ].time =
+      cardList[ result.source.index ].time;
+    const [ reorderedItem ] = cardList.splice(result.source.index, 1);
     console.log(reorderedItem);
     reorderedItem.time = newTime;
     cardList.splice(result.destination.index, 0, reorderedItem);
@@ -42,16 +42,16 @@ const DraggableSchedule = ({
   return (
     <Box className={classes.wrapper}>
       <Box className={classes.title}>
-        <Typography variant='h6' className='timeline-header'>
+        <Typography variant="h6" className="timeline-header">
           {title}
         </Typography>
       </Box>
 
       <DragDropContext onDragEnd={handleDragDrop}>
-        <Droppable droppableId='timeline'>
+        <Droppable droppableId="timeline">
           {(provided) => (
             <Timeline
-              className='timeline'
+              className="timeline"
               ref={provided.innerRef}
               {...provided.droppableProps}>
               {cards.map((card, index) => {

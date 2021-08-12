@@ -44,7 +44,7 @@ const TripImageListButton = ({
   isOwner,
 }) => {
   const classes = useStyles();
-  const [showImageList, setShowImageList] = useState(false);
+  const [ showImageList, setShowImageList ] = useState(false);
 
   const toggleShowImageList = () => {
     onClick(!showImageList);
@@ -62,7 +62,7 @@ const TripImageListButton = ({
       }}>
       <Button
         className={classes.button}
-        variant='contained'
+        variant="contained"
         onClick={toggleShowImageList}>
         {showImageList ? hiddenButtonName : shownButtonName}
       </Button>

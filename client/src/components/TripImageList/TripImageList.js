@@ -47,12 +47,12 @@ const TripImageList = ({ images, onRemove, isOwner }) => {
           <Card className={classes.cardContainer} key={i}>
             {isOwner && <IconButton
               className={classes.icon}
-              aria-label='remove picture'
-              component='span'
+              aria-label="remove picture"
+              component="span"
               onClick={isOwner ? () => onRemove(img) : null}>
               <CloseIcon />
             </IconButton>}
-            <CardMedia className={classes.media} component='img' image={img} />
+            <CardMedia className={classes.media} component="img" image={img} />
           </Card>
         );
       })}

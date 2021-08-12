@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Card, Button } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import TripInfoCard from './TripInfoCard';
 import { makeStyles } from '@material-ui/core/styles';
@@ -54,8 +54,8 @@ const Feed = ({ trips, count, page, onPageChange }) => {
     <Box className={classes.feedRoot}>
       <Masonry
         breakpointCols={breakpoints}
-        className='my-masonry-grid'
-        columnClassName='my-masonry-grid_column'>
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column">
         {trips.map((trip) => (
           <div>
             <TripInfoCard trip={trip} />

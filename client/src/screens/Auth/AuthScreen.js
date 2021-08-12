@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 });
 
 export default function AuthScreen() {
-  const [state, setState] = useState('home');
+  const [ state, setState ] = useState('home');
   const classes = useStyles();
   return (
     <Card className={classes.root}>

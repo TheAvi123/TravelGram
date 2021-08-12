@@ -22,7 +22,7 @@ const TripItemTag = ({ id, icon, color, isSelected, onClick }) => {
 
 const TripItemTagList = ({ items, selectedItem, onSelect, onRemove }) => {
   return (
-    <Box display='flex' flexWrap='wrap' justifyContent='center'>
+    <Box display="flex" flexWrap="wrap" justifyContent="center">
       {Object.values(items).map(({ id, icon, color }) => (
         <TripItemTag
           key={id}

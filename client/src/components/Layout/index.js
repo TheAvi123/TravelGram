@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from '../NavBar/NavBar.js';
-import TitleBar from '../TitleBar.js';
 
 const useStyles = makeStyles({
 	layout: {
@@ -24,7 +23,6 @@ const Layout = props => {
   
   return (
     <div className={classes.layout}>
-      {/* {!isAuth && <TitleBar/>} */}
       {!isAuth && <NavBar darkMode={isDark}/>}
       <div className={classes.content}>
         {props.children}

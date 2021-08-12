@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Menu, MenuItem, Button, makeStyles, Divider } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Box, Button, makeStyles, Divider } from '@material-ui/core';
 import MenuDrawer from './MenuDrawer';
 import ProfileDrawer from './ProfileDrawer';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import axios from "axios";
 import theme from '../../theme';
 
 export default function NavBar(props) {
@@ -52,19 +50,10 @@ export default function NavBar(props) {
     });
 
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = useState(null);
     const [loggedIn, setLoggedIn] = useState(true);
 
     let user = useSelector((state) => state.get('auth').user);
     if (!user.id && localStorage.getItem('user')) user = JSON.parse(localStorage.getItem('user'));
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    }
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    }
 
     return (
         <Box>
@@ -72,24 +61,7 @@ export default function NavBar(props) {
                 {loggedIn &&
                     <div className={classes.root}>
                         <MenuDrawer />
-                        <Divider orientation='vertical' flexItem />
-                        {/* <Button className={classes.links} onClick={handleClick} color="primary">
-                            Popular Trips
-                        </Button> */}
-                        {/* <Menu
-                            id="menu-1"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                            getContentAnchorEl={null}
-                            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-                            transformOrigin={{ horizontal: "left" }}
-                        >
-                            <MenuItem onClick={handleClose}>Vancouver Island Trip</MenuItem>
-                            <MenuItem onClick={handleClose}>Seattle Trip</MenuItem>
-                            <MenuItem onClick={handleClose}>Sunshine Coast Trip</MenuItem>
-                        </Menu> */}
+                        <Divider orientation="vertical" flexItem />
                         <Button className={classes.links} color="primary">
                             Explore
                         </Button>

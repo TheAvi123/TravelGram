@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import {Button, makeStyles, TextField, FormControl, InputLabel, OutlinedInput, Grid, Box} from '@material-ui/core';
+import { Button, makeStyles, TextField, FormControl, InputLabel, OutlinedInput } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../store/slices/authSlice';
 import { storeImages } from '../../services/storage';
 import theme from '../../theme';
-import {Alert} from "@material-ui/lab";
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles({
     formRoot: {
@@ -34,8 +34,8 @@ const useStyles = makeStyles({
         color: theme.palette.black,
         background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
         '&:hover': {
-          color: theme.palette.white,
-          background: 'linear-gradient(160deg, ' + theme.palette.primary.dark + ', ' + theme.palette.secondary.dark + ')'
+            color: theme.palette.white,
+            background: 'linear-gradient(160deg, ' + theme.palette.primary.dark + ', ' + theme.palette.secondary.dark + ')'
         }
     },
     disabledButton: {
@@ -53,19 +53,19 @@ export default function ProfileForm(props) {
     const dispatch = useDispatch();
     const userStore = useSelector((state) => state.get('auth').user);
 
-    const [userFirstName, setUserFirstName] = useState(props.userInfo.first_name);
-    const [userLastName, setUserLastName] = useState(props.userInfo.last_name);
-    const [userEmail, setUserEmail] = useState(props.userInfo.email);
-    const [userAbout, setUserAbout] = useState(props.userInfo.about);
-    const [userPhone, setUserPhone] = useState(props.userInfo.phone);
-    const [userAddress, setUserAddress] = useState(props.userInfo.street);
-    const [userCity, setUserCity] = useState(props.userInfo.city);
-    const [userState, setUserState] = useState(props.userInfo.state);
-    const [userZip, setUserZip] = useState(props.userInfo.zip);
-    const [userCountry, setUserCountry] = useState(props.userInfo.country);
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [showError, setShowError] = useState(false);
-    const [formMessage, setFormMessage] = useState('');
+    const [ userFirstName, setUserFirstName ] = useState(props.userInfo.first_name);
+    const [ userLastName, setUserLastName ] = useState(props.userInfo.last_name);
+    const [ userEmail, setUserEmail ] = useState(props.userInfo.email);
+    const [ userAbout, setUserAbout ] = useState(props.userInfo.about);
+    const [ userPhone, setUserPhone ] = useState(props.userInfo.phone);
+    const [ userAddress, setUserAddress ] = useState(props.userInfo.street);
+    const [ userCity, setUserCity ] = useState(props.userInfo.city);
+    const [ userState, setUserState ] = useState(props.userInfo.state);
+    const [ userZip, setUserZip ] = useState(props.userInfo.zip);
+    const [ userCountry, setUserCountry ] = useState(props.userInfo.country);
+    const [ showSuccess, setShowSuccess ] = useState(false);
+    const [ showError, setShowError ] = useState(false);
+    const [ formMessage, setFormMessage ] = useState('');
 
     const handleFirstNameChange = (event) => {
         props.setChanged(true);
@@ -120,9 +120,9 @@ export default function ProfileForm(props) {
     const handleSave = async () => {
         props.setChanged(false);
         let imageURL;
-        if(props.imageFiles) {
+        if (props.imageFiles) {
             let images = await storeImages(props.imageFiles);
-            imageURL = images[0];
+            imageURL = images[ 0 ];
         }
 
         let user = {
@@ -160,7 +160,7 @@ export default function ProfileForm(props) {
 
     return (
         <form className={classes.formRoot} noValidate autoComplete="off">
-            <div className={classes.mainContainer}> 
+            <div className={classes.mainContainer}>
                 <div className={classes.subContainer}>
                     <FormControl className={classes.field} variant="outlined">
                         <InputLabel htmlFor="profile-first-name">First Name</InputLabel>
@@ -185,12 +185,12 @@ export default function ProfileForm(props) {
                         <OutlinedInput id="profile-phone-number" value={userPhone} onChange={handlePhoneChange} label="Phone Number" />
                     </FormControl>
                 </div>
-                
+
                 <div className={classes.subContainer}>
                     <TextField className={classes.field} variant="outlined"
-                               id="user-about" label="About You" fullWidth
-                               multiline rows={3} value={userAbout} 
-                               onChange={handleAboutChange} 
+                        id="user-about" label="About You" fullWidth
+                        multiline rows={3} value={userAbout}
+                        onChange={handleAboutChange}
                     />
                 </div>
 
@@ -211,13 +211,13 @@ export default function ProfileForm(props) {
                         <OutlinedInput id="profile-state" value={userState} onChange={handleStateChange} label="State / Province" />
                     </FormControl>
                 </div>
-                
+
                 <div className={classes.subContainer}>
-                    <FormControl className={classes.field} variant="outlined" style={{flexGrow: 10}}>
+                    <FormControl className={classes.field} variant="outlined" style={{ flexGrow: 10 }}>
                         <InputLabel htmlFor="profile-country">Country</InputLabel>
                         <OutlinedInput id="profile-country" value={userCountry} onChange={handleCountryChange} label="Country" />
                     </FormControl>
-                    <FormControl className={classes.field} variant="outlined" style={{flexGrow: 1}}>
+                    <FormControl className={classes.field} variant="outlined" style={{ flexGrow: 1 }}>
                         <InputLabel htmlFor="profile-zip">Postal Code</InputLabel>
                         <OutlinedInput id="profile-zip" value={userZip} onChange={handleZipChange} label="Postal Code" />
                     </FormControl>
@@ -225,14 +225,14 @@ export default function ProfileForm(props) {
 
 
                 <div className={classes.subContainer}>
-                    <Button classes={{root: classes.saveButton, disabled: classes.disabledButton}} variant="contained"
-                            disabled={!props.changed} onClick={handleSave}>
+                    <Button classes={{ root: classes.saveButton, disabled: classes.disabledButton }} variant="contained"
+                        disabled={!props.changed} onClick={handleSave}>
                         SAVE CHANGES
                     </Button>
                 </div>
 
-                {showSuccess && <Alert variant="outlined" severity='success' className={classes.alert}>{formMessage}</Alert>}
-                {showError && <Alert variant="outlined" severity='error' className={classes.alert}>{formMessage}</Alert>}
+                {showSuccess && <Alert variant="outlined" severity="success" className={classes.alert}>{formMessage}</Alert>}
+                {showError && <Alert variant="outlined" severity="error" className={classes.alert}>{formMessage}</Alert>}
             </div>
         </form>
     );

@@ -12,8 +12,7 @@ import './TripSchedule.css';
 
 export default function TripSchedule(props) {
 
-    const [cards, setCards] = useState([]);
-    const [timeline, setTimeline] = useState(initialTimeline);
+    const [ cards, setCards ] = useState([]);
 
     const cardName = useRef();
     const cardDescription = useRef();
@@ -45,9 +44,9 @@ export default function TripSchedule(props) {
 
     function handleDragDrop(result) {
         const cardList = Array.from(cards);
-        const newTime = cardList[result.destination.index].time;
-        cardList[result.destination.index].time = cardList[result.source.index].time;
-        const [reorderedItem] = cardList.splice(result.source.index, 1);
+        const newTime = cardList[ result.destination.index ].time;
+        cardList[ result.destination.index ].time = cardList[ result.source.index ].time;
+        const [ reorderedItem ] = cardList.splice(result.source.index, 1);
         console.log(reorderedItem);
         reorderedItem.time = newTime;
         cardList.splice(result.destination.index, 0, reorderedItem);
@@ -57,7 +56,7 @@ export default function TripSchedule(props) {
     const handleFormSubmit = (data) => {
         console.log(data);
         const { title, description, startTime } = data;
-        setCards((cards) => [{ title, description, startTime }, ...cards]);
+        setCards((cards) => [ { title, description, startTime }, ...cards ]);
         this.props.handleSubmit(data);
     };
 
@@ -81,10 +80,7 @@ export default function TripSchedule(props) {
         wrapper: {
             display: 'flex',
             flexWrap: 'wrap',
-        },
-        // formButton: {
-        //     position: 'fixed'
-        // },
+        }
     });
 
     const classes = useStyles();
@@ -92,17 +88,17 @@ export default function TripSchedule(props) {
     return (
         <div>
             <CreateFormButton className={classes.formButton}
-                              formType='tripitem'
-                              onSuccess={handleFormSubmit}
-                              onError={null}
-                              onClose={null}/>
+                formType="tripitem"
+                onSuccess={handleFormSubmit}
+                onError={null}
+                onClose={null} />
             <Typography variant="h6" className="timeline-header">TRIP ITINERARY</Typography>
             <DragDropContext onDragEnd={handleDragDrop}>
                 <Droppable droppableId="timeline">
                     {(provided) => (
                         <Timeline className="timeline"
-                                  ref={provided.innerRef}
-                                  {...provided.droppableProps}>
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}>
                             {cards.map((card, index) => {
                                 return <ActivityCard card={card} index={index} openPopup={props.openPopup} />
                             })}
