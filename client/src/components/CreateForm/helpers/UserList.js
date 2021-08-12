@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Avatar, Typography } from '@material-ui/core';
 
-// TODO: onUserRemoved is an OPTIONAL parameter! check for its existence before calling it!
 const UserList = ({ usernames, onUserRemoved }) => {
   return (
     <Box display='flex' flexWrap='wrap' justifyContent='flex-start'>
@@ -12,6 +11,8 @@ const UserList = ({ usernames, onUserRemoved }) => {
             display='flex'
             flexDirection='column'
             flexWrap='wrap'
+            justifyContent='center'
+            alignItems='center'
             style={{ margin: '5px' }}>
             <Avatar onClick={() => onUserRemoved(username)}>
               {username.length && username[0].toUpperCase()}

@@ -14,10 +14,10 @@ const useStyles = makeStyles({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		background: 'radial-gradient(at top left, ' + theme.palette.primary.dark + ', transparent 60%), ' + 
-					'radial-gradient(at top right, ' + theme.palette.primary.main + ', transparent 70%), ' + 
-					'radial-gradient(at bottom left, ' + theme.palette.secondary.main + ', transparent 70%), ' + 
-					'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)'
+		background: 'radial-gradient(at top left, ' + theme.palette.primary.dark + ', transparent 60%), ' +
+			'radial-gradient(at top right, ' + theme.palette.primary.main + ', transparent 70%), ' +
+			'radial-gradient(at bottom left, ' + theme.palette.secondary.main + ', transparent 70%), ' +
+			'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)'
 	},
 	card: {
 		minWidth: '20%',
@@ -34,12 +34,9 @@ const useStyles = makeStyles({
 	},
 	switchText: {
 		color: theme.palette.white,
-		fontSize: '0.8em'
 	},
 	switchLink: {
 		color: theme.palette.secondary.main,
-		fontSize: '0.8em',
-		fontFamily: 'Roboto',
 		textDecoration: 'none',
 		'&:hover': {
 			color: theme.palette.secondary.dark
@@ -58,7 +55,7 @@ function Login() {
 	return (
 		<div className={classes.loginRoot}>
 			<Card className={classes.card}>
-				<AuthForm 
+				<AuthForm
 					buttonText="Login"
 					fields={fields}
 					onChange={(event) => updateFields({ ...fields, ...event })}
@@ -68,9 +65,12 @@ function Login() {
 					<Typography className={classes.switchText}>
 						New to TravelGram?
 					</Typography>
-					<Link to="/register" className={classes.switchLink}>
-						Sign up!
-					</Link>
+					<Typography className={classes.switchText}>
+						<Link to="/register" className={classes.switchLink}>
+							Sign up!
+						</Link>
+					</Typography>
+
 				</CardActions>
 			</Card>
 		</div>
