@@ -32,7 +32,15 @@ Stretch Requirements:
 
 # Description of how technologies from units 1-5 are used
 
-TravelGram uses all the technologies we worked with in every unit. We used CSS from unit 1 to style the entire app, React from unit 2 to build the user-facing side of the app, Node.js and Express from unit 3 to run our backend server, MongoDB from unit 4 to hold all of our user and travel data, and finally, release engineering from unit 5 to have a continuously integrated release line from pushing to Github to releasing publicly on Heroku.
+TravelGram uses all of the technologies that we learnt in Units 1 to 5. While we did not use pure HTML except for the index file, we did use CSS both directly and indirectly to style various components throughout the application. For the most part, styles were applied through Material UI's theme and useStyles hook, however we did use pure CSS for certain components that required more fine tuning (such as Timeline, Feed and Split Panel Resizer) that was harder to achieve through the library styles. 
+
+From Unit 2, we used React to build the client-facing side of the app as we did generate the base project using create-react-app. We used components to reduce code duplication and reuse components throughout the app, React hooks in order to achieve complex functionality, and also Redux stores for easy access to authentication and application-wide data. 
+
+We used Node.js and Express from Unit 3 to build out the backend for our application. We created all of our API endpoints here for creating, fetching, updating and deleting data that we wanted to store or process separately from the front-end. This is also where we ended up serving the front-end code from when we finally deployed our application as it was not practical to have the front-end and back-end running on separate ports.
+
+We used MongoDB from Unit 4 to hold all of our user and travel data in long term storage since we did not want to lose this data when a user quit the application or when a different user that was a collaborator wanted to access the same data.
+
+Finally, we utilized concepts of release engineering from Unit 5 to have a continuously integrated release line from pushing to Github to releasing publicly on Heroku.
 
 # Above and Beyond
 
