@@ -13,7 +13,6 @@ import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineDot from '@material-ui/lab/TimelineDot';
 
 import './DraggableCard.css';
-import theme from '../../theme';
 
 const DraggableCard = ({
   index,
@@ -60,12 +59,12 @@ const DraggableCard = ({
       isDragDisabled={disabled}>
       {(provided) => (
         <TimelineItem
-          className='timeline-item'
+          className="timeline-item"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}>
           <TimelineOppositeContent className={style.oppositeContent}>
-            <Typography variant='body2' color='textSecondary'>
+            <Typography variant="body2" color="textSecondary">
               {startTime}
             </Typography>
           </TimelineOppositeContent>
@@ -77,11 +76,11 @@ const DraggableCard = ({
             <Paper
               elevation={10}
               className={selected ? style.selectedPaper : style.paper}>
-              <Typography variant='h6' component='h1'>
+              <Typography variant="h6" component="h1">
                 {title}
               </Typography>
               {description == '' ? null : (
-                <Typography className='cardDescription'>
+                <Typography className="cardDescription">
                   {description}
                 </Typography>
               )}

@@ -7,7 +7,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState } from 'react';
+import React from 'react';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
@@ -27,7 +27,7 @@ const LocationSearchBar = ({ address, onLocationChange, onLocationSelect }) => {
 
   const handleSelect = async (selectedAddress) => {
     const results = await geocodeByAddress(selectedAddress);
-    const latLng = await getLatLng(results[0]);
+    const latLng = await getLatLng(results[ 0 ]);
     onLocationSelect(selectedAddress, latLng);
   };
 
@@ -39,17 +39,17 @@ const LocationSearchBar = ({ address, onLocationChange, onLocationSelect }) => {
         onSelect={handleSelect}>
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => {
           return (
-            <FormControl variant='outlined'>
-              <InputLabel htmlFor='search-bar'>Location</InputLabel>
+            <FormControl variant="outlined">
+              <InputLabel htmlFor="search-bar">Location</InputLabel>
               <OutlinedInput
-                id='search-bar-input'
+                id="search-bar-input"
                 startAdornment={
-                  <InputAdornment position='start'>
+                  <InputAdornment position="start">
                     <IconButton
-                      aria-label='location-icon'
+                      aria-label="location-icon"
                       onClick={null}
                       onMouseDown={null}
-                      edge='end'>
+                      edge="end">
                       <LocationOnIcon />
                     </IconButton>
                   </InputAdornment>

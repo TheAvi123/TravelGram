@@ -45,9 +45,9 @@ const useStyles = makeStyles({
 });
 
 function Login() {
-	const [fields, updateFields] = useState({
-		[USERNAME]: '',
-		[PASSWORD]: '',
+	const [ fields, updateFields ] = useState({
+		[ USERNAME ]: '',
+		[ PASSWORD ]: '',
 	});
 	const dispatch = useDispatch();
 	const classes = useStyles();

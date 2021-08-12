@@ -29,19 +29,19 @@ const UserSearchBar = ({
 
   return (
     <Box className={classes.container}>
-      <FormControl variant='outlined'>
-        <InputLabel htmlFor='search-bar'>Username</InputLabel>
+      <FormControl variant="outlined">
+        <InputLabel htmlFor="search-bar">Username</InputLabel>
         <OutlinedInput
-          id='search-bar-input'
+          id="search-bar-input"
           value={searchInput}
           onChange={onInputChange}
           startAdornment={
-            <InputAdornment position='start'>
+            <InputAdornment position="start">
               <IconButton
-                aria-label='search-icon'
+                aria-label="search-icon"
                 onClick={null}
                 onMouseDown={null}
-                edge='end'>
+                edge="end">
                 <SearchIcon />
               </IconButton>
             </InputAdornment>

@@ -40,7 +40,7 @@ function ProtectedRoute({ Component, ...props }) {
       <Route
         {...props}
         render={() =>
-          isLoggedIn ? <Component {...props} /> : <Redirect to='/login' />
+          isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />
         }
       />
     );
@@ -55,12 +55,12 @@ function App() {
           <Layout>
             <Router history={history}>
               <Switch>
-                <Route path='/login' component={Login} />
-                <Route path='/register' component={Register} />
-                <ProtectedRoute path='/dashboard' Component={Dashboard} />
-                <ProtectedRoute path='/trip/view/:id' Component={ViewTrip} />
-                <ProtectedRoute exact path='/' Component={Dashboard} />
-                <ProtectedRoute path='/profile' Component={EditProfile} />
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+                <ProtectedRoute path="/dashboard" Component={Dashboard} />
+                <ProtectedRoute path="/trip/view/:id" Component={ViewTrip} />
+                <ProtectedRoute exact path="/" Component={Dashboard} />
+                <ProtectedRoute path="/profile" Component={EditProfile} />
                 <Route component={NotFound} />
               </Switch>
             </Router>

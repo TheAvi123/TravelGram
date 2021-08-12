@@ -33,13 +33,13 @@ const useStyles = makeStyles({
 });
 
 const Dashboard = () => {
-  const [trips, setTrips] = useState([]);
-  const [searchTitle, setSearchTitle] = useState('');
-  const [page, setPage] = useState(1);
-  const [pageCount, setPageCount] = useState(0);
-  const [pageSize, setPageSize] = useState(12);
-  const [tripUpdate, setTripUpdate] = useState({});
-  const [showSearchBar, setShowSearchBar] = useState(true);
+  const [ trips, setTrips ] = useState([]);
+  const [ searchTitle, setSearchTitle ] = useState('');
+  const [ page, setPage ] = useState(1);
+  const [ pageCount, setPageCount ] = useState(0);
+  const [ pageSize, setPageSize ] = useState(12);
+  const [ tripUpdate, setTripUpdate ] = useState({});
+  const [ showSearchBar, setShowSearchBar ] = useState(true);
 
   const classes = useStyles();
 
@@ -73,7 +73,7 @@ const Dashboard = () => {
           console.log(err);
         }
       );
-  }, [page, pageSize, searchTitle, tripUpdate]);
+  }, [ page, pageSize, searchTitle, tripUpdate ]);
 
   const handleSubmit = (data) => {
     setTripUpdate(data);
@@ -93,7 +93,7 @@ const Dashboard = () => {
 
         <Box className={classes.newTripButton}>
           <CreateFormButton
-            formType='trip'
+            formType="trip"
             onSuccess={handleSubmit}
             tripId={null}
             onClick={handleTripFormButtonClick}

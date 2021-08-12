@@ -28,20 +28,20 @@ const useStyles = makeStyles({
 const ImageList = ({ images, onRemove }) => {
   const classes = useStyles();
   return (
-    <Box display='flex' flexWrap='wrap' justifyContent='flex-start'>
+    <Box display="flex" flexWrap="wrap" justifyContent="flex-start">
       {images.map((img, i) => {
         return (
           <Card className={classes.cardContainer} key={i}>
             <IconButton
               className={classes.icon}
-              aria-label='remove image'
-              component='span'
+              aria-label="remove image"
+              component="span"
               onClick={() => onRemove(img)}>
               <CloseIcon />
             </IconButton>
             <CardMedia
               className={classes.media}
-              component='img'
+              component="img"
               image={URL.createObjectURL(img)}
             />
           </Card>

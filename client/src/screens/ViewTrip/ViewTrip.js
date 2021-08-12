@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { Box, Paper, Button } from '@material-ui/core';
+import { Box, Button } from '@material-ui/core';
 import SplitPane from 'react-split-pane';
 import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     color: 'white',
     height: '100%',
     width: '100%',
-    overflow: 'hidden', //TODO Change to Scroll
+    overflow: 'hidden',
     background:
       'radial-gradient(at top left, ' +
       theme.palette.primary.dark +
@@ -97,27 +97,27 @@ const defaultCenter = {
 const ViewTripPage = (props) => {
   let history = useHistory();
   // Component Hooks
-  const [center, setCenter] = useState({});
+  const [ center, setCenter ] = useState({});
 
   const tripId = props.location.state;
-  const [trip, setTrip] = useState({});
+  const [ trip, setTrip ] = useState({});
   const currentUser = useSelector((state) => state.get('auth').user).username;
-  const [isOwner, setIsOwner] = useState(false);
+  const [ isOwner, setIsOwner ] = useState(false);
 
-  const [markers, setMarkers] = useState([]);
-  const [showActivityPopup, setShowActivityPopup] = useState(false);
-  const [selectedActivity, setSelectedActivity] = useState(null);
-  const [activities, setActivities] = useState([]);
-  const [selectedActivities, setSelectedActivities] = useState([]);
-  const [showAboutButton, setShowAboutButton] = useState(true);
-  const [showActivityFormButton, setShowActivityFormButton] = useState(true);
-  const [showImagesButton, setShowImagesButton] = useState(true);
-  const [showTemplatePopup, setShowTemplatePopup] = useState(false);
-  const [activitiesError, setActivitiesError] = useState('');
-  const [templateError, setTemplateError] = useState('');
-  const [deleteError, setDeleteError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [tripUpdate, setTripUpdate] = useState({});
+  const [ markers, setMarkers ] = useState([]);
+  const [ showActivityPopup, setShowActivityPopup ] = useState(false);
+  const [ selectedActivity, setSelectedActivity ] = useState(null);
+  const [ activities, setActivities ] = useState([]);
+  const [ selectedActivities, setSelectedActivities ] = useState([]);
+  const [ showAboutButton, setShowAboutButton ] = useState(true);
+  const [ showActivityFormButton, setShowActivityFormButton ] = useState(true);
+  const [ showImagesButton, setShowImagesButton ] = useState(true);
+  const [ showTemplatePopup, setShowTemplatePopup ] = useState(false);
+  const [ activitiesError, setActivitiesError ] = useState('');
+  const [ templateError, setTemplateError ] = useState('');
+  const [ deleteError, setDeleteError ] = useState('');
+  const [ isLoading, setIsLoading ] = useState(false);
+  const [ tripUpdate, setTripUpdate ] = useState({});
 
   const classes = useStyles();
 
@@ -162,7 +162,7 @@ const ViewTripPage = (props) => {
     };
     getGeolocation();
     fetchActivities();
-  }, [currentUser, tripId, tripUpdate]);
+  }, [ currentUser, tripId, tripUpdate ]);
 
   // Component Functions
   const togglePopup = (theActivity) => {
@@ -175,8 +175,8 @@ const ViewTripPage = (props) => {
   };
 
   const handleSubmit = (data) => {
-    setActivities((activities) => [data, ...activities]);
-    setMarkers((markerCoordinates) => [...markerCoordinates, data.coordinates]);
+    setActivities((activities) => [ data, ...activities ]);
+    setMarkers((markerCoordinates) => [ ...markerCoordinates, data.coordinates ]);
     setCenter(data.coordinates);
   };
 
@@ -295,7 +295,7 @@ const ViewTripPage = (props) => {
         maxSize={!mobileAspect && -400}
         defaultSize={mobileAspect ? '65%' : (parseInt(localStorage.getItem('splitPos'), 10) != null ? parseInt(localStorage.getItem('splitPos'), 10) : 750)}
         onChange={((size) => localStorage.setItem('splitPos', size))}
-        >
+      >
         <Box className={classes.leftPanel}>
           <Box className={classes.buttonContainer}>
             {showAboutButton && (
@@ -311,7 +311,7 @@ const ViewTripPage = (props) => {
 
             {showActivityFormButton && isOwner && (
               <CreateFormButton
-                formType='tripitem'
+                formType="tripitem"
                 onSuccess={handleSubmit}
                 tripId={trip.id}
                 onClick={handleActivityFormButtonClick}
@@ -340,27 +340,27 @@ const ViewTripPage = (props) => {
 
           {activitiesError ? (
             <Box className={classes.alertBox}>
-              <Alert variant="outlined" severity='error'>{activitiesError}</Alert>
+              <Alert variant="outlined" severity="error">{activitiesError}</Alert>
             </Box>
           ) : activities.length < 1 && !isLoading ? (
             <Box className={classes.alertBox}>
-              <Alert variant="outlined" severity='warning'>{'There are no activities!'}</Alert>
+              <Alert variant="outlined" severity="warning">{'There are no activities!'}</Alert>
             </Box>
           ) : null}
 
           {templateError && (
             <Box className={classes.alertBox}>
-              <Alert variant="outlined" severity='error'>{templateError}</Alert>
+              <Alert variant="outlined" severity="error">{templateError}</Alert>
             </Box>
           )}
           {deleteError && (
             <Box className={classes.alertBox}>
-              <Alert variant="outlined" severity='error'>{deleteError}</Alert>
+              <Alert variant="outlined" severity="error">{deleteError}</Alert>
             </Box>
           )}
           <Box className={classes.buttonContainer2}>
             <Button
-              variant='contained'
+              variant="contained"
               onClick={() => setShowTemplatePopup(true)}
               style={{
                 margin: '20px auto',
@@ -371,7 +371,7 @@ const ViewTripPage = (props) => {
 
             {isOwner && (
               <Button
-                variant='contained'
+                variant="contained"
                 onClick={handleDeleteTrip}
                 style={{
                   margin: '20px auto',

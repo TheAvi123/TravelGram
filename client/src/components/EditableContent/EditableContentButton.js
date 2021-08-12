@@ -81,7 +81,7 @@ const EditableContentButton = ({
       }}>
       {!showContent && (
         <Button className={classes.button}
-          variant='contained'
+          variant="contained"
           onClick={toggleShowContent}>
           {buttonName}
         </Button>
@@ -92,13 +92,13 @@ const EditableContentButton = ({
             <Paper className={classes.form}>
               <IconButton
                 className={classes.closeIcon}
-                aria-label='close content'
-                component='span'
+                aria-label="close content"
+                component="span"
                 onClick={readOnly ? toggleShowContent : handleEdit}>
                 <CloseIcon />
               </IconButton>
               <TextField
-                type='text'
+                type="text"
                 label={buttonName}
                 inputProps={{ readOnly }}
                 fullWidth

@@ -96,5 +96,5 @@
   "resolutions": {
     "babel-loader": "8.1.0"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3002"
 }

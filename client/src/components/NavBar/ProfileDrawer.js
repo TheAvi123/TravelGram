@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
-import {Grid, Box, Button, Divider, makeStyles, Drawer, Typography} from '@material-ui/core';
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import React, { useState } from 'react';
+import { Box, Button, Divider, makeStyles, Drawer, Typography } from '@material-ui/core';
 import ProfilePic from '../Profile/ProfilePic';
 import { Link } from 'react-router-dom';
-import {useDispatch, useSelector} from "react-redux";
-import {logout} from '../../store/slices/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../store/slices/authSlice';
 import theme from '../../theme';
 
 const useStyles = makeStyles({
@@ -38,7 +37,7 @@ function ProfileDrawer(props) {
 
     const dispatch = useDispatch();
 
-    const [visibility, setVisibility] = useState(false);
+    const [ visibility, setVisibility ] = useState(false);
 
     const user = useSelector((state) => state.get('auth').user);
     let id = user.id;
@@ -59,19 +58,19 @@ function ProfileDrawer(props) {
     return (
         <div>
             <Box className={classes.accountContainer} onClick={toggleDrawer}>
-                <ProfilePic size="small" userID={props.user.id}/>
+                <ProfilePic size="small" userID={props.user.id} />
             </Box>
-            <Drawer classes={{paper: classes.drawer}} variant="temporary" anchor="right" open={visibility} onClose={closeDrawer}>
+            <Drawer classes={{ paper: classes.drawer }} variant="temporary" anchor="right" open={visibility} onClose={closeDrawer}>
                 <Box className={classes.drawerTop} bgcolor="primary.main">
-                    <Typography style={{marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 30, color: theme.palette.background}}>{props.user.username}</Typography>
+                    <Typography style={{ marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 30, color: theme.palette.background }}>{props.user.username}</Typography>
                 </Box>
-                <Button component={Link} to="/profile" style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Profile</Button>
+                <Button component={Link} to="/profile" style={{ justifyContent: "flex-start" }} onClick={closeDrawer}>Profile</Button>
                 <Divider />
-                <Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Account Settings</Button>
+                <Button style={{ justifyContent: "flex-start" }} onClick={closeDrawer}>Account Settings</Button>
                 <Divider />
-                <Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Site Settings</Button>
+                <Button style={{ justifyContent: "flex-start" }} onClick={closeDrawer}>Site Settings</Button>
                 <Divider />
-                <Button style={{justifyContent: "flex-start", color: "red"}} onClick={logOut}>Log Out</Button>
+                <Button style={{ justifyContent: "flex-start", color: "red" }} onClick={logOut}>Log Out</Button>
                 <Divider />
             </Drawer>
         </div>
