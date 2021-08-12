@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    margin: '20px auto',
+    margin: '20px 20px',
     width: '500px',
   },
   form: {
@@ -21,10 +21,9 @@ const useStyles = makeStyles((theme) => ({
     padding: '0px',
   },
   button: {
-    width: 0,
-    minWidth: '100%',
+    width: '100%',
+    minWidth: '250px',
     height: '100%',
-    fontSize: '1em',
     color: theme.palette.black,
     background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
     '&:hover': {
@@ -74,6 +73,7 @@ const EditableContentButton = ({
   return (
     <Box
       style={{
+        margin: '1.5%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -82,8 +82,7 @@ const EditableContentButton = ({
       {!showContent && (
         <Button className={classes.button}
           variant='contained'
-          onClick={toggleShowContent}
-          style={{ minWidth: '200px', margin: '20px'}}>
+          onClick={toggleShowContent}>
           {buttonName}
         </Button>
       )}

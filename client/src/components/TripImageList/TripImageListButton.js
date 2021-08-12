@@ -13,16 +13,25 @@ import TripImageList from './TripImageList';
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    width: 0,
-    minWidth: '100%',
+    width: '100%',
+    minWidth: '250px',
     height: '100%',
-    fontSize: '1em',
     color: theme.palette.black,
-    background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
+    background:
+      'linear-gradient(160deg, ' +
+      theme.palette.primary.main +
+      ', ' +
+      theme.palette.secondary.main +
+      ')',
     '&:hover': {
       color: theme.palette.white,
-      background: 'linear-gradient(160deg, ' + theme.palette.primary.dark + ', ' + theme.palette.secondary.dark + ')'
-    }
+      background:
+        'linear-gradient(160deg, ' +
+        theme.palette.primary.dark +
+        ', ' +
+        theme.palette.secondary.dark +
+        ')',
+    },
   },
 }));
 
@@ -32,7 +41,6 @@ const TripImageListButton = ({
   onClick,
   shownButtonName,
   hiddenButtonName,
-  disabled,
   isOwner,
 }) => {
   const classes = useStyles();
@@ -46,16 +54,16 @@ const TripImageListButton = ({
   return (
     <Box
       style={{
+        margin: '1.5%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Button className={classes.button}
+      <Button
+        className={classes.button}
         variant='contained'
-        onClick={toggleShowImageList}
-        style={{ minWidth: '200px', margin: '20px'}}
-        disabled={disabled}>
+        onClick={toggleShowImageList}>
         {showImageList ? hiddenButtonName : shownButtonName}
       </Button>
       {showImageList && (

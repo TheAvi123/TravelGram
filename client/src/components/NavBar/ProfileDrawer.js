@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Grid, Box, Button, Divider, makeStyles, Drawer} from '@material-ui/core';
+import {Grid, Box, Button, Divider, makeStyles, Drawer, Typography} from '@material-ui/core';
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ProfilePic from '../Profile/ProfilePic';
 import { Link } from 'react-router-dom';
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     },
     drawerTop: {
         display: 'flex',
-        height: '25%',
+        height: '20%',
         align: 'flex-end',
     },
     link: {
@@ -63,10 +63,9 @@ function ProfileDrawer(props) {
             </Box>
             <Drawer classes={{paper: classes.drawer}} variant="temporary" anchor="right" open={visibility} onClose={closeDrawer}>
                 <Box className={classes.drawerTop} bgcolor="primary.main">
-                    <ProfilePic size="medium" clickable="true" userID={user.id}/>
-                    <h5 style={{marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 25, color: 'white'}}>{props.user.username}</h5>
+                    <Typography style={{marginLeft: 10, marginBottom: 10, marginTop: 'auto', fontSize: 30, color: theme.palette.background}}>{props.user.username}</Typography>
                 </Box>
-                <Link to="/profile"><Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Profile</Button></Link>
+                <Button component={Link} to="/profile" style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Profile</Button>
                 <Divider />
                 <Button style={{justifyContent: "flex-start"}} onClick={closeDrawer}>Account Settings</Button>
                 <Divider />

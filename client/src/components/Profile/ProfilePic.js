@@ -9,25 +9,20 @@ const useStyles = makeStyles(theme => ({
     large: {
         height: '150px',
         width: '150px',
-        borderColor: 'black',
-        borderWidth: '10px'
+        background: 'white',
     },
     medium: {
         height: '100px',
         width: '100px',
-        borderColor: 'black',
-        borderWidth: '10px'
+        background: 'white',
     },
     small: {
-      height: '30px',
-      width: '30px',
-      borderColor: 'black',
-      borderWidth: '10px'
+        height: '30px',
+        width: '30px',
+        background: 'white',
     },
     container: {
-      position: 'inherit',
-      borderColor: 'black',
-      borderWidth: '10px'
+        position: 'inherit',
     },
 }));
 
@@ -45,12 +40,17 @@ export default function ProfilePic(props) {
 
     const id = props.userID;
 
+
     useEffect(() => {
+        if(props.tempImage) {
+            setLoading(false);
+        } else {
             axios.get(`/user/profile/${id}`)
                 .then(res => {
                     setUserInfo(res.data);
                     setLoading(false);
                 })
+        }
     }, []);
 
     const toggleCard = (event) => {
@@ -63,14 +63,13 @@ export default function ProfilePic(props) {
 
     let pic;
     if (props.tempImage) {
-        pic = <Avatar src={props.tempImage} className={classes[props.size]}
-                      style={{border: '6px solid black'}}/>
+        pic = <Avatar src={props.tempImage} className={classes[props.size]}/>
     } else {
         if (props.clickable) {
             pic = <Avatar src={userInfo.photo_id} className={classes[props.size]} style={{cursor: 'pointer'}}
-                          onClick={toggleCard} style={{border: '6px solid black'}}/>
+                          onClick={toggleCard} />
         } else {
-            pic = <Avatar src={userInfo.photo_id} className={classes[props.size]} style={{border: '6px solid black'}}/>
+            pic = <Avatar src={userInfo.photo_id} className={classes[props.size]} />
         }
     }
 

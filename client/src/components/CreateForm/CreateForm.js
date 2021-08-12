@@ -44,12 +44,11 @@ const useStyles = makeStyles((theme) => ({
   },
   tripContainer: {
     maxWidth: '80%',
-    maxHeight: '80%',
     margin: '20px auto',
+    backgroundColor: theme.palette.background,
   },
   itemContainer: {
     maxWidth: '80%',
-    maxHeight: '80%',
     margin: '20px auto',
   },
   form: {
@@ -66,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
     height: '100vh',
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -75,24 +74,34 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     color: theme.palette.black,
-    background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
+    background:
+      'linear-gradient(160deg, ' +
+      theme.palette.primary.main +
+      ', ' +
+      theme.palette.secondary.main +
+      ')',
     '&:hover': {
       color: theme.palette.white,
-      background: 'linear-gradient(160deg, ' + theme.palette.primary.dark + ', ' + theme.palette.secondary.dark + ')'
-    }
+      background:
+        'linear-gradient(160deg, ' +
+        theme.palette.primary.dark +
+        ', ' +
+        theme.palette.secondary.dark +
+        ')',
+    },
   },
   cancelButton: {
     color: theme.palette.black,
-    background:'#fa345f',
+    background: '#fa345f',
     '&:hover': {
       color: theme.palette.white,
-      background: '#80162d'
-    }
+      background: '#80162d',
+    },
   },
   buttonContainer: {
     display: 'flex',
-    flexDirection: 'row'
-  }
+    flexDirection: 'row',
+  },
 }));
 
 const initializeStartEndTime = () => {
@@ -173,10 +182,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
       ...(formType === 'tripitem' && { selectedTripItem }),
     };
     console.log(data);
-    const url =
-      formType === 'trip'
-        ? `/trip`
-        : `/trip/${tripId}/activity`;
+    const url = formType === 'trip' ? `/trip` : `/trip/${tripId}/activity`;
     try {
       const res = await axios.post(url, data);
       onSuccess(res.data);
@@ -320,7 +326,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
             {formType === 'tripitem' ? (
               <Box>
                 {showActivityWarning && (
-                  <Alert severity='warning'>
+                  <Alert variant="outlined" severity='warning'>
                     Please choose an activity type!
                   </Alert>
                 )}
@@ -385,7 +391,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
               (formType === 'trip' ? (
                 <Box>
                   {collaboratorsError && (
-                    <Alert severity='warning'>{collaboratorsError}</Alert>
+                    <Alert variant="outlined" severity='warning'>{collaboratorsError}</Alert>
                   )}
                   <UserSearchBar
                     searchInput={userSearchInput}
@@ -404,7 +410,11 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
 
             <div className={classes.buttonContainer}>
               <FormControl className={classes.formControl}>
-                <Button fullWidth className={classes.button} variant='contained' type='submit'>
+                <Button
+                  fullWidth
+                  className={classes.button}
+                  variant='contained'
+                  type='submit'>
                   {formType === 'trip'
                     ? 'Create Trip!'
                     : formType === 'tripitem'
@@ -414,7 +424,10 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
               </FormControl>
 
               <FormControl className={classes.formControl}>
-                <Button className={classes.cancelButton} variant='contained' onClick={handleClosed}>
+                <Button
+                  className={classes.cancelButton}
+                  variant='contained'
+                  onClick={handleClosed}>
                   Cancel
                 </Button>
               </FormControl>
