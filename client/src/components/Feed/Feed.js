@@ -44,10 +44,16 @@ const useStyles = makeStyles({
 const Feed = ({ trips, count, page, onPageChange }) => {
   const classes = useStyles();
 
+  const breakpoints = {
+    default: 3,
+    1000: 2,
+    500: 1
+  }
+
   return (
     <Box className={classes.feedRoot}>
       <Masonry
-        breakpointCols={3}
+        breakpointCols={breakpoints}
         className='my-masonry-grid'
         columnClassName='my-masonry-grid_column'>
         {trips.map((trip) => (
@@ -56,13 +62,6 @@ const Feed = ({ trips, count, page, onPageChange }) => {
           </div>
         ))}
       </Masonry>
-      {/* <Grid container spacing={4} align='center'>
-                {trips.map((trip) => (
-                    <Grid item xs={4}>
-                        <TripInfoCard trip={trip} />
-                    </Grid>
-                ))}
-            </Grid> */}
       {trips.length && (
         <Box className={classes.pagination}>
           <Pagination count={count} page={page} onChange={onPageChange} />

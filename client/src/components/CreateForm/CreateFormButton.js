@@ -7,14 +7,16 @@ import CreateForm from './CreateForm';
 
 const useStyles = makeStyles((theme) => ({
   createForm: {
-    width: '100%',
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   formButton: {
-    width: 0,
-    minWidth: '100%',
+    width: '100%',
+    minWidth: '250px',
     height: '100%',
-    fontSize: '1em',
     color: theme.palette.black,
     background:
       'linear-gradient(160deg, ' +
@@ -91,15 +93,16 @@ const CreateFormButton = ({
             setShowForm(true);
           }}
           disabled={disabled}>
+          {/* style={{font-size: (formType === 'trip' ? '1.5em' : null)}} */}
           {formType === 'trip'
             ? 'Create New Trip'
             : formType === 'tripitem'
-            ? 'Add Trip Item'
-            : ''}
+              ? 'Add Trip Item'
+              : ''}
         </Button>
       )}
-      {showSuccess && <Alert severity='success'>{formMessage}</Alert>}
-      {showError && <Alert severity='error'>{formMessage}</Alert>}
+      {showSuccess && <Alert variant="outlined" severity='success'>{formMessage}</Alert>}
+      {showError && <Alert variant="outlined" severity='error'>{formMessage}</Alert>}
       {showForm && (
         <Expand open={showForm} duration={400}>
           <CreateForm

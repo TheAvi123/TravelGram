@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { Button, TextField, FormControlLabel, Checkbox, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, TextField, FormControlLabel, Checkbox, makeStyles, Typography } from '@material-ui/core';
 import theme from '../../theme';
 
 export default function AuthForm({ buttonText, fields, onChange, onSubmit }) {
@@ -10,6 +10,7 @@ export default function AuthForm({ buttonText, fields, onChange, onSubmit }) {
   const useStyles = makeStyles({
     root: {
       width: '100%',
+      minWidth: '300px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center'
@@ -35,8 +36,8 @@ export default function AuthForm({ buttonText, fields, onChange, onSubmit }) {
     showbox: {
     },
     submitButton: {
-      padding: '3% 0%',
-      fontSize: '1em',
+      padding: '1% 0%',
+      fontSize: '1.5em',
       color: theme.palette.black,
       background: 'linear-gradient(160deg, ' + theme.palette.primary.main + ', ' + theme.palette.secondary.main + ')',
       '&:hover': {
@@ -53,7 +54,9 @@ export default function AuthForm({ buttonText, fields, onChange, onSubmit }) {
           onSubmit={e => e.preventDefault()}
           noValidate autoComplete="off">
       <Typography className={classes.title}>
-        TravelGram
+        <Box letterSpacing={theme.defaults.letterSpacing}> 
+          TRAVELGRAM
+        </Box>
       </Typography>
       {Object.keys(fields).map(key => {
         const isPassword = key.toLowerCase().includes('password');
@@ -81,9 +84,10 @@ export default function AuthForm({ buttonText, fields, onChange, onSubmit }) {
           label='Show password'
         />
       </div>
+      {/* <Typography> </Typography> */}
       <Button className={classes.submitButton}
               onClick={() => onSubmit()} fullWidth>
-        {buttonText}
+         {buttonText}
       </Button>
     </form>
   );

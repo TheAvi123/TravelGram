@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Box, Paper, Button } from '@material-ui/core';
 import SplitPane from 'react-split-pane';
 import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 // Component Imports
 import Map from '../../components/TripMap/Map';
@@ -49,15 +50,12 @@ const useStyles = makeStyles({
     top: 0,
     left: 0,
     width: '100%',
-    height: '100vh',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1,
-    overflowX: 'hidden',
-    overflowY: 'scroll',
-    margin: '20px auto',
   },
   popupInner: {
     width: '90%',
@@ -74,6 +72,7 @@ const useStyles = makeStyles({
   buttonContainer: {
     display: 'flex',
     flexDirection: 'row',
+    flexWrap: 'wrap',
     alignItems: 'center',
     alignContent: 'center',
     justifyItems: 'center',
@@ -286,19 +285,21 @@ const ViewTripPage = (props) => {
     }
   };
 
+  const mobileAspect = useMediaQuery('(max-width:600px)');
+
   return (
     <Box>
       <SplitPane
-        split='vertical'
-        minSize={300}
-        maxSize={-300}
-        defaultSize={parseInt(localStorage.getItem('splitPos'), 10)}
-        onChange={(size) => localStorage.setItem('splitPos', size)}>
+        split={mobileAspect ? 'horizontal' : 'vertical'}
+        minSize={!mobileAspect && 400}
+        maxSize={!mobileAspect && -400}
+        defaultSize={mobileAspect ? '65%' : (parseInt(localStorage.getItem('splitPos'), 10) != null ? parseInt(localStorage.getItem('splitPos'), 10) : 750)}
+        onChange={((size) => localStorage.setItem('splitPos', size))}
+        >
         <Box className={classes.leftPanel}>
           <Box className={classes.buttonContainer}>
             {showAboutButton && (
               <EditableContentButton
-                style={{ flexGrow: 1 }}
                 buttonName={'About this trip'}
                 content={trip.description}
                 readOnly={!isOwner}
@@ -310,7 +311,6 @@ const ViewTripPage = (props) => {
 
             {showActivityFormButton && isOwner && (
               <CreateFormButton
-                style={{ flexGrow: 1 }}
                 formType='tripitem'
                 onSuccess={handleSubmit}
                 tripId={trip.id}
@@ -320,7 +320,6 @@ const ViewTripPage = (props) => {
 
             {showImagesButton && (
               <TripImageListButton
-                style={{ flexGrow: 1 }}
                 shownButtonName={'View Images'}
                 hiddenButtonName={'Hide Images'}
                 images={trip.images}
@@ -341,22 +340,22 @@ const ViewTripPage = (props) => {
 
           {activitiesError ? (
             <Box className={classes.alertBox}>
-              <Alert severity='error'>{activitiesError}</Alert>
+              <Alert variant="outlined" severity='error'>{activitiesError}</Alert>
             </Box>
           ) : activities.length < 1 && !isLoading ? (
             <Box className={classes.alertBox}>
-              <Alert severity='warning'>{'There are no activities!'}</Alert>
+              <Alert variant="outlined" severity='warning'>{'There are no activities!'}</Alert>
             </Box>
           ) : null}
 
           {templateError && (
             <Box className={classes.alertBox}>
-              <Alert severity='error'>{templateError}</Alert>
+              <Alert variant="outlined" severity='error'>{templateError}</Alert>
             </Box>
           )}
           {deleteError && (
             <Box className={classes.alertBox}>
-              <Alert severity='error'>{deleteError}</Alert>
+              <Alert variant="outlined" severity='error'>{deleteError}</Alert>
             </Box>
           )}
           <Box className={classes.buttonContainer2}>

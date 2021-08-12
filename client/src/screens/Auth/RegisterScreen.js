@@ -14,37 +14,34 @@ const useStyles = makeStyles({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-		background: 'radial-gradient(at top left, ' + theme.palette.primary.dark + ', transparent 60%), ' + 
-					'radial-gradient(at top right, ' + theme.palette.primary.main + ', transparent 70%), ' + 
-					'radial-gradient(at bottom left, ' + theme.palette.secondary.main + ', transparent 70%), ' + 
-					'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)'
+        background: 'radial-gradient(at top left, ' + theme.palette.primary.dark + ', transparent 60%), ' +
+            'radial-gradient(at top right, ' + theme.palette.primary.main + ', transparent 70%), ' +
+            'radial-gradient(at bottom left, ' + theme.palette.secondary.main + ', transparent 70%), ' +
+            'radial-gradient(at bottom right, ' + theme.palette.secondary.dark + ', transparent 90%)'
     },
     card: {
         minWidth: '25%',
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		padding: theme.defaults.padding,
-		boxShadow: theme.defaults.boxShadow,
-		borderRadius: theme.defaults.borderRadius,
-		backgroundColor: theme.palette.background
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: theme.defaults.padding,
+        boxShadow: theme.defaults.boxShadow,
+        borderRadius: theme.defaults.borderRadius,
+        backgroundColor: theme.palette.background
     },
-	switchDiv: {
-		marginTop: '5%'
-	},
-	switchText: {
-		color: theme.palette.white,
-		fontSize: '0.8em'
-	},
-	switchLink: {
-		color: theme.palette.secondary.main,
-		fontSize: '0.8em',
-		fontFamily: 'Roboto',
-		textDecoration: 'none',
-		'&:hover': {
-			color: theme.palette.secondary.dark
-		}
-	}
+    switchDiv: {
+        marginTop: '5%'
+    },
+    switchText: {
+        color: theme.palette.white,
+    },
+    switchLink: {
+        color: theme.palette.secondary.main,
+        textDecoration: 'none',
+        '&:hover': {
+            color: theme.palette.secondary.dark
+        }
+    }
 });
 
 function Register() {
@@ -68,13 +65,16 @@ function Register() {
                     onSubmit={() => dispatch(register(fields)).then(() => window.location = '/').catch(err => alert(err))}
                 />
                 <CardActions className={classes.switchDiv}>
-					<Typography className={classes.switchText}>
-                    Have an acccount already?
-					</Typography>
-					<Link to="/login" className={classes.switchLink}>
-                        Log in.
-					</Link>
-				</CardActions>
+                    <Typography className={classes.switchText}>
+                        Have an acccount already?
+                    </Typography>
+                    <Typography className={classes.switchText}>
+                        <Link to="/login" className={classes.switchLink}>
+                            Log in.
+                        </Link>
+                    </Typography>
+
+                </CardActions>
             </Card>
         </div>
     );

@@ -21,8 +21,21 @@ const theme = createTheme({
         margin: '0',
         padding: '2%',
         boxShadow: '5px 5px 20px rgba(0, 0, 0, 0.5)',
-        borderRadius: 8
+        borderRadius: 8,
+        letterSpacing: '0.07em'
     },
+    typography: {
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            'bebaspro',
+            'sans-serif'
+        ].join(','),
+        fontSize: 16,
+        fontWeightRegular: 400,
+        fontWeightLight: 200,
+        fontWeightBold: 600,
+    }
 });
 
 export default theme;
