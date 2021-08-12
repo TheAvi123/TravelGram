@@ -41,6 +41,9 @@ const useStyles = makeStyles({
     disabledButton: {
         color: 'grey !important',
         background: 'linear-gradient(160deg, ' + theme.palette.primary.desat + ', ' + theme.palette.secondary.desat + ')'
+    },
+    alert: {
+        margin: '2%'
     }
 });
 
@@ -144,14 +147,14 @@ export default function ProfileForm(props) {
             const timer = setTimeout(() => {
                 setShowError(false);
                 clearTimeout(timer);
-            }, 3000);
+            }, 4000);
         } else {
             setFormMessage(`User profile is successfully updated!`);
             setShowSuccess(true);
             const timer = setTimeout(() => {
                 setShowSuccess(false);
                 clearTimeout(timer);
-            }, 3000);
+            }, 4000);
         }
     };
 
@@ -227,9 +230,10 @@ export default function ProfileForm(props) {
                         SAVE CHANGES
                     </Button>
                 </div>
+
+                {showSuccess && <Alert variant="outlined" severity='success' className={classes.alert}>{formMessage}</Alert>}
+                {showError && <Alert variant="outlined" severity='error' className={classes.alert}>{formMessage}</Alert>}
             </div>
-            {showSuccess && <Alert severity='success'>{formMessage}</Alert>}
-            {showError && <Alert severity='error'>{formMessage}</Alert>}
         </form>
     );
 }

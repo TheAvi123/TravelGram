@@ -11,6 +11,8 @@ const UserList = ({ usernames, onUserRemoved }) => {
             display='flex'
             flexDirection='column'
             flexWrap='wrap'
+            justifyContent='center'
+            alignItems='center'
             style={{ margin: '5px' }}>
             <Avatar onClick={() => onUserRemoved(username)}>
               {username.length && username[0].toUpperCase()}

@@ -4,7 +4,7 @@ import {
   Typography,
   Card,
   Button,
-  CardActionArea,
+  Box,
   CardMedia,
   CardActions,
 } from '@material-ui/core';
@@ -34,6 +34,7 @@ const useStyles = makeStyles({
   },
   cardMedia: {
     height: '100px',
+    borderRadius: '15px',
     width: 'auto',
     padding: '10px',
   },
@@ -51,10 +52,14 @@ const TripInfoCard = ({ trip }) => {
   return (
     <Card className={classes.card}>
       <Typography gutterBottom variant='h5' component='h2'>
-        {trip.title.toUpperCase()}
+        <Box fontSize='1.5em' margin='2%'>
+          {trip.title.toUpperCase()}
+        </Box>
       </Typography>
       <Typography color='textSecondary'>
-        {startDate} - {endDate}
+        <Box fontSize='1em' margin='2%'>
+          {startDate} - {endDate}
+        </Box>
       </Typography>
       {trip.images.length > 0 && (
         <CardMedia
@@ -71,7 +76,9 @@ const TripInfoCard = ({ trip }) => {
           onClick={() =>
             history.push({ pathname: `/trip/view/${trip.id}`, state: trip.id })
           }>
-          View Trip
+          <Box fontSize='1.5em'>
+            View Trip
+          </Box>
         </Button>
       </CardActions>
     </Card>

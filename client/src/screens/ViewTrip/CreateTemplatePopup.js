@@ -55,8 +55,8 @@ const CreateTemplatePopup = ({ onSuccess, onError, onClose }) => {
           We are pre-populating your trip with activities
         </Alert>
       )}
-      {showSuccess && <Alert severity='success'>{formMessage}</Alert>}
-      {showError && <Alert severity='error'>{formMessage}</Alert>}
+      {showSuccess && <Alert variant="outlined" severity='success'>{formMessage}</Alert>}
+      {showError && <Alert variant="outlined" severity='error'>{formMessage}</Alert>}
       {showForm && (
         <CreateForm
           formType='trip'

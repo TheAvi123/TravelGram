@@ -13,10 +13,9 @@ import TripImageList from './TripImageList';
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    width: 0,
-    minWidth: '100%',
+    width: '100%',
+    minWidth: '250px',
     height: '100%',
-    fontSize: '1em',
     color: theme.palette.black,
     background:
       'linear-gradient(160deg, ' +
@@ -55,6 +54,7 @@ const TripImageListButton = ({
   return (
     <Box
       style={{
+        margin: '1.5%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -63,8 +63,7 @@ const TripImageListButton = ({
       <Button
         className={classes.button}
         variant='contained'
-        onClick={toggleShowImageList}
-        style={{ minWidth: '200px', margin: '20px' }}>
+        onClick={toggleShowImageList}>
         {showImageList ? hiddenButtonName : shownButtonName}
       </Button>
       {showImageList && (

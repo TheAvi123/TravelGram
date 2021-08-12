@@ -45,12 +45,11 @@ const useStyles = makeStyles((theme) => ({
   tripContainer: {
     maxWidth: '80%',
     margin: '20px auto',
-    backgroundColor: 'rgb(3, 14, 24)',
+    backgroundColor: theme.palette.background,
   },
   itemContainer: {
     maxWidth: '80%',
     margin: '20px auto',
-    backgroundColor: 'rgb(3, 14, 24)',
   },
   form: {
     padding: '16px',
@@ -66,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
     height: '100vh',
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -327,7 +326,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
             {formType === 'tripitem' ? (
               <Box>
                 {showActivityWarning && (
-                  <Alert severity='warning'>
+                  <Alert variant="outlined" severity='warning'>
                     Please choose an activity type!
                   </Alert>
                 )}
@@ -392,7 +391,7 @@ const CreateForm = ({ formType, onSuccess, onError, onClose, tripId }) => {
               (formType === 'trip' ? (
                 <Box>
                   {collaboratorsError && (
-                    <Alert severity='warning'>{collaboratorsError}</Alert>
+                    <Alert variant="outlined" severity='warning'>{collaboratorsError}</Alert>
                   )}
                   <UserSearchBar
                     searchInput={userSearchInput}
